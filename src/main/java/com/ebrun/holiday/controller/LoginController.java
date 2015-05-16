@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by DaoDao on 2015/5/13.
@@ -30,20 +32,24 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    //@ResponseBody
-    public String login(@RequestParam("email") String email, @RequestParam("password") String password,Map<String, Employee> map) {
+    @ResponseBody
+    public Map<String,String> login(@RequestParam("email") String email, @RequestParam("password") String password,Map<String, Employee> map) {
         Employee employee = loginService.login(email, password);
+        Map<String,String> loginMap = new HashMap<>();
         if (employee != null) {
             map.put(Constant.EMPLOYEE_HTTP_SESSION_NAME,employee);
-            return "index";
+            loginMap.put("login","success");
+            return loginMap;
         }else{
-            return "fail";
+            loginMap.put("login","fail");
+            return loginMap;
         }
     }
     @RequestMapping(value="/logout",method = RequestMethod.GET)
-    public String logout(HttpSession httpSession,SessionStatus sessionStatus){
+    @ResponseBody
+    public Map<String,String> logout(HttpSession httpSession,SessionStatus sessionStatus){
         loginService.logout(httpSession);
         sessionStatus.setComplete();
-        return "index";
+        return null;
     }
 }

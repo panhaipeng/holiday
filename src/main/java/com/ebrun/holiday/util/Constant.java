@@ -7,5 +7,5 @@ public class Constant {
     public static final String DATE_FORMAT_YMDHMS = "yyyy-MM-dd HH:mm:ss";
     public static final String TOP_DEPARTMENT_NUMBER = "00";
     public static final String EMPLOYEE_HTTP_SESSION_NAME = "employee";
-    public static final String SUBORDINATE_DEPARTMENT_FLAG=":subordinateDepartment:";
+    public static final String SUBORDINATE_DEPARTMENT_FLAG="subordinateDepartment";
 }

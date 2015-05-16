@@ -1,0 +1,61 @@
+@CHARSET "UTF-8";
+
+html, body {
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+#bodyDiv {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    MARGIN: 0px auto;
+    background-image: url(../imgs/picture.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#bodyDiv p {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+}
+
+#loginForm {
+    display: none
+}
+
+#mainDiv {
+    height: 400px;
+    width: 1000px;
+    margin: auto;
+    border: 0px solid #F00
+}
+
+#mainDiv a {
+    text-decoration: none;
+}
+
+#departmentDiv, #employeeDiv, #holidayDiv, #mineDiv {
+    height: 100px;
+    width: 200px;
+    margin: 150px 20px;
+    border: 4px solid green;
+    float: left;
+}
+
+#departmentDialog, #employeeDialog, #holidayDialog, #mineDialog {
+    display: inherit
+}
+
+#departmentDiv p, #employeeDiv p, #holidayDiv p, #mineDiv p {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 4em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+    margin: 10px 10px;
+}

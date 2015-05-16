@@ -71,4 +71,14 @@ public class TestMyBatis {
         Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber(null);
         LOGGER.info(JSON.toJSONString(map));
     }
+    @Test
+    public void test6() {
+        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber1(Constant.TOP_DEPARTMENT_NUMBER);
+        LOGGER.info(JSON.toJSONString(map));
+    }
+    @Test
+    public void test7() {
+        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber2(Constant.TOP_DEPARTMENT_NUMBER);
+        LOGGER.info(JSON.toJSONString(map));
+    }
 }

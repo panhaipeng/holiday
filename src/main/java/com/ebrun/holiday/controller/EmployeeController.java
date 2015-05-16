@@ -40,8 +40,8 @@ public class EmployeeController {
         Employee employee = employeeService.getEmployeeById(id);
         return employee;
     }
-    @RequestMapping(value = "/index", method=RequestMethod.GET)
-    public String index(){
-        return "index";
+    @RequestMapping(value = "/main", method=RequestMethod.GET)
+    public String main(){
+        return "main";
     }
 }

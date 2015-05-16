@@ -29,4 +29,7 @@ public interface DepartmentService {
      * @return
      */
     public String getDepartmentNumberByDepartmentLeader(Integer departmentLeaderId);
+
+    public Map<String,Object> selectSubordinateDepartmentsBySuperDepartmentNumber1(String superDepartmentNumber);
+    public Map<String,Object> selectSubordinateDepartmentsBySuperDepartmentNumber2(String superDepartmentNumber);
 }
