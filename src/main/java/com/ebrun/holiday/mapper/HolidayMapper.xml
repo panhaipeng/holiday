@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ebrun.holiday.dao.HolidayMapper" >
+  <resultMap id="BaseResultMap" type="com.ebrun.holiday.model.Holiday" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
+    <result column="fiscal_year" property="fiscalYear" jdbcType="VARCHAR" />
+    <result column="holidays" property="holidays" jdbcType="DECIMAL" />
+    <result column="vacation" property="vacation" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, employee_id, fiscal_year, holidays, vacation, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from holiday
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from holiday
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ebrun.holiday.model.Holiday" >
+    insert into holiday (id, employee_id, fiscal_year, 
+      holidays, vacation, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{employeeId,jdbcType=INTEGER}, #{fiscalYear,jdbcType=VARCHAR}, 
+      #{holidays,jdbcType=DECIMAL}, #{vacation,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ebrun.holiday.model.Holiday" >
+    insert into holiday
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="employeeId != null" >
+        employee_id,
+      </if>
+      <if test="fiscalYear != null" >
+        fiscal_year,
+      </if>
+      <if test="holidays != null" >
+        holidays,
+      </if>
+      <if test="vacation != null" >
+        vacation,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="fiscalYear != null" >
+        #{fiscalYear,jdbcType=VARCHAR},
+      </if>
+      <if test="holidays != null" >
+        #{holidays,jdbcType=DECIMAL},
+      </if>
+      <if test="vacation != null" >
+        #{vacation,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ebrun.holiday.model.Holiday" >
+    update holiday
+    <set >
+      <if test="employeeId != null" >
+        employee_id = #{employeeId,jdbcType=INTEGER},
+      </if>
+      <if test="fiscalYear != null" >
+        fiscal_year = #{fiscalYear,jdbcType=VARCHAR},
+      </if>
+      <if test="holidays != null" >
+        holidays = #{holidays,jdbcType=DECIMAL},
+      </if>
+      <if test="vacation != null" >
+        vacation = #{vacation,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ebrun.holiday.model.Holiday" >
+    update holiday
+    set employee_id = #{employeeId,jdbcType=INTEGER},
+      fiscal_year = #{fiscalYear,jdbcType=VARCHAR},
+      holidays = #{holidays,jdbcType=DECIMAL},
+      vacation = #{vacation,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
