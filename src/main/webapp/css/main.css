@@ -11,7 +11,7 @@ html, body {
     width: 100%;
     height: 100%;
     MARGIN: 0px auto;
-    background-image: url(../imgs/picture.jpg);
+    background-image: url(../imgs/picture06.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -47,8 +47,34 @@ html, body {
     float: left;
 }
 
-#departmentDialog, #employeeDialog, #holidayDialog, #mineDialog {
-    display: inherit
+#departmentDialog {
+    display: none;
+    background-image: url(../imgs/picture05.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+#departmentDialogContent{
+    float: left;
+}
+#employeeDialog {
+    display: none;
+    background-image: url(../imgs/picture04.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#holidayDialog {
+    display: none;
+    background-image: url(../imgs/picture02.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#mineDialog {
+    display: none;
+    background-image: url(../imgs/picture03.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
 #departmentDiv p, #employeeDiv p, #holidayDiv p, #mineDiv p {
@@ -58,4 +84,51 @@ html, body {
     color: #ff0084;
     font-weight: bold;
     margin: 10px 10px;
+}
+#departmentList {
+    display: none;
+    width: 420px;
+    float: left;
+    margin: 50px 0px 0px 20px;
+}
+#inputDepartment {
+    display: none;
+    width: 320px;
+    float: left;
+    margin: 100px 0px 0px 20px;
+}
+#departmentButton{
+    width: 120px;
+    float: left;
+    margin: 100px 0px 0px 20px;
+}
+#departmentList a{
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    color: #0073ea;
+    /*color: #ff0084;*/
+    font-weight: bold;
+}
+#departmentList a{text-decoration: none;}
+#departmentList a:hover {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+}
+#inputDepartment span{
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+}
+/**/
+#inputDepartmentId,#inputDepartmentLeader,#inputSuperiorDepartmentNumber{
+    display: none;
+}
+
+#insertDepartmentButton,#updateDepartmentButton, #deleteDepartmentButton{
+    margin:20px 0px 20px 0px;
 }

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,5 +81,18 @@ public class TestMyBatis {
     public void test7() {
         Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber2(Constant.TOP_DEPARTMENT_NUMBER);
         LOGGER.info(JSON.toJSONString(map));
+    }
+    @Test
+    public void test8(){
+        List<String> list = departmentService.getDepartmentNumbersBySuperiorDepartmentNumber("eb00");
+        LOGGER.info(list.toString());
+    }
+    @Test
+    public void test9(){
+        departmentService.insertDepartment("eb00","部门3",1,null);
+    }
+    @Test
+    public void test10(){
+        departmentService.deleteDepartment(22);
     }
 }

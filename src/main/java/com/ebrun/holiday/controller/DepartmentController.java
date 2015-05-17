@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -58,8 +60,26 @@ public class DepartmentController {
             Integer employeeId = employeeService.getEmployeeIdByHttpSession(httpSession);
             departmentNumber = departmentService.getDepartmentNumberByDepartmentLeader(employeeId);
         }
-        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber1(departmentNumber);
+        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber2(departmentNumber);
         return map;
     }
-
+    @RequestMapping(value = "/insertDepartment",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> insertDepartment(@RequestParam("inputSuperiorDepartmentNumber") String inputSuperiorDepartmentNumber,
+                                               @RequestParam("inputDepartmentName") String inputDepartmentName,
+                                               @RequestParam("inputDepartmentLeader") Integer inputDepartmentLeader,
+                                               @RequestParam("inputDepartmentRemark") String inputDepartmentRemark){
+        departmentService.insertDepartment(inputSuperiorDepartmentNumber,inputDepartmentName,inputDepartmentLeader,inputDepartmentRemark);
+        Map<String,String> map = new HashMap();
+        map.put("insert","success");
+        return map;
+    }
+    @RequestMapping(value = "/deleteDepartment",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,String> deleteDepartment(@RequestParam("deleteDepartmentId") Integer deleteDepartmentId){
+        departmentService.deleteDepartment(deleteDepartmentId);
+        Map<String, String> map = new HashMap();
+        map.put("delete","success");
+        return map;
+    }
 }

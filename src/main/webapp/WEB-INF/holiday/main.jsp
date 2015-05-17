@@ -15,29 +15,6 @@
         Email:<br/><input type="text" id="email" name="email"/><br/>
         Password:<br/><input type="password" id="password" name="password"/><br/>
     </div>
-    <!--
-    <a href="showEmployee/1">List All Employees</a><br/>
-    <a href="showDepartment">List All Department</a><br/>
-    <a href="showDepartmentByAdministration">showDepartmentByAdministration</a><br/>
-    <br/>
-
-    <form action="addDepartment" method="post">
-        SuperiorDepartment:<input type="text" name="superiorDepartment"/><br/>
-        DepartmentName:<input type="text" name="departmentName"/><br/>
-        DepartmentLeader:<input type="text" name="departmentLeader"/><br/>
-        Remark:<input type="textarea" name="remark"/><br/>
-        <input type="submit" value="submit"/>
-    </form>
-    <div id="div1">
-        <button id="btn1">显示</button>
-    </div>
-    <div id="div2">
-        a
-    </div>
-    <div id="div3">
-        a
-    </div>
-    -->
     <div id="mainDiv">
         <a href="#">
             <div id="departmentDiv">
@@ -60,10 +37,29 @@
             </div>
         </a>
     </div>
-    <div id="departmentDialog"></div>
+    <div id="departmentDialog">
+        <div id="departmentDialogContent">
+            <div id="departmentList"></div>
+            <div id="inputDepartment">
+                <span>上级部门：</span><input type="text" id="inputSuperiorDepartment"><br/><br/>
+                <span>部门名称：</span><input type="text" id="inputDepartmentName"><br/><br/>
+                <span>部门领导：</span><input type="text" id="inputDepartmentLeaderName"><br/><br/>
+                <span>备注信息：</span><textarea id="remark"></textarea><br/>
+                <input type="text" id="inputDepartmentId">
+                <input type="text" id="inputDepartmentLeader">
+                <input type="text" id="inputSuperiorDepartmentNumber">
+            </div>
+            <div id="departmentButton">
+                <input type="button" id="insertDepartmentButton" value="添加"><br/>
+                <input type="button" id="updateDepartmentButton" value="修改"><br/>
+                <input type="button" id="deleteDepartmentButton" value="删除"><br/>
+            </div>
+        </div>
+    </div>
     <div id="employeeDialog"></div>
     <div id="holidayDialog"></div>
     <div id="mineDialog"></div>
+    <div id="reminderDialog"><p></p></div>
 </div>
 </body>
 </html>
