@@ -95,4 +95,9 @@ public class TestMyBatis {
     public void test10(){
         departmentService.deleteDepartment(22);
     }
+    
+    @Test
+    public void test11(){
+        departmentService.updateDepartment(16,"视觉1",null,"aaa");
+    }
 }

@@ -140,7 +140,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                     map1.put("departmentLeader",department.get("department_leader"));
                     map1.put("remark",department.get("remark"));
                     map1.put("departmentLeaderName",department.get("department_leader_name"));
-                    Map<String, Object> childMap = selectSubordinateDepartmentsBySuperDepartmentNumber1(departmentNumber);
+                    Map<String, Object> childMap = selectSubordinateDepartmentsBySuperDepartmentNumber2(departmentNumber);
                     if (childMap != null && childMap.size() > 0) {
                         map1.put(Constant.SUBORDINATE_DEPARTMENT_FLAG, childMap);
                     }
@@ -173,6 +173,9 @@ public class DepartmentServiceImpl implements DepartmentService {
         Department department = new Department();
         department.setDepartmentNumber(inputDepartmentNumber);
         department.setDepartmentName(inputDepartmentName);
+        if(inputDepartmentLeader==null){
+            inputDepartmentLeader=1;
+        }
         department.setDepartmentLeader(inputDepartmentLeader);
         department.setRemark(inputDepartmentRemark);
         departmentMapper.insert(department);
@@ -187,5 +190,18 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void deleteDepartment(Integer deleteDepartmentId) {
         departmentMapper.deleteByPrimaryKey(deleteDepartmentId);
+    }
+
+    @Override
+    public void updateDepartment(Integer inputDepartmentId, String inputDepartmentName, Integer inputDepartmentLeader, String inputDepartmentRemark) {
+        Department department = new Department();
+        department.setId(inputDepartmentId);
+        department.setDepartmentName(inputDepartmentName);
+        if(inputDepartmentLeader==null){
+            inputDepartmentLeader=1;
+        }
+        department.setDepartmentLeader(inputDepartmentLeader);
+        department.setRemark(inputDepartmentRemark);
+        departmentMapper.updateByPrimaryKeySelective(department);
     }
 }

@@ -49,5 +49,11 @@ public interface DepartmentService {
      */
     public List<String> getDepartmentNumbersBySuperiorDepartmentNumber(String inputSuperiorDepartmentNumber);
 
+    /**
+     * 根据部门 id 删除部门
+     * @param deleteDepartmentId
+     */
     public void deleteDepartment(Integer deleteDepartmentId);
+    
+    public void updateDepartment(Integer inputDepartmentId,String inputDepartmentName,Integer inputDepartmentLeader,String inputDepartmentRemark);
 }

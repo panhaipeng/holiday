@@ -129,8 +129,8 @@ $(function () {
                 $("#departmentList").html(tree);
                 $("#departmentList").show();
                 $(".departmentUl").hide();
-                $("li").css({"list-style":"none"});
-                $("ul").css({"margin-left":"20px"});
+                $("li").css({"list-style": "none"});
+                $("ul").css({"margin-left": "20px"});
                 $(".deleteDepartmentFlag,.insertDepartmentFlag").css({
                     "font-family": "Helvetica, Arial, sans-serif",
                     "font-size": "1.1em",
@@ -143,9 +143,9 @@ $(function () {
                     $(this).siblings(".departmentLi").children(".departmentUl").hide();
                 });
 
-                $(".departmentNameLiA").click(function(event){
+                $(".departmentNameLiA").click(function (event) {
                     //var inputSuperiorDepartment = $(this).parent(".departmentLi").parent(".departmentUl").parent(".departmentLi").child("a").text();
-                   var inputSuperiorDepartment = $(this).parent(".departmentLi").parent().parent().find(".departmentNameLiA").html();
+                    var inputSuperiorDepartment = $(this).parent(".departmentLi").parent().parent().find(".departmentNameLiA").html();
                     var inputDepartmentName = $(this).text();
                     var inputDepartmentId = $(this).parent(".departmentLi").find(".span1:first").text();
                     var inputDepartmentLeader = $(this).parent(".departmentLi").find(".span2:first").text();
@@ -167,21 +167,21 @@ $(function () {
                     event.stopPropagation();
                     return false;
                 });
-                $(".insertDepartmentFlag").click(function(event){
+                $(".insertDepartmentFlag").click(function (event) {
                     var inputSuperiorDepartment = $(this).parent(".departmentLi").find(".departmentNameLiA").html();
                     //var inputDepartmentName = $(this).text();
                     //var inputDepartmentId = $(this).parent(".departmentLi").find(".span1:first").text();
-                    var inputDepartmentLeader = $(this).parent(".departmentLi").find(".span2:first").text();
+                    //var inputDepartmentLeader = $(this).parent(".departmentLi").find(".span2:first").text();
                     //var inputDepartmentRemark = $(this).parent(".departmentLi").find(".span3:first").text();
-                    var inputDepartmentLeaderName = $(this).parent(".departmentLi").find(".span4:first").text();
+                    //var inputDepartmentLeaderName = $(this).parent(".departmentLi").find(".span4:first").text();
                     var inputSuperiorDepartmentNumber = $(this).parent(".departmentLi").attr("id");
-                    //alert(inputSuperiorDepartmentNumber);
+                    //alert(inputDepartmentLeaderName);
                     $("#inputSuperiorDepartment").val(inputSuperiorDepartment);
                     $("#inputDepartmentName").val("");
-                    $("#inputDepartmentLeaderName").val(inputDepartmentLeaderName);
+                    $("#inputDepartmentLeaderName").val("");
                     $("#remark").val("");
                     $("#inputDepartmentId").val();
-                    $("#inputDepartmentLeader").val(inputDepartmentLeader);
+                    $("#inputDepartmentLeader").val("");
                     $("#inputSuperiorDepartmentNumber").val(inputSuperiorDepartmentNumber);
 
                     hideUpdateDepartmentButton();
@@ -190,7 +190,7 @@ $(function () {
                     event.stopPropagation();
                     return false;
                 });
-                $(".deleteDepartmentFlag").click(function(event){
+                $(".deleteDepartmentFlag").click(function (event) {
                     var inputSuperiorDepartment = $(this).parent(".departmentLi").parent().parent().find(".departmentNameLiA").html();
                     var inputDepartmentName = $(this).next(".departmentNameLiA").text();
                     var inputDepartmentId = $(this).parent(".departmentLi").find(".span1:first").text();
@@ -226,13 +226,13 @@ $(function () {
                 //alert(value.subordinateDepartment);
                 if (typeof (value.subordinateDepartment) == "object") {
                     tree1 += "<li id=" + key + " class='departmentLi'>&nbsp;&nbsp;&nbsp;<a href='#' class='departmentNameLiA'>" + value.departmentName + "</a>" +
-                        "&nbsp;&nbsp;<a href='#' class='insertDepartmentFlag'>+</a><span  class='span1'>"+value.id+"</span><span class='span2'>"+value.departmentLeader+"</span>" +
-                        "<span class='span3'>"+value.remark+"</span><span class='span4'>"+value.departmentLeaderName+"</span>" +
+                        "&nbsp;&nbsp;<a href='#' class='insertDepartmentFlag'>+</a><span  class='span1'>" + value.id + "</span><span class='span2'>" + value.departmentLeader + "</span>" +
+                        "<span class='span3'>" + value.remark + "</span><span class='span4'>" + value.departmentLeaderName + "</span>" +
                         "<ul class='departmentUl'>" + showDepartment(value.subordinateDepartment) + "</ul>" + "</li>"
                 } else {
                     tree1 += "<li id=" + key + " class='departmentLi'><a href='#' class='deleteDepartmentFlag'>-&nbsp;&nbsp;</a><a href='#' class='departmentNameLiA'>" + value.departmentName + "</a>" +
-                        "&nbsp;&nbsp;<a href='#' class='insertDepartmentFlag'>+</a><span  class='span1'>"+value.id+"</span><span class='span2'>"+value.departmentLeader+"</span>" +
-                        "<span class='span3'>"+value.remark+"</span><span class='span4'>"+value.departmentLeaderName+"</span></li>"
+                        "&nbsp;&nbsp;<a href='#' class='insertDepartmentFlag'>+</a><span  class='span1'>" + value.id + "</span><span class='span2'>" + value.departmentLeader + "</span>" +
+                        "<span class='span3'>" + value.remark + "</span><span class='span4'>" + value.departmentLeaderName + "</span></li>"
                 }
             });
             //alert(tree);
@@ -259,19 +259,19 @@ $(function () {
     function showInsertDepartmentButton() {
         $("#insertDepartmentButton").show();
     };
-    function hideInsertDepartmentButton(){
+    function hideInsertDepartmentButton() {
         $("#insertDepartmentButton").hide();
     };
     function showUpdateDepartmentButton() {
         $("#updateDepartmentButton").show();
     };
-    function hideUpdateDepartmentButton(){
+    function hideUpdateDepartmentButton() {
         $("#updateDepartmentButton").hide();
     };
     function showDeleteDepartmentButton() {
         $("#deleteDepartmentButton").show();
     };
-    function hideDeleteDepartmentButton(){
+    function hideDeleteDepartmentButton() {
         $("#deleteDepartmentButton").hide();
     };
     $("#employeeDiv").click(function () {
@@ -347,7 +347,7 @@ $(function () {
         })
     });
 
-    $("#insertDepartmentButton").click(function(){
+    $("#insertDepartmentButton").click(function () {
         var inputDepartmentName = $("#inputDepartmentName").val();
         var inputDepartmentRemark = $("#remark").val();
         var inputDepartmentLeader = $("#inputDepartmentLeader").val();
@@ -355,12 +355,14 @@ $(function () {
         $.ajax({
             type: "POST",
             url: "insertDepartment",
-            data: {inputSuperiorDepartmentNumber: inputSuperiorDepartmentNumber,
+            data: {
+                inputSuperiorDepartmentNumber: inputSuperiorDepartmentNumber,
                 inputDepartmentName: inputDepartmentName,
-                inputDepartmentLeader:inputDepartmentLeader,
-                inputDepartmentRemark:inputDepartmentRemark},
+                inputDepartmentLeader: inputDepartmentLeader,
+                inputDepartmentRemark: inputDepartmentRemark
+            },
             success: function (data) {
-                if(data.insert=="success"){
+                if (data.insert == "success") {
                     $("#reminderDialog p").text("添加成功！");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
@@ -391,14 +393,14 @@ $(function () {
             }
         });
     });
-    $("#deleteDepartmentButton").click(function(){
+    $("#deleteDepartmentButton").click(function () {
         var deleteDepartmentId = $("#inputDepartmentId").val();
         $.ajax({
             type: "GET",
             url: "deleteDepartment",
             data: {deleteDepartmentId: deleteDepartmentId},
             success: function (data) {
-                if(data.insert=="success"){
+                if (data.delete == "success") {
                     $("#reminderDialog p").text("删除成功！");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
@@ -422,6 +424,52 @@ $(function () {
                                 showDepartmentList();
                                 showDepartmentInput();
                                 hideDeleteDepartmentButton();
+                            }
+                        }
+                    })
+                }
+            }
+        });
+    });
+    $("#updateDepartmentButton").click(function () {
+        var inputDepartmentId = $("#inputDepartmentId").val();
+        var inputDepartmentName = $("#inputDepartmentName").val();
+        var inputDepartmentLeader = $("#inputDepartmentLeader").val();
+        var inputDepartmentRemark = $("#remark").val();
+        $.ajax({
+            type: "POST",
+            url: "updateDepartment",
+            data: {
+                inputDepartmentId: inputDepartmentId,
+                inputDepartmentName: inputDepartmentName,
+                inputDepartmentLeader: inputDepartmentLeader,
+                inputDepartmentRemark: inputDepartmentRemark
+            },
+            success: function (data) {
+                if (data.update == "success") {
+                    $("#reminderDialog p").text("修改成功！");
+                    $("#reminderDialog").dialog({
+                        autoOpen: true,
+                        minWidth: 300,
+                        minHeight: 200,
+                        maxWidth: 300,
+                        maxHeight: 200,
+                        title: "提示：",
+                        show: {
+                            effect: "bounce",
+                            duration: 500
+                        },
+                        hide: {
+                            effect: "explode",
+                            duration: 500
+                        },
+
+                        buttons: {
+                            "close": function () {
+                                $(this).dialog("close");
+                                showDepartmentList();
+                                showDepartmentInput();
+                                hideUpdateDepartmentButton();
                             }
                         }
                     })
