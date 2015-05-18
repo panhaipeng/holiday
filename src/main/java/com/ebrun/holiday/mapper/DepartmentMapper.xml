@@ -102,4 +102,13 @@
         FROM department 
         WHERE department_leader = #{departmentLeader,jdbcType=INTEGER} order by id limit 0,1
     </select>
+    <select id="selectDepartmentsBySuperDepartmentNumber1" resultType="hashmap" parameterType="java.lang.String">
+        select
+        d.id as id, d.department_number as department_number, d.department_name as department_name, d.department_leader as department_leader, d.remark as remark, e.name as department_leader_name
+        from department d join employee e ON d.department_leader = e.id
+        where department_number like CONCAT(#{superDepartmentNumber,jdbcType=VARCHAR},'__')
+    </select>
+    <select id="selectDepartmentNumbersBySuperiorDepartmentNumber" resultType="String" parameterType="java.lang.String">
+        select department_number FROM department where department_number like CONCAT(#{inputSuperiorDepartmentNumber,jdbcType=VARCHAR},'__')
+    </select>
 </mapper>
