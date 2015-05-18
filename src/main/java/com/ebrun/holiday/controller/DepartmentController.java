@@ -82,4 +82,16 @@ public class DepartmentController {
         map.put("delete","success");
         return map;
     }
+    
+    @RequestMapping(value = "/updateDepartment",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,String> updateDepartment(@RequestParam("inputDepartmentId")Integer inputDepartmentId,
+                                               @RequestParam("inputDepartmentName")String inputDepartmentName,
+                                               @RequestParam("inputDepartmentLeader")Integer inputDepartmentLeader,
+                                               @RequestParam("inputDepartmentRemark")String inputDepartmentRemark){
+        departmentService.updateDepartment(inputDepartmentId,inputDepartmentName,inputDepartmentLeader,inputDepartmentRemark);
+        Map<String,String> map = new HashMap();
+        map.put("update","success");
+        return map;
+    }
 }
