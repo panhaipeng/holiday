@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * Created by DaoDao on 2015/5/12.
@@ -40,5 +41,19 @@ public class EmployeeServiceImpl implements EmployeeService{
         }
         Integer employeeId = employee.getId();
         return employeeId;
+    }
+
+    @Override
+    public List getEmployeeListByPage(Integer pageNumber, Integer pageSize) {
+        pageSize = Constant.DEFAULT_PAGE_SIZE;
+        List employeeList = employeeMapper.selectEmployeeByPage(pageNumber,pageSize);
+        return employeeList;
+    }
+
+    @Override
+    public Integer getEmployeeListPageCount() {
+        Integer integer = employeeMapper.selectEmployeeCount();
+        Integer pageCount = integer/10+1;
+        return pageCount;
     }
 }

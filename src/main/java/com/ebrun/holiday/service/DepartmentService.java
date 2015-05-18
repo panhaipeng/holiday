@@ -17,20 +17,12 @@ public interface DepartmentService {
     public Map<String,Department> selectDepartmentsBySuperDepartmentNumber(String superDepartmentNumber);
 
     /**
-     * 返回所有下属部门
-     * @param superDepartmentNumber
-     * @return
-     */
-    public Map<String,Object> selectSubordinateDepartmentsBySuperDepartmentNumber(String superDepartmentNumber);
-
-    /**
      * 根据部门领导id获取部门号
      * @param departmentLeaderId 
      * @return
      */
     public String getDepartmentNumberByDepartmentLeader(Integer departmentLeaderId);
 
-    public Map<String,Object> selectSubordinateDepartmentsBySuperDepartmentNumber1(String superDepartmentNumber);
     public Map<String,Object> selectSubordinateDepartmentsBySuperDepartmentNumber2(String superDepartmentNumber);
 
     /**

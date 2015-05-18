@@ -1,7 +1,5 @@
 package com.ebrun.holiday.model;
 
-import java.util.List;
-
 public class Department {
     private Integer id;
 
@@ -12,7 +10,6 @@ public class Department {
     private Integer departmentLeader;
 
     private String remark;
-    
 
     public Integer getId() {
         return id;

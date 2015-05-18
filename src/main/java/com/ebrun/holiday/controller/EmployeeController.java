@@ -4,11 +4,10 @@ import com.ebrun.holiday.model.Employee;
 import com.ebrun.holiday.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -28,20 +27,20 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @RequestMapping(value = "/showEmployee/{id}", method = RequestMethod.GET)
-    public String showEmployee(@PathVariable("id") Integer id, Map<String, Object> map) {
-        Employee employee = employeeService.getEmployeeById(id);
-        map.put("employee", employee);
-        return "employee";
-    }
-    @RequestMapping(value = "/showEmployee/{id}", method = RequestMethod.GET,params = "json")
-    @ResponseBody
-    public Employee showEmployee(@PathVariable("id") Integer id) {
-        Employee employee = employeeService.getEmployeeById(id);
-        return employee;
-    }
     @RequestMapping(value = "/main", method=RequestMethod.GET)
     public String main(){
         return "main";
+    }
+
+    @RequestMapping(value = "/showEmployeeListByPage",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> showEmployeeListByPage(@RequestParam("pageNumber") Integer pageNumber,@RequestParam("pageSize")Integer pageSize){
+        Map<String,Object>map =new HashMap();
+        Integer pageCount = employeeService.getEmployeeListPageCount();
+        List employeeList = employeeService.getEmployeeListByPage(pageNumber,pageSize);
+        map.put("employeeList",employeeList);
+        map.put("pageNumber",pageNumber);
+        map.put("pageCount",pageCount);
+        return map;
     }
 }

@@ -12,14 +12,10 @@
         <result column="department_id" property="departmentId" jdbcType="INTEGER"/>
         <result column="if_administration" property="ifAdministration" jdbcType="BIT"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
-        <result column="create_person" property="createPerson" jdbcType="INTEGER"/>
-        <result column="update_person" property="updatePerson" jdbcType="INTEGER"/>
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
     <sql id="Base_Column_List">
     id, employee_number, name, password, email, entry_date, leave_date, department_id, 
-    if_administration, remark, create_person, update_person, create_time, update_time
+    if_administration, remark
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
@@ -35,13 +31,11 @@
     insert into employee (id, employee_number, name, 
       password, email, entry_date, 
       leave_date, department_id, if_administration, 
-      remark, create_person, update_person, 
-      create_time, update_time)
+      remark)
     values (#{id,jdbcType=INTEGER}, #{employeeNumber,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{entryDate,jdbcType=TIMESTAMP}, 
       #{leaveDate,jdbcType=TIMESTAMP}, #{departmentId,jdbcType=INTEGER}, #{ifAdministration,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR}, #{createPerson,jdbcType=INTEGER}, #{updatePerson,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{remark,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.ebrun.holiday.model.Employee">
         insert into employee
@@ -76,18 +70,6 @@
             <if test="remark != null">
                 remark,
             </if>
-            <if test="createPerson != null">
-                create_person,
-            </if>
-            <if test="updatePerson != null">
-                update_person,
-            </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
-            <if test="updateTime != null">
-                update_time,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -119,18 +101,6 @@
             </if>
             <if test="remark != null">
                 #{remark,jdbcType=VARCHAR},
-            </if>
-            <if test="createPerson != null">
-                #{createPerson,jdbcType=INTEGER},
-            </if>
-            <if test="updatePerson != null">
-                #{updatePerson,jdbcType=INTEGER},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -164,18 +134,6 @@
             <if test="remark != null">
                 remark = #{remark,jdbcType=VARCHAR},
             </if>
-            <if test="createPerson != null">
-                create_person = #{createPerson,jdbcType=INTEGER},
-            </if>
-            <if test="updatePerson != null">
-                update_person = #{updatePerson,jdbcType=INTEGER},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -189,17 +147,22 @@
       leave_date = #{leaveDate,jdbcType=TIMESTAMP},
       department_id = #{departmentId,jdbcType=INTEGER},
       if_administration = #{ifAdministration,jdbcType=BIT},
-      remark = #{remark,jdbcType=VARCHAR},
-      create_person = #{createPerson,jdbcType=INTEGER},
-      update_person = #{updatePerson,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
-    </update>
+  </update>
     <select id="selectByEmail" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
         from employee
         where email = #{email,jdbcType=VARCHAR}
+    </select>
+    <select id="selectEmployeeByPage" resultType="java.util.Map">
+        select e.id as id, e.employee_number as employee_number, e.name as name, e.password as password,
+        e.email as email, e.entry_date as entry_date, e.leave_date as leave_date, e.department_id as department_id,
+        e.if_administration as if_administration, e.remark as remark, d.department_name as department_name
+        from employee e join department d on e.department_id = d.id order by e.id limit #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+    </select>
+    <select id="selectEmployeeCount" resultType="java.lang.Integer">
+        select count(*) from employee
     </select>
 </mapper>

@@ -56,7 +56,105 @@
             </div>
         </div>
     </div>
-    <div id="employeeDialog"></div>
+    <div id="employeeDialog">
+        <div id="employeeTableDiv">
+            <input id = pageNumber value="0"><input id = pageCount>
+            <table id="employeeTable">
+                <tr>
+                    <th>号码</th>
+                    <th>员工姓名</th>
+                    <th>Email</th>
+                    <th>入职日期</th>
+                    <th>所属部门</th>
+                    <th>管理</th>
+                    <th>操作</th>
+                </tr>
+                <!--<tr>
+                    <td class="tdEmployeeNumber">101</td>
+                    <td class="tdEmployeeName">大脸猫</td>
+                    <td class="tdEmployeeEmail">dalianmao@ebrun.com</td>
+                    <td class="tdEmployeeEntryDate">2015-04-01</td>
+                    <td class="tdEmployeeDepartment">人力资源部</td>
+                    <td class="tdEmployeeIfAdministration">是</td>
+                    <td class="tdEmployeeDo"><input class="updateEmployeeButton" type="button" value="修改"><input class="deleteEmployeeButton" type="button" value="删除"></td>
+                </tr>
+                <tr>
+                <td class="tdEmployeeNumber">101</td>
+                <td class="tdEmployeeName">大脸猫</td>
+                <td class="tdEmployeeEmail">dalianmao@ebrun.com</td>
+                <td class="tdEmployeeEntryDate">2015-04-01</td>
+                <td class="tdEmployeeDepartment">人力资源部</td>
+                <td class="tdEmployeeIsAdministration">是</td>
+                <td class="tdEmployeeDo"><input class="updateEmployeeButton" type="button" value="修改"><input class="deleteEmployeeButton" type="button" value="删除"></td>
+            </tr><tr>
+                <td class="tdEmployeeNumber">101</td>
+                <td class="tdEmployeeName">大脸猫</td>
+                <td class="tdEmployeeEmail">dalianmao@ebrun.com</td>
+                <td class="tdEmployeeEntryDate">2015-04-01</td>
+                <td class="tdEmployeeDepartment">人力资源部</td>
+                <td class="tdEmployeeIsAdministration">是</td>
+                <td class="tdEmployeeDo"><input class="updateEmployeeButton" type="button" value="修改"><input class="deleteEmployeeButton" type="button" value="删除"></td>
+            </tr><tr>
+                <td class="tdEmployeeNumber">101</td>
+                <td class="tdEmployeeName">大脸猫</td>
+                <td class="tdEmployeeEmail">dalianmao@ebrun.com</td>
+                <td class="tdEmployeeEntryDate">2015-04-01</td>
+                <td class="tdEmployeeDepartment">人力资源部</td>
+                <td class="tdEmployeeIsAdministration">是</td>
+                <td class="tdEmployeeDo"><input class="updateEmployeeButton" type="button" value="修改"><input class="deleteEmployeeButton" type="button" value="删除"></td>
+            </tr><tr>
+                <td class="tdEmployeeNumber">101</td>
+                <td class="tdEmployeeName">大脸猫</td>
+                <td class="tdEmployeeEmail">dalianmao@ebrun.com</td>
+                <td class="tdEmployeeEntryDate">2015-04-01</td>
+                <td class="tdEmployeeDepartment">人力资源部</td>
+                <td class="tdEmployeeIsAdministration">是</td>
+                <td class="tdEmployeeDo"><input class="updateEmployeeButton" type="button" value="修改"><input class="deleteEmployeeButton" type="button" value="删除"></td>
+            </tr><tr>
+                <td class="tdEmployeeNumber">101</td>
+                <td class="tdEmployeeName">大脸猫</td>
+                <td class="tdEmployeeEmail">dalianmao@ebrun.com</td>
+                <td class="tdEmployeeEntryDate">2015-04-01</td>
+                <td class="tdEmployeeDepartment">人力资源部</td>
+                <td class="tdEmployeeIsAdministration">是</td>
+                <td class="tdEmployeeDo"><input class="updateEmployeeButton" type="button" value="修改"><input class="deleteEmployeeButton" type="button" value="删除"></td>
+            </tr><tr>
+                <td class="tdEmployeeNumber">101</td>
+                <td class="tdEmployeeName">大脸猫</td>
+                <td class="tdEmployeeEmail">dalianmao@ebrun.com</td>
+                <td class="tdEmployeeEntryDate">2015-04-01</td>
+                <td class="tdEmployeeDepartment">人力资源部</td>
+                <td class="tdEmployeeIsAdministration">是</td>
+                <td class="tdEmployeeDo"><input class="updateEmployeeButton" type="button" value="修改"><input class="deleteEmployeeButton" type="button" value="删除"></td>
+            </tr><tr>
+                <td class="tdEmployeeNumber">101</td>
+                <td class="tdEmployeeName">大脸猫</td>
+                <td class="tdEmployeeEmail">dalianmao@ebrun.com</td>
+                <td class="tdEmployeeEntryDate">2015-04-01</td>
+                <td class="tdEmployeeDepartment">人力资源部</td>
+                <td class="tdEmployeeIsAdministration">是</td>
+                <td class="tdEmployeeDo"><input class="updateEmployeeButton" type="button" value="修改"><input class="deleteEmployeeButton" type="button" value="删除"></td>
+            </tr><tr>
+                <td class="tdEmployeeNumber">101</td>
+                <td class="tdEmployeeName">大脸猫</td>
+                <td class="tdEmployeeEmail">dalianmao@ebrun.com</td>
+                <td class="tdEmployeeEntryDate">2015-04-01</td>
+                <td class="tdEmployeeDepartment">人力资源部</td>
+                <td class="tdEmployeeIsAdministration">是</td>
+                <td class="tdEmployeeDo"><input class="updateEmployeeButton" type="button" value="修改"><input class="deleteEmployeeButton" type="button" value="删除"></td>
+            </tr><tr>
+                <td class="tdEmployeeNumber">101</td>
+                <td class="tdEmployeeName">大脸猫</td>
+                <td class="tdEmployeeEmail">dalianmao@ebrun.com</td>
+                <td class="tdEmployeeEntryDate">2015-04-01</td>
+                <td class="tdEmployeeDepartment">人力资源部</td>
+                <td class="tdEmployeeIsAdministration">是</td>
+                <td class="tdEmployeeDo"><input class="updateEmployeeButton" type="button" value="修改"><input class="deleteEmployeeButton" type="button" value="删除"></td>
+            </tr>-->
+            </table>
+        </div>
+
+    </div>
     <div id="holidayDialog"></div>
     <div id="mineDialog"></div>
     <div id="reminderDialog"><p></p></div>

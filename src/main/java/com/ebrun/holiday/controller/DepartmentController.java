@@ -25,7 +25,8 @@ public class DepartmentController {
     public EmployeeService getEmployeeService() {
         return employeeService;
     }
-@Autowired
+
+    @Autowired
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
@@ -41,57 +42,53 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @RequestMapping(value = "/showDepartment", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> showDepartment() {
-        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber(Constant.TOP_DEPARTMENT_NUMBER);
-        return map;
-    }
     @RequestMapping(value = "/showDepartmentByAdministration", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> showDepartmentByAdministration(HttpSession httpSession) {
         String departmentNumber;
         Employee employee = (Employee) httpSession.getAttribute(Constant.EMPLOYEE_HTTP_SESSION_NAME);
-        if(employee==null){
+        if (employee == null) {
             departmentNumber = null;
-        }else if(employee.getIfAdministration()){
+        } else if (employee.getIfAdministration()) {
             departmentNumber = Constant.TOP_DEPARTMENT_NUMBER;
-        }else {
+        } else {
             Integer employeeId = employeeService.getEmployeeIdByHttpSession(httpSession);
             departmentNumber = departmentService.getDepartmentNumberByDepartmentLeader(employeeId);
         }
         Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber2(departmentNumber);
         return map;
     }
-    @RequestMapping(value = "/insertDepartment",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/insertDepartment", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,String> insertDepartment(@RequestParam("inputSuperiorDepartmentNumber") String inputSuperiorDepartmentNumber,
-                                               @RequestParam("inputDepartmentName") String inputDepartmentName,
-                                               @RequestParam("inputDepartmentLeader") Integer inputDepartmentLeader,
-                                               @RequestParam("inputDepartmentRemark") String inputDepartmentRemark){
-        departmentService.insertDepartment(inputSuperiorDepartmentNumber,inputDepartmentName,inputDepartmentLeader,inputDepartmentRemark);
-        Map<String,String> map = new HashMap();
-        map.put("insert","success");
+    public Map<String, String> insertDepartment(@RequestParam("inputSuperiorDepartmentNumber") String inputSuperiorDepartmentNumber,
+                                                @RequestParam("inputDepartmentName") String inputDepartmentName,
+                                                @RequestParam("inputDepartmentLeader") Integer inputDepartmentLeader,
+                                                @RequestParam("inputDepartmentRemark") String inputDepartmentRemark) {
+        departmentService.insertDepartment(inputSuperiorDepartmentNumber, inputDepartmentName, inputDepartmentLeader, inputDepartmentRemark);
+        Map<String, String> map = new HashMap();
+        map.put("insert", "success");
         return map;
     }
-    @RequestMapping(value = "/deleteDepartment",method = RequestMethod.GET)
+
+    @RequestMapping(value = "/deleteDepartment", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,String> deleteDepartment(@RequestParam("deleteDepartmentId") Integer deleteDepartmentId){
+    public Map<String, String> deleteDepartment(@RequestParam("deleteDepartmentId") Integer deleteDepartmentId) {
         departmentService.deleteDepartment(deleteDepartmentId);
         Map<String, String> map = new HashMap();
-        map.put("delete","success");
+        map.put("delete", "success");
         return map;
     }
-    
-    @RequestMapping(value = "/updateDepartment",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/updateDepartment", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,String> updateDepartment(@RequestParam("inputDepartmentId")Integer inputDepartmentId,
-                                               @RequestParam("inputDepartmentName")String inputDepartmentName,
-                                               @RequestParam("inputDepartmentLeader")Integer inputDepartmentLeader,
-                                               @RequestParam("inputDepartmentRemark")String inputDepartmentRemark){
-        departmentService.updateDepartment(inputDepartmentId,inputDepartmentName,inputDepartmentLeader,inputDepartmentRemark);
-        Map<String,String> map = new HashMap();
-        map.put("update","success");
+    public Map<String, String> updateDepartment(@RequestParam("inputDepartmentId") Integer inputDepartmentId,
+                                                @RequestParam("inputDepartmentName") String inputDepartmentName,
+                                                @RequestParam("inputDepartmentLeader") Integer inputDepartmentLeader,
+                                                @RequestParam("inputDepartmentRemark") String inputDepartmentRemark) {
+        departmentService.updateDepartment(inputDepartmentId, inputDepartmentName, inputDepartmentLeader, inputDepartmentRemark);
+        Map<String, String> map = new HashMap();
+        map.put("update", "success");
         return map;
     }
 }

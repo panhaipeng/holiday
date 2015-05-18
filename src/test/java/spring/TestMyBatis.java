@@ -57,26 +57,13 @@ public class TestMyBatis {
         Map<String, Department> map = departmentService.selectDepartmentsBySuperDepartmentNumber(Constant.TOP_DEPARTMENT_NUMBER);
         LOGGER.info(JSON.toJSONString(map));
     }
-    @Test
-    public void test3() {
-        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber(Constant.TOP_DEPARTMENT_NUMBER);
-        LOGGER.info(JSON.toJSONString(map));
-    }
+
     @Test
     public void test4(){
         String departmentNumber = departmentService.getDepartmentNumberByDepartmentLeader(3);
         LOGGER.info(JSON.toJSONString(departmentNumber));
     }
-    @Test
-    public void test5() {
-        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber(null);
-        LOGGER.info(JSON.toJSONString(map));
-    }
-    @Test
-    public void test6() {
-        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber1(Constant.TOP_DEPARTMENT_NUMBER);
-        LOGGER.info(JSON.toJSONString(map));
-    }
+
     @Test
     public void test7() {
         Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber2(Constant.TOP_DEPARTMENT_NUMBER);
@@ -99,5 +86,16 @@ public class TestMyBatis {
     @Test
     public void test11(){
         departmentService.updateDepartment(16,"视觉1",null,"aaa");
+    }
+
+    @Test
+    public void test12(){
+        List list = employeeService.getEmployeeListByPage(1,1);
+        LOGGER.info(JSON.toJSONStringWithDateFormat(list, Constant.DATE_FORMAT_YMDHMS));
+    }
+    @Test
+    public void test13(){
+        Integer pageCount = employeeService.getEmployeeListPageCount();
+        LOGGER.info(pageCount);
     }
 }

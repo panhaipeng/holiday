@@ -16,13 +16,14 @@ public interface DepartmentMapper {
     int updateByPrimaryKeySelective(Department record);
 
     int updateByPrimaryKey(Department record);
-    
+
     List<Department> selectDepartmentsBySuperDepartmentNumber(String superDepartmentNumber);
 
     Department selectDepartmentByDepartmentLeader(Integer departmentLeaderId);
 
     /**
-     * 关联查询，查出领导id对应的领导姓名
+     * 根据上级部门号获取部门列表
+     *
      * @param superDepartmentNumber
      * @return
      */

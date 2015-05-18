@@ -11,7 +11,7 @@ html, body {
     width: 100%;
     height: 100%;
     MARGIN: 0px auto;
-    background-image: url(../imgs/picture06.jpg);
+    background-image: url(../imgs/picture04.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -49,7 +49,7 @@ html, body {
 
 #departmentDialog {
     display: none;
-    background-image: url(../imgs/picture05.jpg);
+    background-image: url(../imgs/picture02.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -58,14 +58,14 @@ html, body {
 }
 #employeeDialog {
     display: none;
-    background-image: url(../imgs/picture04.jpg);
+    background-image: url(../imgs/picture05.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
 
 #holidayDialog {
     display: none;
-    background-image: url(../imgs/picture02.jpg);
+    background-image: url(../imgs/picture06.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -131,4 +131,55 @@ html, body {
 
 #insertDepartmentButton,#updateDepartmentButton, #deleteDepartmentButton{
     margin:20px 0px 20px 0px;
+}
+
+#employeeTableDiv{
+    height: 440px;
+    width: 900px;
+    margin: 0px auto;
+    /*border: 1px solid green;*/
+}
+
+#employeeTable tr th{
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+    text-align: center;
+}
+#employeeTable tr td{
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    /*color: #ff0084;*/
+    font-weight: bold;
+    text-align: center;
+}
+#employeeTable tr:hover{
+    color: #ff0084;
+}
+#employeeTable tr .tdEmployeeNumber{
+    width: 60px;
+}
+#employeeTable tr .tdEmployeeName{
+    width: 100px;
+}
+#employeeTable tr .tdEmployeeEmail{
+    width: 240px;
+}
+#employeeTable tr .tdEmployeeEntryDate{
+    width: 120px;
+}
+#employeeTable tr .tdEmployeeDepartment{
+    width: 140px;
+}
+#employeeTable tr .tdEmployeeIfAdministration{
+    width: 60px;
+}
+#employeeTable tr .tdEmployeeDo{
+    width: auto;
+}
+#pageNumber,#pageCount{
+    display: none;
 }

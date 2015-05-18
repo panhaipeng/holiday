@@ -48,36 +48,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         return map;
     }
 
-    /**
-     * 这个算法我憋了三小时才写出来，我觉得过几天我也看不懂了
-     * 应该会有更成熟的解决方案
-     *
-     * @param superDepartmentNumber
-     * @return 
-     */
-    @Override
-    public Map<String, Object> selectSubordinateDepartmentsBySuperDepartmentNumber(String superDepartmentNumber) {
-        if(superDepartmentNumber==null){
-            return null;
-        }
-        List<Department> departmentsList = departmentMapper.selectDepartmentsBySuperDepartmentNumber(superDepartmentNumber);
-        Map<String, Object> map = new HashMap();
-        if (departmentsList != null) {
-            for (int i = 0; i < departmentsList.size(); i++) {
-                Department department = departmentsList.get(i);
-                String departmentNumber = department.getDepartmentNumber();
-                while (departmentNumber.length() == superDepartmentNumber.length() + 2) {
-                    map.put(departmentNumber, department);
-                    Map<String, Object> childMap = selectSubordinateDepartmentsBySuperDepartmentNumber(departmentNumber);
-                    if (childMap != null && childMap.size() > 0) {
-                        map.put(departmentNumber + Constant.SUBORDINATE_DEPARTMENT_FLAG, childMap);
-                    }
-                    break;
-                }
-            }
-        }
-        return map;
-    }
 
     @Override
     public String getDepartmentNumberByDepartmentLeader(Integer departmentLeaderId) {
@@ -89,36 +59,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentNumber;
     }
 
-    @Override
-    public Map<String, Object> selectSubordinateDepartmentsBySuperDepartmentNumber1(String superDepartmentNumber) {
-        if(superDepartmentNumber==null){
-            return null;
-        }
-        List<Department> departmentsList = departmentMapper.selectDepartmentsBySuperDepartmentNumber(superDepartmentNumber);
-        Map<String, Object> map = new HashMap();
-        if (departmentsList != null) {
-            for (int i = 0; i < departmentsList.size(); i++) {
-                Department department = departmentsList.get(i);
-                String departmentNumber = department.getDepartmentNumber();
-                while (departmentNumber.length() == superDepartmentNumber.length() + 2) {
-                    Map<String, Object> map1 = new HashMap();
-                    //map1.put(departmentNumber+"department",department);
-                    map1.put("id",department.getId());
-                    map1.put("departmentNumber",department.getDepartmentNumber());
-                    map1.put("departmentName",department.getDepartmentName());
-                    map1.put("departmentLeader",department.getDepartmentLeader());
-                    map1.put("remark",department.getRemark());
-                    Map<String, Object> childMap = selectSubordinateDepartmentsBySuperDepartmentNumber1(departmentNumber);
-                    if (childMap != null && childMap.size() > 0) {
-                        map1.put(Constant.SUBORDINATE_DEPARTMENT_FLAG, childMap);
-                    }
-                    map.put(departmentNumber, map1);
-                    break;
-                }
-            }
-        }
-        return map;
-    }
 
     @Override
     public Map<String, Object> selectSubordinateDepartmentsBySuperDepartmentNumber2(String superDepartmentNumber) {
@@ -174,7 +114,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setDepartmentNumber(inputDepartmentNumber);
         department.setDepartmentName(inputDepartmentName);
         if(inputDepartmentLeader==null){
-            inputDepartmentLeader=1;
+            inputDepartmentLeader=Constant.DEFAULT_DEPARTMENT_LEADER_NUMBER;
         }
         department.setDepartmentLeader(inputDepartmentLeader);
         department.setRemark(inputDepartmentRemark);
@@ -198,7 +138,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setId(inputDepartmentId);
         department.setDepartmentName(inputDepartmentName);
         if(inputDepartmentLeader==null){
-            inputDepartmentLeader=1;
+            inputDepartmentLeader=Constant.DEFAULT_DEPARTMENT_LEADER_NUMBER;
         }
         department.setDepartmentLeader(inputDepartmentLeader);
         department.setRemark(inputDepartmentRemark);

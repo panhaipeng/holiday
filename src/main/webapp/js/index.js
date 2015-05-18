@@ -43,11 +43,11 @@ $(function() {
 			title : "(=^･ｪ･^=)    输入登录信息：",
 			show : {
 				effect : "bounce",
-				duration : 1000
+				duration : 500
 			},
 			hide : {
 				effect : "explode",
-				duration : 1000
+				duration : 500
 			},
 
 			buttons : {
@@ -97,11 +97,11 @@ $(function() {
 		title : "输入日期：Input Date",
 		show : {
 			effect : "bounce",
-			duration : 1000
+			duration : 500
 		},
 		hide : {
 			effect : "explode",
-			duration : 1000
+			duration : 500
 		},
 
 		buttons : {
@@ -134,11 +134,11 @@ function showResultDialog(){
 		title : "计算结果：Result View",
 		show : {
 			effect : "bounce",
-			duration : 1000
+			duration : 500
 		},
 		hide : {
 			effect : "explode",
-			duration : 1000
+			duration : 500
 		},
 		buttons : {
 			"close" : function() {

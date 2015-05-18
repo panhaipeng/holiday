@@ -23,14 +23,6 @@ public class Employee {
 
     private String remark;
 
-    private Integer createPerson;
-
-    private Integer updatePerson;
-
-    private Date createTime;
-
-    private Date updateTime;
-
     public Integer getId() {
         return id;
     }
@@ -109,37 +101,5 @@ public class Employee {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
-    }
-
-    public Integer getCreatePerson() {
-        return createPerson;
-    }
-
-    public void setCreatePerson(Integer createPerson) {
-        this.createPerson = createPerson;
-    }
-
-    public Integer getUpdatePerson() {
-        return updatePerson;
-    }
-
-    public void setUpdatePerson(Integer updatePerson) {
-        this.updatePerson = updatePerson;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
     }
 }

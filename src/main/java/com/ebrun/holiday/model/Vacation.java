@@ -13,10 +13,6 @@ public class Vacation {
 
     private String remark;
 
-    private Integer createPerson;
-
-    private Date createTime;
-
     public Integer getId() {
         return id;
     }
@@ -55,21 +51,5 @@ public class Vacation {
 
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
-    }
-
-    public Integer getCreatePerson() {
-        return createPerson;
-    }
-
-    public void setCreatePerson(Integer createPerson) {
-        this.createPerson = createPerson;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 }
