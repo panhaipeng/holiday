@@ -3,7 +3,7 @@
 <mapper namespace="com.ebrun.holiday.dao.EmployeeMapper">
     <resultMap id="BaseResultMap" type="com.ebrun.holiday.model.Employee">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="employee_number" property="employeeNumber" jdbcType="INTEGER"/>
+        <result column="employee_number" property="employeeNumber" jdbcType="VARCHAR"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
@@ -32,7 +32,7 @@
       password, email, entry_date, 
       leave_date, department_id, if_administration, 
       remark)
-    values (#{id,jdbcType=INTEGER}, #{employeeNumber,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{employeeNumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{entryDate,jdbcType=TIMESTAMP}, 
       #{leaveDate,jdbcType=TIMESTAMP}, #{departmentId,jdbcType=INTEGER}, #{ifAdministration,jdbcType=BIT}, 
       #{remark,jdbcType=VARCHAR})
@@ -76,7 +76,7 @@
                 #{id,jdbcType=INTEGER},
             </if>
             <if test="employeeNumber != null">
-                #{employeeNumber,jdbcType=INTEGER},
+                #{employeeNumber,jdbcType=VARCHAR},
             </if>
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
@@ -108,7 +108,7 @@
         update employee
         <set>
             <if test="employeeNumber != null">
-                employee_number = #{employeeNumber,jdbcType=INTEGER},
+                employee_number = #{employeeNumber,jdbcType=VARCHAR},
             </if>
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
@@ -139,7 +139,7 @@
     </update>
     <update id="updateByPrimaryKey" parameterType="com.ebrun.holiday.model.Employee">
     update employee
-    set employee_number = #{employeeNumber,jdbcType=INTEGER},
+    set employee_number = #{employeeNumber,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
@@ -160,9 +160,44 @@
         select e.id as id, e.employee_number as employee_number, e.name as name, e.password as password,
         e.email as email, e.entry_date as entry_date, e.leave_date as leave_date, e.department_id as department_id,
         e.if_administration as if_administration, e.remark as remark, d.department_name as department_name
-        from employee e join department d on e.department_id = d.id order by e.id limit #{pageNumber,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+        from employee e join department d on e.department_id = d.id
+        <where>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                e.employee_number like #{employeeKeyword}
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or e.name like concat('%',#{employeeKeyword},'%')
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or e.email like concat('%',#{employeeKeyword},'%')
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or e.entry_date between concat(#{employeeKeyword},'-01-01 00:00:00') and concat(#{employeeKeyword},'-12-31 23:59:59')
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or d.department_name like concat('%',#{employeeKeyword},'%')
+            </if>
+        </where>
+        order by e.id limit #{index,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
     </select>
     <select id="selectEmployeeCount" resultType="java.lang.Integer">
-        select count(*) from employee
+        select count(*) from employee e join department d on e.department_id = d.id
+        <where>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                e.employee_number like #{employeeKeyword}
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or e.name like concat('%',#{employeeKeyword},'%')
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or e.email like concat('%',#{employeeKeyword},'%')
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or e.entry_date between concat(#{employeeKeyword},'-01-01 00:00:00') and concat(#{employeeKeyword},'-12-31 23:59:59')
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or d.department_name like concat('%',#{employeeKeyword},'%')
+            </if>
+        </where>
     </select>
 </mapper>

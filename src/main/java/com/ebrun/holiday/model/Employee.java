@@ -5,7 +5,7 @@ import java.util.Date;
 public class Employee {
     private Integer id;
 
-    private Integer employeeNumber;
+    private String employeeNumber;
 
     private String name;
 
@@ -31,11 +31,11 @@ public class Employee {
         this.id = id;
     }
 
-    public Integer getEmployeeNumber() {
+    public String getEmployeeNumber() {
         return employeeNumber;
     }
 
-    public void setEmployeeNumber(Integer employeeNumber) {
+    public void setEmployeeNumber(String employeeNumber) {
         this.employeeNumber = employeeNumber;
     }
 

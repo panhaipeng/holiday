@@ -31,7 +31,7 @@ public interface EmployeeService {
      * @param pageSize
      * @return
      */
-    public List getEmployeeListByPage(Integer pageNumber,Integer pageSize);
+    public List getEmployeeListByPage(String employeeKeyword,Integer pageNumber,Integer pageSize);
 
-    public Integer getEmployeeListPageCount();
+    public Integer getEmployeeListPageCount(String employeeKeyword);
 }

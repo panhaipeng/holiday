@@ -6,19 +6,13 @@
 <title>亿邦动力-年假计算器-1.0-Bate</title>
 <meta name="keywords" content="亿邦动力,年假,计算器">
 <meta name="description" content="亿邦动力年假计算器">
-
-<link rel="Shortcut Icon" href="imgs/favicon.ico"
-	type="image/x-icon" />
+<link rel="Shortcut Icon" href="imgs/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="css/jquery-ui.theme.css">
-<!--<link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.css">-->
-
 <link rel="stylesheet" type="text/css" href="css/index.css">
-
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/jquery.ui.datepicker-zh-CN.js"></script>
-
 <script type="text/javascript" src="js/index.js"></script>
 
 </head>
@@ -38,7 +32,7 @@
 			Password:<br/><input type="password" id="password" name="password"/><br/>
 		</div>
 		<div id="dateDialog">
-			点选入职日期：Date of entry<br><input type="text" id="datepicker" readonly="readonly"/>
+			点选入职日期：Date of entry<br/><br/><input type="text" id="datepicker" readonly="readonly"/>
 		</div>
 		<div id="resultDialog">
 			<p id="resultText"></p>

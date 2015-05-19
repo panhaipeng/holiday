@@ -66,7 +66,7 @@ public class TestMyBatis {
 
     @Test
     public void test7() {
-        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber2(Constant.TOP_DEPARTMENT_NUMBER);
+        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber(Constant.TOP_DEPARTMENT_NUMBER);
         LOGGER.info(JSON.toJSONString(map));
     }
     @Test
@@ -90,12 +90,12 @@ public class TestMyBatis {
 
     @Test
     public void test12(){
-        List list = employeeService.getEmployeeListByPage(1,1);
+        List list = employeeService.getEmployeeListByPage("2013",1,10);
         LOGGER.info(JSON.toJSONStringWithDateFormat(list, Constant.DATE_FORMAT_YMDHMS));
     }
     @Test
     public void test13(){
-        Integer pageCount = employeeService.getEmployeeListPageCount();
+        Integer pageCount = employeeService.getEmployeeListPageCount("20131");
         LOGGER.info(pageCount);
     }
 }

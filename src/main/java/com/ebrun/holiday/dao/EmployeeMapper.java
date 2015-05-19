@@ -27,11 +27,16 @@ public interface EmployeeMapper {
 
     /**
      * 分页查询employeeList
-     * @param pageNumber
+     * @param index
      * @param pageSize
      * @return
      */
-    List selectEmployeeByPage(@Param("pageNumber")Integer pageNumber, @Param("pageSize")Integer pageSize);
+    List selectEmployeeByPage(@Param("employeeKeyword")String employeeKeyword,@Param("index")Integer index, @Param("pageSize")Integer pageSize);
 
-    Integer selectEmployeeCount();
+    /**
+     * 根据关键词查询统计页数
+     * @param employeeKeyword
+     * @return
+     */
+    Integer selectEmployeeCount(@Param("employeeKeyword")String employeeKeyword);
 }

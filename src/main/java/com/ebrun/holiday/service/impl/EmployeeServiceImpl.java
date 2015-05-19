@@ -44,16 +44,24 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public List getEmployeeListByPage(Integer pageNumber, Integer pageSize) {
+    public List getEmployeeListByPage(String employeeKeyword,Integer pageNumber, Integer pageSize) {
         pageSize = Constant.DEFAULT_PAGE_SIZE;
-        List employeeList = employeeMapper.selectEmployeeByPage(pageNumber,pageSize);
+        Integer index = (pageNumber-1)*10;
+        List employeeList = employeeMapper.selectEmployeeByPage(employeeKeyword,index,pageSize);
         return employeeList;
     }
 
     @Override
-    public Integer getEmployeeListPageCount() {
-        Integer integer = employeeMapper.selectEmployeeCount();
-        Integer pageCount = integer/10+1;
+    public Integer getEmployeeListPageCount(String employeeKeyword) {
+        Integer integer = employeeMapper.selectEmployeeCount(employeeKeyword);
+        Integer pageCount;
+        if(integer==0){
+            pageCount=1;
+        }else if(integer%10==0){
+             pageCount = integer/10;
+        }else{
+             pageCount = integer/10+1;
+        }
         return pageCount;
     }
 }

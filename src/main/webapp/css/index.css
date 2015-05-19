@@ -25,3 +25,12 @@ html,body {
 #loginForm {
 	display:none
 }
+#datepicker{
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+    text-align:center;
+    width:180px;
+}

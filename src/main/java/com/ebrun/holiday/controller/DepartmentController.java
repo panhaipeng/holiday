@@ -55,7 +55,7 @@ public class DepartmentController {
             Integer employeeId = employeeService.getEmployeeIdByHttpSession(httpSession);
             departmentNumber = departmentService.getDepartmentNumberByDepartmentLeader(employeeId);
         }
-        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber2(departmentNumber);
+        Map<String, Object> map = departmentService.selectSubordinateDepartmentsBySuperDepartmentNumber(departmentNumber);
         return map;
     }
 

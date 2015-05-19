@@ -34,10 +34,13 @@ public class EmployeeController {
 
     @RequestMapping(value = "/showEmployeeListByPage",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> showEmployeeListByPage(@RequestParam("pageNumber") Integer pageNumber,@RequestParam("pageSize")Integer pageSize){
+    public Map<String,Object> showEmployeeListByPage(@RequestParam("employeeKeyword")String employeeKeyword,
+                                                     @RequestParam("pageNumber") Integer pageNumber,
+                                                     @RequestParam("pageSize")Integer pageSize){
         Map<String,Object>map =new HashMap();
-        Integer pageCount = employeeService.getEmployeeListPageCount();
-        List employeeList = employeeService.getEmployeeListByPage(pageNumber,pageSize);
+        Integer pageCount = employeeService.getEmployeeListPageCount(employeeKeyword);
+        List employeeList = employeeService.getEmployeeListByPage(employeeKeyword,pageNumber,pageSize);
+        map.put("employeeKeyword",employeeKeyword);
         map.put("employeeList",employeeList);
         map.put("pageNumber",pageNumber);
         map.put("pageCount",pageCount);

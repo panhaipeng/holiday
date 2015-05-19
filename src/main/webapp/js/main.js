@@ -25,6 +25,20 @@ $(function () {
         label: "删除"
     });
 
+    $("#showEntryDateButton").button({
+        label: "日历"
+    });
+    $("#showLeaveDateButton").button({
+        label: "日历"
+    });
+
+    $("#chooseDepartmentButton").button({
+        label: "选择"
+    });
+    $("#changeIfAdministration").button({
+        label: "变更"
+    });
+    
     $("#logout").click(function () {
         $.ajax({
             type: "GET",
@@ -97,17 +111,6 @@ $(function () {
             },
 
             buttons: {
-                /*
-                 "input": function () {
-                 showDepartmentInput()
-                 },
-                 "show": function () {
-                 showDepartmentList()
-                 },
-                 "hide": function () {
-                 hideDepartmentList()
-                 },
-                 */
                 "close": function () {
                     $(this).dialog("close");
                 }
@@ -143,7 +146,7 @@ $(function () {
                 $(".span1,.span2,.span3,.span4").hide();
                 $(".departmentLi").hover(function () {
                     $(this).children(".departmentUl").show();
-                    $(this).siblings(".departmentLi").children(".departmentUl").hide();
+                    $(this).parent().parent().siblings(".departmentLi").children(".departmentUl").hide();
                 });
 
                 $(".departmentNameLiA").click(function (event) {
@@ -254,10 +257,10 @@ $(function () {
         $("#inputDepartment").show();
     };
     /*
-    function showDepartmentButton() {
-        $("#departmentButton").show();
-    };
-    */
+     function showDepartmentButton() {
+     $("#departmentButton").show();
+     };
+     */
     //function hideDepartmentButton(){
     //    $("#departmentButton").hide();
     //};
@@ -321,7 +324,7 @@ $(function () {
                                 hideInsertDepartmentButton();
                             }
                         }
-                    })
+                    });
                 }
             }
         });
@@ -412,14 +415,16 @@ $(function () {
     });
 
     $("#employeeDiv").click(function () {
-        showEmployeeListByPage();
+        employeeKeyword = "";
+        pageNumber = 1;
+        showEmployeeListByPage(employeeKeyword, pageNumber);
         $("#employeeDialog").dialog({
             autoOpen: true,
             minWidth: 1000,
             minHeight: 600,
             maxWidth: 1280,
             maxHeight: 600,
-            title: "员工管理：第"+(pageNumber+1)+"|"+pageCount+"页",
+            title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -431,22 +436,42 @@ $(function () {
 
             buttons: {
                 "首页": function () {
-                    //$(this).dialog("close");
+                    pageNumber = 1;
+                    showEmployeeListByPage(employeeKeyword, pageNumber);
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
                 },
                 "前页": function () {
-                    //$(this).dialog("close");
+                    pageNumber = pageNumber - 1;
+                    if (pageNumber < 1) {
+                        pageNumber = 1;
+                    }
+                    showEmployeeListByPage(employeeKeyword, pageNumber);
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
                 },
                 "后页": function () {
-                    //$(this).dialog("close");
+                    pageNumber = pageNumber + 1;
+                    if (pageNumber > pageCount) {
+                        pageNumber = pageCount;
+                    }
+                    showEmployeeListByPage(employeeKeyword, pageNumber);
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
                 },
                 "末页": function () {
-                    //$(this).dialog("close");
+                    pageNumber = pageCount;
+                    showEmployeeListByPage(employeeKeyword, pageNumber);
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
                 },
                 "查找": function () {
-                    //$(this).dialog("close");
+                    searchEmployeeListDialog();
+                },
+                "重置": function () {
+                    employeeKeyword = $("#searchEmployeeListKeyword").val();
+                    pageNumber = 1;
+                    showEmployeeListByPage(employeeKeyword, pageNumber);
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
                 },
                 "添加": function () {
-                    //$(this).dialog("close");
+                    inputEmployeeDialog();
                 },
                 "close": function () {
                     $(this).dialog("close");
@@ -454,61 +479,257 @@ $(function () {
             }
         })
     });
+    function searchEmployeeListDialog() {
+        $("#searchEmployeeListDialog").dialog({
+            autoOpen: true,
+            minWidth: 300,
+            minHeight: 200,
+            maxWidth: 300,
+            maxHeight: 200,
+            title: "关键词：号码|姓名|邮箱|日期|部门",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
 
+            buttons: {
+                "搜索": function () {
+                    employeeKeyword = $("#searchEmployeeListKeyword").val();
+                    pageNumber = 1;
+                    showEmployeeListByPage(employeeKeyword, pageNumber);
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
+                    $("#searchEmployeeListKeyword").val("");
+                    $(this).dialog("close");
+                },
+                "close": function () {
+                    $("#searchEmployeeListKeyword").val("");
+                    $(this).dialog("close");
+                }
+            }
+        })
+    }
 
+    var employeeKeyword;
     var pageNumber;
     var pageCount;
-    function showEmployeeListByPage(){
-        pageNumber = $("#pageNumber").val();
+
+    function showEmployeeListByPage(employeeKeyword, pageNumber) {
+        //pageNumber = $("#pageNumber").val();
         $.ajax({
             type: "GET",
             url: "showEmployeeListByPage",
-            data: {pageNumber: pageNumber, pageSize :10},
+            data: {employeeKeyword: employeeKeyword, pageNumber: pageNumber, pageSize: 10},
+            cache: false,
             async: false,
             success: function (data) {
-                $("#pageNumber").val(data.pageNumber);
+                employeeKeyword = data.employeeKeyword;
+                $("#employeeKeyword").val(employeeKeyword);
                 pageNumber = data.pageNumber;
-                $("#pageCount").val(data.pageCount);
+                $("#pageNumber").val(pageNumber);
                 pageCount = data.pageCount;
-                $(data.employeeList).each(function(index,employee){
-                   // alert(employee.name);
-                    var trTd  ="<tr>" +
-                        "<td class='tdEmployeeNumber'>"+employee.employee_number+"</td>" +
-                        "<td class='tdEmployeeName'>"+employee.name+"</td>" +
-                        "<td class='tdEmployeeEmail'>"+employee.email+"</td>" +
-                        "<td class='tdEmployeeEntryDate'>"+"entry"+"</td>" +
-                        "<td class='tdEmployeeDepartment'>"+employee.department_name+"</td>" +
-                        "<td class='tdEmployeeIfAdministration'>"+employee.if_administration+"</td>" +
+                $("#pageCount").val(pageCount);
+                var trTh = "<tr> " +
+                    "<th class='tdEmployeeNumber'>号码</th> " +
+                    "<th class='tdEmployeeName'>员工姓名</th> " +
+                    "<th class='tdEmployeeEmail'>Email</th> " +
+                    "<th class='tdEmployeeEntryDate'>入职日期</th> " +
+                    "<th class='tdEmployeeDepartment'>所属部门</th> " +
+                    "<th class='tdEmployeeIfAdministration'>管理</th> " +
+                    "<th class='tdEmployeeDo'>操&nbsp;&nbsp;&nbsp;&nbsp;作</th> " +
+                    "</tr>";
+                var trTd = "";
+                $(data.employeeList).each(function (index, employee) {
+                    // alert(employee.name);
+                    var entryDate = new Date(employee.entry_date);
+                    //alert(entryDate);
+                    trTd += "<tr>" +
+                        "<td class='tdEmployeeNumber'>" + employee.employee_number + "</td>" +
+                        "<td class='tdEmployeeName'>" + employee.name + "</td>" +
+                        "<td class='tdEmployeeEmail'>" + employee.email + "</td>" +
+                        "<td class='tdEmployeeEntryDate'>" + entryDate.format("yyyy-MM-dd") + "</td>" +
+                        "<td class='tdEmployeeDepartment'>" + employee.department_name + "</td>" +
+                        "<td class='tdEmployeeIfAdministration'>" + employee.if_administration + "</td>" +
                         "<td class='tdEmployeeDo'><input class='updateEmployeeButton' type='button' value='修改'>" +
                         "<input class='deleteEmployeeButton' type='button' value='删除'></td>" +
                         "</tr>";
-                    $("#employeeTable").append(trTd);
-                    $(".updateEmployeeButton").button({
-                        label:"修改"
-                    });
-                    $(".deleteEmployeeButton").button({
-                        label:"删除"
-                    });
+                });
+                $("#employeeTable").html("");
+                $("#employeeTable").append(trTh);
+                $("#employeeTable").append(trTd);
+
+                $("#employeeTable tr .tdEmployeeNumber").css({
+                    width: "60px"
+                });
+                $("#employeeTable tr .tdEmployeeName").css({
+                    width: "100px"
+                });
+                $("#employeeTable tr .tdEmployeeEmail").css({
+                    width: "240px"
+                });
+                $("#employeeTable tr .tdEmployeeEntryDate").css({
+                    width: "120px"
+                });
+                $("#employeeTable tr .tdEmployeeDepartment").css({
+                    width: "140px"
+                });
+                $("#employeeTable tr .tdEmployeeIfAdministration").css({
+                    width: "60px"
+                });
+                $("#employeeTable tr .tdEmployeeDo").css({
+                    width: "auto"
+                });
+
+                $(".updateEmployeeButton").button({
+                    label: "修改"
+                });
+                $(".deleteEmployeeButton").button({
+                    label: "删除"
                 });
             }
         });
     }
 
+    function inputEmployeeDialog() {
+        $("#inputEmployeeDialog").dialog({
+            autoOpen: true,
+            minWidth: 360,
+            minHeight: 600,
+            maxWidth: 360,
+            maxHeight: 600,
+            title: "填写员工信息：",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
 
+            buttons: {
+                "添加": function () {
+                    $(this).dialog("close");
+                },
+                "close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        })
+    }
+    
+    $("#showEntryDateButton").click(function(){
+        $("#inputEmployeeEntryDate").focus();
+    });
+    $("#showLeaveDateButton").click(function(){
+        $("#inputEmployeeLeaveDate").focus();
+    });
+    
+    $("#inputEmployeeEntryDate").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        minDate: "2007-01-01",
+        maxDate: "+0D",
+        //showOn: "button",
+        showOn:"focus",
+        //showOn: "both",
+        //buttonText: "日历",
+        //buttonImage: "imgs/calendar.png",
+        //buttonImageOnly: true
+    });
+    $("#inputEmployeeLeaveDate").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        minDate: "2007-01-01",
+        maxDate: "+0D",
+        //showOn: "button",
+        showOn:"focus",
+        //showOn: "both",
+        //buttonText: "日历",
+        //buttonImage: "imgs/calendar.png",
+        //buttonImageOnly: true
+    });
 
+    $("#chooseDepartmentButton").click(function () {
+        listDepartment();
+        $("#chooseDepartmentDialog").dialog({
+            autoOpen: true,
+            minWidth: 420,
+            minHeight: 600,
+            maxWidth: 420,
+            maxHeight: 600,
+            title: "请选择部门：",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
 
+            buttons: {
+                "close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        })
+    });
 
-
-
-
-
-
-
-
-
-
-
-
+    $("#changeIfAdministration").click(function(){
+        if($("#inputEmployeeIfAdministration").val()=="NO"){
+            $("#inputEmployeeIfAdministration").val("YES");
+        }else{
+            $("#inputEmployeeIfAdministration").val("NO");
+        }
+    });
+    
+    function listDepartment() {
+        var tree = "";
+        $.ajax({
+            type: "GET",
+            url: "showDepartmentByAdministration?time=" + new Date().getTime(),
+            cache: false,
+            async: false,
+            success: function (data) {
+                tree = listDepartmentTree(data);
+                $("#listDepartmentTree").html(tree);
+                $("#listDepartmentTree").show();
+                $(".departmentUl").hide();
+                $("li").css({"list-style": "none"});
+                $("ul").css({"margin-left": "20px"});
+                $(".span1").hide();
+                $(".departmentLi").hover(function () {
+                    $(this).children(".departmentUl").show();
+                    $(this).siblings(".departmentLi").children().children().children(".departmentUl").hide();
+                    $(this).parent().parent().parent().parent().siblings(".departmentLi").children(".departmentUl").hide();
+                });
+                $(".departmentNameLiA").click(function(){
+                    $("#inputEmployeeDepartmentName").val($(this).text());
+                    $("#chooseDepartmentDialog").dialog("close");
+                });
+            }
+        });
+        function listDepartmentTree(data) {
+            var tree1 = "";
+            $.each(data, function (key, value) {
+                //alert(value.subordinateDepartment);
+                if (typeof (value.subordinateDepartment) == "object") {
+                    tree1 += "<li class='departmentLi'><a href='#' class='departmentNameLiA'>" + value.departmentName + "</a>" +
+                        "<span  class='span1'>" + value.id + "</span>" +
+                        "<ul class='departmentUl'>" + listDepartmentTree(value.subordinateDepartment) + "</ul></li>"
+                } else {
+                    tree1 += "<li class='departmentLi'><a href='#' class='departmentNameLiA'>" + value.departmentName + "</a>" +
+                        "<span  class='span1'>" + value.id + "</span></li>"
+                }
+            });
+            //alert(tree);
+            return tree1;
+        }
+    }
 
 
     $("#holidayDiv").click(function () {
@@ -561,3 +782,31 @@ $(function () {
     });
 
 });
+/**
+ * 时间对象的格式化
+ */
+Date.prototype.format = function (format) {
+    /* 
+     * format="yyyy-MM-dd hh:mm:ss"; 
+     */
+    var o = {
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "h+": this.getHours(),
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
+        "q+": Math.floor((this.getMonth() + 3) / 3),
+        "S": this.getMilliseconds()
+    };
+
+    if (/(y+)/.test(format)) {
+        format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    }
+
+    for (var k in o) {
+        if (new RegExp("(" + k + ")").test(format)) {
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+        }
+    }
+    return format;
+}

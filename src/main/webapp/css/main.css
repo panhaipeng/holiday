@@ -53,9 +53,11 @@ html, body {
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
-#departmentDialogContent{
+
+#departmentDialogContent {
     float: left;
 }
+
 #employeeDialog {
     display: none;
     background-image: url(../imgs/picture05.jpg);
@@ -85,31 +87,36 @@ html, body {
     font-weight: bold;
     margin: 10px 10px;
 }
+
 #departmentList {
     display: none;
     width: 420px;
     float: left;
     margin: 50px 0px 0px 20px;
 }
+
 #inputDepartment {
     display: none;
     width: 320px;
     float: left;
     margin: 100px 0px 0px 20px;
 }
-#departmentButton{
+
+#departmentButton {
     width: 120px;
     float: left;
     margin: 100px 0px 0px 20px;
 }
-#departmentList a{
+
+#departmentList a {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
     color: #0073ea;
     /*color: #ff0084;*/
     font-weight: bold;
+    text-decoration: none;
 }
-#departmentList a{text-decoration: none;}
+
 #departmentList a:hover {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
@@ -117,30 +124,48 @@ html, body {
     color: #ff0084;
     font-weight: bold;
 }
-#inputDepartment span{
+
+#inputDepartment span, #inputEmployeeDialog span {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
     /*color: #0073ea;*/
     color: #ff0084;
     font-weight: bold;
 }
+
+#inputDepartment input, #inputDepartment textarea {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    color: #0073ea;
+    /*color: #ff0084;*/
+    font-weight: bold;
+    text-align: center;
+    width: 208px;
+}
+
 /**/
-#inputDepartmentId,#inputDepartmentLeader,#inputSuperiorDepartmentNumber{
+#inputDepartmentId, #inputDepartmentLeader, #inputSuperiorDepartmentNumber {
     display: none;
 }
 
-#insertDepartmentButton,#updateDepartmentButton, #deleteDepartmentButton{
-    margin:20px 0px 20px 0px;
+#insertDepartmentButton, #updateDepartmentButton, #deleteDepartmentButton {
+    margin: 20px 0px 20px 0px;
 }
 
-#employeeTableDiv{
+#employeeTableDiv {
     height: 440px;
     width: 900px;
     margin: 0px auto;
     /*border: 1px solid green;*/
 }
 
-#employeeTable tr th{
+#employeeTable {
+    table-layout: fixed;
+    /**/
+    width: 900px;
+}
+
+#employeeTable tr th {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.2em;
     /*color: #0073ea;*/
@@ -148,38 +173,101 @@ html, body {
     font-weight: bold;
     text-align: center;
 }
-#employeeTable tr td{
+
+#employeeTable tr td {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
     /*color: #0073ea;*/
     /*color: #ff0084;*/
     font-weight: bold;
     text-align: center;
+
+    white-space: nowrap;
+    /* */
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
-#employeeTable tr:hover{
+
+#employeeTable tr:hover {
     color: #ff0084;
 }
-#employeeTable tr .tdEmployeeNumber{
+
+#employeeTable tr .tdEmployeeNumber {
     width: 60px;
+    padding: 0px;
 }
-#employeeTable tr .tdEmployeeName{
+
+#employeeTable tr .tdEmployeeName {
     width: 100px;
 }
-#employeeTable tr .tdEmployeeEmail{
+
+#employeeTable tr .tdEmployeeEmail {
     width: 240px;
 }
-#employeeTable tr .tdEmployeeEntryDate{
+
+#employeeTable tr .tdEmployeeEntryDate {
     width: 120px;
 }
-#employeeTable tr .tdEmployeeDepartment{
+
+#employeeTable tr .tdEmployeeDepartment {
     width: 140px;
 }
-#employeeTable tr .tdEmployeeIfAdministration{
+
+#employeeTable tr .tdEmployeeIfAdministration {
     width: 60px;
 }
-#employeeTable tr .tdEmployeeDo{
+
+#employeeTable tr .tdEmployeeDo {
     width: auto;
 }
-#pageNumber,#pageCount{
+
+#pageNumber, #pageCount, #employeeKeyword {
+    display: none;
+}
+
+#reminderDialog, #searchEmployeeListDialog, #inputEmployeeDialog {
+    display: none;
+}
+
+#searchEmployeeListKeyword {
+    margin: 10px 20px 10px 20px;
+}
+
+
+#inputEmployeeEntryDate, #inputEmployeeLeaveDate {
+    width: 150px;
+    margin: 0px 16px 0px 0px;
+}
+
+#inputEmployeeDepartmentName,#inputEmployeeIfAdministration{
+    width: 150px;
+}
+
+#inputEmployeeRemark {
+    width: 208px;
+}
+#chooseDepartmentDialog{
+    display: none;
+}
+#inputEmployeeNumber,#inputEmployeeName,#inputEmployeeEmail,#inputEmployeePassword,#inputEmployeeEntryDate,#inputEmployeeLeaveDate,
+#inputEmployeeDepartmentName,#inputEmployeeIfAdministration,#inputEmployeeRemark{
+    margin: 10px 0px 10px 0px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    color: #0073ea;
+    /*color: #ff0084;*/
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+}
+#chooseDepartmentDialog a{
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+    text-decoration: none;
+}
+#listDepartmentTree{
     display: none;
 }

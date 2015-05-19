@@ -61,7 +61,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 
     @Override
-    public Map<String, Object> selectSubordinateDepartmentsBySuperDepartmentNumber2(String superDepartmentNumber) {
+    public Map<String, Object> selectSubordinateDepartmentsBySuperDepartmentNumber(String superDepartmentNumber) {
         if(superDepartmentNumber==null){
             return null;
         }
@@ -80,7 +80,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                     map1.put("departmentLeader",department.get("department_leader"));
                     map1.put("remark",department.get("remark"));
                     map1.put("departmentLeaderName",department.get("department_leader_name"));
-                    Map<String, Object> childMap = selectSubordinateDepartmentsBySuperDepartmentNumber2(departmentNumber);
+                    Map<String, Object> childMap = selectSubordinateDepartmentsBySuperDepartmentNumber(departmentNumber);
                     if (childMap != null && childMap.size() > 0) {
                         map1.put(Constant.SUBORDINATE_DEPARTMENT_FLAG, childMap);
                     }

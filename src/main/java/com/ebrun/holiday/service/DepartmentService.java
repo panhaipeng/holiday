@@ -23,7 +23,7 @@ public interface DepartmentService {
      */
     public String getDepartmentNumberByDepartmentLeader(Integer departmentLeaderId);
 
-    public Map<String,Object> selectSubordinateDepartmentsBySuperDepartmentNumber2(String superDepartmentNumber);
+    public Map<String,Object> selectSubordinateDepartmentsBySuperDepartmentNumber(String superDepartmentNumber);
 
     /**
      * 添加一个部门
