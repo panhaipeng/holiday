@@ -20,7 +20,9 @@ $(function () {
     $("#main").button({
         label: "主页"
     });
-
+    $("#datepickerButton").button({
+        label: "日历"
+    });
     $("#logout").click(function () {
         $.ajax({
             type: "GET",
@@ -74,16 +76,19 @@ $(function () {
 
         })
     });
-
+    $("#datepicker").blur();
+    $("#datepickerButton").click(function () {
+        $("#datepicker").focus();
+    });
     $("#datepicker").datepicker({
         changeMonth: true,
         changeYear: true,
         minDate: "2007-01-01",
         maxDate: "+0D",
         //showOn: "button",
-        //showOn:"focus",
-        showOn: "both",
-        buttonText: "日历",
+        showOn: "focus",
+        //showOn: "both",
+        //buttonText: "日历",
         //buttonImage: "imgs/calendar.png",
         //buttonImageOnly: true
     });

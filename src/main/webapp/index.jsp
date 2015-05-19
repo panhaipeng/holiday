@@ -25,14 +25,14 @@
 		<c:if test="${sessionScope.employee!=null}">
 			<a id="main" href="main">首页</a>
 			<input id="logout" type="button"/>
-			<p>&nbsp;&nbsp;(=^ ^=)&nbsp;&nbsp;欢迎：<c:out value="${ sessionScope.employee.name}"></c:out></p>
+			<p>&nbsp;&nbsp;(=^ ^=)&nbsp;&nbsp;你好：<c:out value="${ sessionScope.employee.name}"></c:out></p>
 		</c:if>
 		<div id="loginForm">
 			Email:<br/><input type="text" id="email" name="email"/><br/>
 			Password:<br/><input type="password" id="password" name="password"/><br/>
 		</div>
 		<div id="dateDialog">
-			点选入职日期：Date of entry<br/><br/><input type="text" id="datepicker" readonly="readonly"/>
+			点选入职日期：Date of entry<br/><br/><input type="text" id="datepicker" readonly="readonly"/><input id="datepickerButton" type="button"/>
 		</div>
 		<div id="resultDialog">
 			<p id="resultText"></p>

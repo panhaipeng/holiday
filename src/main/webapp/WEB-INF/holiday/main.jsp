@@ -83,13 +83,16 @@
         <input type="text" id="searchEmployeeListKeyword">
     </div>
     <div id="inputEmployeeDialog">
+        <span id="inputEmployeeId"></span>
         <span>号码：</span><input id="inputEmployeeNumber" type="text"/><br/>
         <span>姓名：</span><input id="inputEmployeeName" type="text"/><br/>
         <span>邮箱：</span><input id="inputEmployeeEmail" type="text"/><br/>
         <span>密码：</span><input id="inputEmployeePassword" type="text"/><br/>
         <span>入职：</span><input id="inputEmployeeEntryDate" type="text" readonly="readonly"/><input type="button" id="showEntryDateButton"><br/>
         <span>离职：</span><input id="inputEmployeeLeaveDate" type="text" readonly="readonly"/><input type="button" id="showLeaveDateButton"><br/>
+        <span id="inputEmployeeDepartmentId"></span>
         <span>部门：</span><input id="inputEmployeeDepartmentName" type="text" readonly="readonly"/><input type="button" id="chooseDepartmentButton"><br/>
+        <span id="inputEmployeeIfAdministrationValue"></span>
         <span>管理：</span><input id="inputEmployeeIfAdministration" type="text" readonly="readonly" value="NO"/><input type="button" id="changeIfAdministration"><br/>
         <span>备注：</span><textarea id="inputEmployeeRemark" ></textarea>
     </div>

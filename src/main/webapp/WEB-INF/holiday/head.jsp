@@ -15,5 +15,5 @@
     <a id="index" href="index.jsp">欢迎</a>
     <a id="main" href="main">主页</a>
     <input id="logout" type="button"/>
-    <p>&nbsp;&nbsp;(=^ ^=)&nbsp;&nbsp;欢迎：<c:out value="${ sessionScope.employee.name}"></c:out></p>
+    <p>&nbsp;&nbsp;(=^ ^=)&nbsp;&nbsp;你好：<c:out value="${ sessionScope.employee.name}"></c:out></p>
 </c:if>

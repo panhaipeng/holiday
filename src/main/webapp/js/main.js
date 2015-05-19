@@ -545,6 +545,7 @@ $(function () {
                 $(data.employeeList).each(function (index, employee) {
                     // alert(employee.name);
                     var entryDate = new Date(employee.entry_date);
+                    var leaveDate = new Date(employee.leave_date);
                     //alert(entryDate);
                     trTd += "<tr>" +
                         "<td class='tdEmployeeNumber'>" + employee.employee_number + "</td>" +
@@ -554,12 +555,19 @@ $(function () {
                         "<td class='tdEmployeeDepartment'>" + employee.department_name + "</td>" +
                         "<td class='tdEmployeeIfAdministration'>" + employee.if_administration + "</td>" +
                         "<td class='tdEmployeeDo'><input class='updateEmployeeButton' type='button' value='修改'>" +
-                        "<input class='deleteEmployeeButton' type='button' value='删除'></td>" +
+                        "<input class='deleteEmployeeButton' type='button' value='删除'>" +
+                        "<span class='spanId'>"+employee.id+"</span>" +
+                        "<span class='spanPassword'>"+employee.password+"</span>" +
+                        "<span class='spanleaveDate'>"+leaveDate.format("yyyy-MM-dd")+"</span>" +
+                        "<span class='spanDepartmentId'>"+employee.department_id+"</span>" +
+                        "<span class='spanRemark'>"+employee.remark+"</span></td>" +
                         "</tr>";
                 });
                 $("#employeeTable").html("");
                 $("#employeeTable").append(trTh);
                 $("#employeeTable").append(trTd);
+
+                $(".spanId,.spanPassword,.spanleaveDate,.spanDepartmentId,.spanRemark").hide();
 
                 $("#employeeTable tr .tdEmployeeNumber").css({
                     width: "60px"
@@ -594,6 +602,7 @@ $(function () {
     }
 
     function inputEmployeeDialog() {
+        $("#inputEmployeeIfAdministrationValue").val(0);
         $("#inputEmployeeDialog").dialog({
             autoOpen: true,
             minWidth: 360,
@@ -612,7 +621,8 @@ $(function () {
 
             buttons: {
                 "添加": function () {
-                    $(this).dialog("close");
+                    insertEmployee();
+                    //$(this).dialog("close");
                 },
                 "close": function () {
                     $(this).dialog("close");
@@ -620,7 +630,70 @@ $(function () {
             }
         })
     }
-    
+
+    function insertEmployee(){
+        var inputEmployeeNumber = $("#inputEmployeeNumber").val();
+        var inputEmployeeName = $("#inputEmployeeName").val();
+        var inputEmployeeEmail = $("#inputEmployeeEmail").val();
+        var inputEmployeePassword = $("#inputEmployeePassword").val();
+        var inputEmployeeEntryDate = $("#inputEmployeeEntryDate").val();
+        var inputEmployeeLeaveDate = $("#inputEmployeeLeaveDate").val();
+        var inputEmployeeDepartmentId = $("#inputEmployeeDepartmentId").val();
+        var inputEmployeeIfAdministrationValue = $("#inputEmployeeIfAdministrationValue").val();
+        var inputEmployeeRemark = $("#inputEmployeeRemark").val();
+        alert(inputEmployeeNumber+","+inputEmployeeName+","+inputEmployeeEmail+","+
+            inputEmployeePassword+","+inputEmployeeEntryDate+","+inputEmployeeLeaveDate+","+
+            inputEmployeeDepartmentId+","+inputEmployeeIfAdministrationValue+","+inputEmployeeRemark
+        );
+        /*
+        $.ajax({
+            type: "POST",
+            url: "insertDepartment",
+            data: {
+                inputEmployeeNumber:inputEmployeeNumber,
+                inputEmployeeName:inputEmployeeName,
+                inputEmployeeEmail:inputEmployeeEmail,
+                inputEmployeePassword:inputEmployeePassword,
+                inputEmployeeEntryDate:inputEmployeeEntryDate,
+                inputEmployeeLeaveDate:inputEmployeeLeaveDate,
+                inputEmployeeDepartmentId:inputEmployeeDepartmentId,
+                inputEmployeeIfAdministrationValue:inputEmployeeIfAdministrationValue,
+                inputEmployeeRemark:inputEmployeeRemark
+            },
+            success: function (data) {
+                if (data.insert == "success") {
+                    $("#reminderDialog p").text("添加成功！");
+                    $("#reminderDialog").dialog({
+                        autoOpen: true,
+                        minWidth: 300,
+                        minHeight: 200,
+                        maxWidth: 300,
+                        maxHeight: 200,
+                        title: "提示：",
+                        show: {
+                            effect: "bounce",
+                            duration: 500
+                        },
+                        hide: {
+                            effect: "explode",
+                            duration: 1000
+                        },
+
+                        buttons: {
+                            "close": function () {
+                                $(this).dialog("close");
+                                //showDepartmentList();
+                                //showDepartmentInput();
+                                //hideInsertDepartmentButton();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        */
+    }
+
     $("#showEntryDateButton").click(function(){
         $("#inputEmployeeEntryDate").focus();
     });
@@ -682,8 +755,10 @@ $(function () {
     $("#changeIfAdministration").click(function(){
         if($("#inputEmployeeIfAdministration").val()=="NO"){
             $("#inputEmployeeIfAdministration").val("YES");
+            $("#inputEmployeeIfAdministrationValue").val(1);
         }else{
             $("#inputEmployeeIfAdministration").val("NO");
+            $("#inputEmployeeIfAdministrationValue").val(0);
         }
     });
     
@@ -709,6 +784,9 @@ $(function () {
                 });
                 $(".departmentNameLiA").click(function(){
                     $("#inputEmployeeDepartmentName").val($(this).text());
+                    //$("#inputEmployeeDepartmentId").val($(this).sibling(".span1").text());
+                    var inputEmployeeDepartmentId = $(this).next(".span1").text();
+                    $("#inputEmployeeDepartmentId").val(inputEmployeeDepartmentId);
                     $("#chooseDepartmentDialog").dialog("close");
                 });
             }
