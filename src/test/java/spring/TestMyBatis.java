@@ -5,6 +5,7 @@ import com.ebrun.holiday.model.Department;
 import com.ebrun.holiday.model.Employee;
 import com.ebrun.holiday.service.DepartmentService;
 import com.ebrun.holiday.service.EmployeeService;
+import com.ebrun.holiday.service.HolidayService;
 import com.ebrun.holiday.util.Constant;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -14,6 +15,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +48,16 @@ public class TestMyBatis {
     @Autowired
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
+    }
+
+    private HolidayService holidayService;
+
+    public HolidayService getHolidayService() {
+        return holidayService;
+    }
+    @Autowired
+    public void setHolidayService(HolidayService holidayService) {
+        this.holidayService = holidayService;
     }
 
     @Test
@@ -97,5 +111,35 @@ public class TestMyBatis {
     public void test13(){
         Integer pageCount = employeeService.getEmployeeListPageCount("20131");
         LOGGER.info(pageCount);
+    }
+    @Test
+    public void test14(){
+        employeeService.insertEmployee("104","A04","A04@ebrun.com","123","2014-04-04",null,16,0,"我是来打酱油的！");
+    }
+    @Test
+    public void test15(){
+        SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_FORMAT_YMD);
+        Date date= null;
+        try {
+            date = sdf.parse("2014-12-12");
+        } catch (ParseException e) {
+            e.printStackTrace();
+            LOGGER.error("日期字符串转换Date错误：", e);
+        }
+        Integer holidays = holidayService.calculateHolidaysByEntryDate(date);
+        LOGGER.info(holidays);
+    }
+    @Test
+    public void test16(){
+        SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_FORMAT_YMD);
+        Date date= null;
+        try {
+            date = sdf.parse("2009-02-12");
+        } catch (ParseException e) {
+            e.printStackTrace();
+            LOGGER.error("日期字符串转换Date错误：", e);
+        }
+        Map<String,Integer> map = holidayService.calculateHolidaysMap(date);
+        LOGGER.info(JSON.toJSONString(map));
     }
 }

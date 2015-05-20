@@ -9,7 +9,7 @@ public class Holiday {
 
     private String fiscalYear;
 
-    private BigDecimal holidays;
+    private Integer holidays;
 
     private BigDecimal vacation;
 
@@ -39,11 +39,11 @@ public class Holiday {
         this.fiscalYear = fiscalYear == null ? null : fiscalYear.trim();
     }
 
-    public BigDecimal getHolidays() {
+    public Integer getHolidays() {
         return holidays;
     }
 
-    public void setHolidays(BigDecimal holidays) {
+    public void setHolidays(Integer holidays) {
         this.holidays = holidays;
     }
 

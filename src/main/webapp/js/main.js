@@ -641,14 +641,14 @@ $(function () {
         var inputEmployeeDepartmentId = $("#inputEmployeeDepartmentId").val();
         var inputEmployeeIfAdministrationValue = $("#inputEmployeeIfAdministrationValue").val();
         var inputEmployeeRemark = $("#inputEmployeeRemark").val();
-        alert(inputEmployeeNumber+","+inputEmployeeName+","+inputEmployeeEmail+","+
-            inputEmployeePassword+","+inputEmployeeEntryDate+","+inputEmployeeLeaveDate+","+
-            inputEmployeeDepartmentId+","+inputEmployeeIfAdministrationValue+","+inputEmployeeRemark
-        );
-        /*
+        //alert(inputEmployeeNumber+","+inputEmployeeName+","+inputEmployeeEmail+","+
+        //    inputEmployeePassword+","+inputEmployeeEntryDate+","+inputEmployeeLeaveDate+","+
+        //    inputEmployeeDepartmentId+","+inputEmployeeIfAdministrationValue+","+inputEmployeeRemark
+        //);
+        
         $.ajax({
             type: "POST",
-            url: "insertDepartment",
+            url: "insertEmployee",
             data: {
                 inputEmployeeNumber:inputEmployeeNumber,
                 inputEmployeeName:inputEmployeeName,
@@ -681,17 +681,20 @@ $(function () {
 
                         buttons: {
                             "close": function () {
+                                employeeKeyword = inputEmployeeName;
+                                pageNumber = 1;
+                                showEmployeeListByPage(employeeKeyword, pageNumber);
+                                $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
+                                //$("#searchEmployeeListKeyword").val("");
                                 $(this).dialog("close");
-                                //showDepartmentList();
-                                //showDepartmentInput();
-                                //hideInsertDepartmentButton();
+                                $("#inputEmployeeDialog").dialog("close");
                             }
                         }
                     });
                 }
             }
         });
-        */
+        
     }
 
     $("#showEntryDateButton").click(function(){
@@ -751,7 +754,9 @@ $(function () {
             }
         })
     });
-
+    
+    $("#inputEmployeeDepartmentId").val(1);
+    
     $("#changeIfAdministration").click(function(){
         if($("#inputEmployeeIfAdministration").val()=="NO"){
             $("#inputEmployeeIfAdministration").val("YES");

@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
     <result column="fiscal_year" property="fiscalYear" jdbcType="VARCHAR" />
-    <result column="holidays" property="holidays" jdbcType="DECIMAL" />
+    <result column="holidays" property="holidays" jdbcType="INTEGER" />
     <result column="vacation" property="vacation" jdbcType="DECIMAL" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
@@ -27,7 +27,7 @@
       holidays, vacation, remark
       )
     values (#{id,jdbcType=INTEGER}, #{employeeId,jdbcType=INTEGER}, #{fiscalYear,jdbcType=VARCHAR}, 
-      #{holidays,jdbcType=DECIMAL}, #{vacation,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}
+      #{holidays,jdbcType=INTEGER}, #{vacation,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.ebrun.holiday.model.Holiday" >
@@ -63,7 +63,7 @@
         #{fiscalYear,jdbcType=VARCHAR},
       </if>
       <if test="holidays != null" >
-        #{holidays,jdbcType=DECIMAL},
+        #{holidays,jdbcType=INTEGER},
       </if>
       <if test="vacation != null" >
         #{vacation,jdbcType=DECIMAL},
@@ -83,7 +83,7 @@
         fiscal_year = #{fiscalYear,jdbcType=VARCHAR},
       </if>
       <if test="holidays != null" >
-        holidays = #{holidays,jdbcType=DECIMAL},
+        holidays = #{holidays,jdbcType=INTEGER},
       </if>
       <if test="vacation != null" >
         vacation = #{vacation,jdbcType=DECIMAL},
@@ -98,7 +98,7 @@
     update holiday
     set employee_id = #{employeeId,jdbcType=INTEGER},
       fiscal_year = #{fiscalYear,jdbcType=VARCHAR},
-      holidays = #{holidays,jdbcType=DECIMAL},
+      holidays = #{holidays,jdbcType=INTEGER},
       vacation = #{vacation,jdbcType=DECIMAL},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

@@ -13,6 +13,7 @@ import java.util.List;
 public interface EmployeeService {
     /**
      * 根据 id 获取员工对象
+     *
      * @param id
      * @return
      */
@@ -20,6 +21,7 @@ public interface EmployeeService {
 
     /**
      * 根据 HttpSession 获取员工id
+     *
      * @param httpSession
      * @return
      */
@@ -27,11 +29,40 @@ public interface EmployeeService {
 
     /**
      * 分页查询员工列表
+     *
      * @param pageNumber
      * @param pageSize
      * @return
      */
-    public List getEmployeeListByPage(String employeeKeyword,Integer pageNumber,Integer pageSize);
+    public List getEmployeeListByPage(String employeeKeyword, Integer pageNumber, Integer pageSize);
 
+    /**
+     * 获取总页数
+     *
+     * @param employeeKeyword
+     * @return
+     */
     public Integer getEmployeeListPageCount(String employeeKeyword);
+
+    /**
+     * 添加一条员工信息
+     * @param inputEmployeeNumber
+     * @param inputEmployeeName
+     * @param inputEmployeeEmail
+     * @param inputEmployeePassword
+     * @param inputEmployeeEntryDate
+     * @param inputEmployeeLeaveDate
+     * @param inputEmployeeDepartmentId
+     * @param inputEmployeeIfAdministrationValue
+     * @param inputEmployeeRemark
+     */
+    public void insertEmployee(String inputEmployeeNumber, 
+                               String inputEmployeeName,
+                               String inputEmployeeEmail,
+                               String inputEmployeePassword,
+                               String inputEmployeeEntryDate,
+                               String inputEmployeeLeaveDate,
+                               Integer inputEmployeeDepartmentId,
+                               Integer inputEmployeeIfAdministrationValue,
+                               String inputEmployeeRemark);
 }
