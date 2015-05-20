@@ -65,4 +65,28 @@ public interface EmployeeService {
                                Integer inputEmployeeDepartmentId,
                                Integer inputEmployeeIfAdministrationValue,
                                String inputEmployeeRemark);
+
+    /**
+     * 修改一条员工记录
+     * @param inputEmployeeId
+     * @param inputEmployeeNumber
+     * @param inputEmployeeName
+     * @param inputEmployeeEmail
+     * @param inputEmployeePassword
+     * @param inputEmployeeEntryDate
+     * @param inputEmployeeLeaveDate
+     * @param inputEmployeeDepartmentId
+     * @param inputEmployeeIfAdministrationValue
+     * @param inputEmployeeRemark
+     */
+    public void updateEmployee(Integer inputEmployeeId,
+                               String inputEmployeeNumber,
+                               String inputEmployeeName,
+                               String inputEmployeeEmail,
+                               String inputEmployeePassword,
+                               String inputEmployeeEntryDate,
+                               String inputEmployeeLeaveDate,
+                               Integer inputEmployeeDepartmentId,
+                               Integer inputEmployeeIfAdministrationValue,
+                               String inputEmployeeRemark);
 }

@@ -83,7 +83,7 @@
         <input type="text" id="searchEmployeeListKeyword">
     </div>
     <div id="inputEmployeeDialog">
-        <span id="inputEmployeeId"></span>
+        <input id="inputEmployeeId"/>
         <span>号码：</span><input id="inputEmployeeNumber" type="text"/><br/>
         <span>姓名：</span><input id="inputEmployeeName" type="text"/><br/>
         <span>邮箱：</span><input id="inputEmployeeEmail" type="text"/><br/>

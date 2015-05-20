@@ -191,4 +191,86 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
         }
     }
+
+    @Override
+    public void updateEmployee(Integer inputEmployeeId, String inputEmployeeNumber, String inputEmployeeName, String inputEmployeeEmail, String inputEmployeePassword, String inputEmployeeEntryDate, String inputEmployeeLeaveDate, Integer inputEmployeeDepartmentId, Integer inputEmployeeIfAdministrationValue, String inputEmployeeRemark) {
+        Employee employee = new Employee();
+        Holiday holiday = new Holiday();
+        Date entryDate = null;
+
+        employee.setId(inputEmployeeId);
+
+        if (inputEmployeeNumber != null && inputEmployeeNumber.length() > 0) {
+            employee.setEmployeeNumber(inputEmployeeNumber);
+        }
+        if (inputEmployeeName != null && inputEmployeeName.length() > 0) {
+            employee.setName(inputEmployeeName);
+        }
+        if (inputEmployeeEmail != null && inputEmployeeEmail.length() > 0) {
+            employee.setEmail(inputEmployeeEmail);
+        }
+        if (inputEmployeePassword != null && inputEmployeePassword.length() > 0) {
+            employee.setPassword(inputEmployeePassword);
+        }
+        if (inputEmployeeEntryDate != null && inputEmployeeEntryDate.length() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_FORMAT_YMD);
+            //Date entryDate= null;
+            try {
+                entryDate = sdf.parse(inputEmployeeEntryDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                LOGGER.error("入职日期字符串转换Date错误：", e);
+            }
+            employee.setEntryDate(entryDate);
+        }
+        if (inputEmployeeLeaveDate != null && inputEmployeeLeaveDate.length() > 0) {
+            SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_FORMAT_YMD);
+            Date leaveDate = null;
+            try {
+                leaveDate = sdf.parse(inputEmployeeLeaveDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                LOGGER.error("离职日期字符串转换Date错误：", e);
+            }
+            employee.setLeaveDate(leaveDate);
+        }
+        if (inputEmployeeDepartmentId == null) {
+            inputEmployeeDepartmentId = 1;
+            employee.setDepartmentId(inputEmployeeDepartmentId);
+        } else if (inputEmployeeDepartmentId == 0) {
+            inputEmployeeDepartmentId = 1;
+            employee.setDepartmentId(inputEmployeeDepartmentId);
+        } else {
+            employee.setDepartmentId(inputEmployeeDepartmentId);
+        }
+        if (inputEmployeeIfAdministrationValue == null || inputEmployeeIfAdministrationValue == 0) {
+            Boolean ifAdministration = false;
+            employee.setIfAdministration(ifAdministration);
+        } else if (inputEmployeeIfAdministrationValue == 1) {
+            Boolean ifAdministration = true;
+            employee.setIfAdministration(ifAdministration);
+        }
+        if (inputEmployeeRemark != null) {
+            employee.setRemark(inputEmployeeRemark);
+        }
+
+        employeeMapper.updateByPrimaryKeySelective(employee);
+
+        int employeeId = employee.getId();
+        LOGGER.info("这个是修改员工返回的 int 值：" + employeeId);
+
+        if(entryDate!=null) {
+            Map<String, Integer> map = holidayService.calculateHolidaysMap(entryDate);
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                String fiscalYear = entry.getKey();
+                Integer holidays = entry.getValue();
+                LOGGER.info("key= " + fiscalYear + " and value= " + holidays);
+                holiday.setEmployeeId(employeeId);
+                holiday.setFiscalYear(fiscalYear);
+                holiday.setHolidays(holidays);
+                holidayMapper.insertSelective(holiday);
+                LOGGER.info("插入holiday表：" + employeeId + "," + fiscalYear + "," + holidays);
+            }
+        }
+    }
 }

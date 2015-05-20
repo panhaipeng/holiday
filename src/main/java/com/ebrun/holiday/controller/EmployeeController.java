@@ -72,4 +72,30 @@ public class EmployeeController {
         map.put("insert","success");
         return map;
     }
+    @RequestMapping(value = "/updateEmployee", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> updateEmployee(@RequestParam("inputEmployeeId") Integer inputEmployeeId,
+                                              @RequestParam("inputEmployeeNumber") String inputEmployeeNumber,
+                                              @RequestParam("inputEmployeeName") String inputEmployeeName,
+                                              @RequestParam("inputEmployeeEmail") String inputEmployeeEmail,
+                                              @RequestParam("inputEmployeePassword") String inputEmployeePassword,
+                                              @RequestParam("inputEmployeeEntryDate") String inputEmployeeEntryDate,
+                                              @RequestParam("inputEmployeeLeaveDate") String inputEmployeeLeaveDate,
+                                              @RequestParam("inputEmployeeDepartmentId") Integer inputEmployeeDepartmentId,
+                                              @RequestParam("inputEmployeeIfAdministrationValue") Integer inputEmployeeIfAdministrationValue,
+                                              @RequestParam("inputEmployeeRemark") String inputEmployeeRemark) {
+        employeeService.updateEmployee(inputEmployeeId,
+                inputEmployeeNumber,
+                inputEmployeeName,
+                inputEmployeeEmail,
+                inputEmployeePassword,
+                inputEmployeeEntryDate,
+                inputEmployeeLeaveDate,
+                inputEmployeeDepartmentId,
+                inputEmployeeIfAdministrationValue,
+                inputEmployeeRemark);
+        Map<String, Object> map = new HashMap();
+        map.put("update","success");
+        return map;
+    }
 }
