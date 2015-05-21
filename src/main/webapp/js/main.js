@@ -52,6 +52,7 @@ $(function () {
         $("#helpText").html(helpText);
         $("#helpDialog").dialog({
             autoOpen: true,
+            modal: true,
             minWidth: 600,
             minHeight: 400,
             maxWidth: 600,
@@ -87,6 +88,7 @@ $(function () {
     $("#login").click(function () {
         $("#loginForm").dialog({
             autoOpen: true,
+            modal: true,
             minWidth: 300,
             minHeight: 240,
             maxWidth: 600,
@@ -375,6 +377,7 @@ $(function () {
                     $("#reminderDialog p").text("删除成功！");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
+                        modal: true,
                         minWidth: 300,
                         minHeight: 200,
                         maxWidth: 300,
@@ -421,6 +424,7 @@ $(function () {
                     $("#reminderDialog p").text("修改成功！");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
+                        modal: true,
                         minWidth: 300,
                         minHeight: 200,
                         maxWidth: 300,
@@ -529,6 +533,7 @@ $(function () {
     function searchEmployeeListDialog() {
         $("#searchEmployeeListDialog").dialog({
             autoOpen: true,
+            modal: true,
             minWidth: 300,
             minHeight: 200,
             maxWidth: 300,
@@ -687,6 +692,7 @@ $(function () {
 
                     $("#inputEmployeeDialog").dialog({
                         autoOpen: true,
+                        modal: true,
                         minWidth: 360,
                         minHeight: 600,
                         maxWidth: 360,
@@ -737,6 +743,7 @@ $(function () {
                     });
                     $("#reminderDialog").dialog({
                         autoOpen: true,
+                        modal: true,
                         minWidth: 300,
                         minHeight: 200,
                         maxWidth: 300,
@@ -800,6 +807,7 @@ $(function () {
                     $("#reminderDialog p").text("修改成功！");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
+                        modal: true,
                         minWidth: 300,
                         minHeight: 200,
                         maxWidth: 300,
@@ -864,6 +872,7 @@ $(function () {
                     });
                     $("#reminderDialog").dialog({
                         autoOpen: true,
+                        modal: true,
                         minWidth: 300,
                         minHeight: 200,
                         maxWidth: 300,
@@ -899,6 +908,7 @@ $(function () {
         $("#inputEmployeeIfAdministrationValue").val(0);
         $("#inputEmployeeDialog").dialog({
             autoOpen: true,
+            modal: true,
             minWidth: 360,
             minHeight: 600,
             maxWidth: 360,
@@ -971,6 +981,7 @@ $(function () {
                     $("#reminderDialog p").text("添加成功！");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
+                        modal: true,
                         minWidth: 300,
                         minHeight: 200,
                         maxWidth: 300,
@@ -1050,6 +1061,7 @@ $(function () {
         listDepartment();
         $("#chooseDepartmentDialog").dialog({
             autoOpen: true,
+            modal: true,
             minWidth: 420,
             minHeight: 600,
             maxWidth: 420,

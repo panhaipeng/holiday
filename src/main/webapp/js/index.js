@@ -36,6 +36,7 @@ $(function () {
         $("#helpText").html(helpText);
         $("#helpDialog").dialog({
             autoOpen: true,
+            modal: true,
             minWidth: 600,
             minHeight: 400,
             maxWidth: 600,
@@ -73,6 +74,7 @@ $(function () {
         $("#dateDialog").dialog("close");
         $("#loginForm").dialog({
             autoOpen: true,
+            modal: true,
             minWidth: 300,
             minHeight: 240,
             maxWidth: 600,
@@ -130,6 +132,7 @@ $(function () {
 
     $("#dateDialog").dialog({
         autoOpen: true,
+        //modal: true,
         minWidth: 280,
         minHeight: 200,
         maxWidth: 600,
@@ -167,6 +170,7 @@ function showResultDialog() {
 
     $("#resultDialog").dialog({
         autoOpen: true,
+        modal: true,
         minWidth: 480,
         minHeight: 320,
         maxWidth: 480,
