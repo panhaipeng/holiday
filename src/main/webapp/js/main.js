@@ -2,6 +2,9 @@
  * Created by Administrator on 2015/5/16.
  */
 $(function () {
+    $("#help").button({
+        label: "关于"
+    });
     $("#index").button({
         label: "欢迎"
     });
@@ -38,7 +41,39 @@ $(function () {
     $("#changeIfAdministration").button({
         label: "变更"
     });
-    
+
+    $("#help").click(function () {
+        var helpText = "感谢使用亿邦动力年假管理系统！<br/><br/>" +
+            "您可以在这里查看您每年的年假天数和已休天数，也可以查看具体日期。<br/><br/>" +
+            "如果您是领导，您可以查看您所领导的部门的成员的相关信息和休假详情。<br/><br/>" +
+            "如果您是管理员，您可以对所有员工和部门以及休假信息进行增删改查工作。<br/><br/>" +
+            "BUG反馈请联系技术部李涛，litao@ebrun.com 。<br/><br/>" +
+            "祝您工作愉快！";
+        $("#helpText").html(helpText);
+        $("#helpDialog").dialog({
+            autoOpen: true,
+            minWidth: 600,
+            minHeight: 400,
+            maxWidth: 600,
+            maxHeight: 600,
+            title: "感谢使用！Thanks A Lot：",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 500
+            },
+
+            buttons: {
+                "close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+
     $("#logout").click(function () {
         $.ajax({
             type: "GET",
@@ -475,6 +510,18 @@ $(function () {
                 },
                 "close": function () {
                     $(this).dialog("close");
+                    $("#inputEmployeeId").val("");
+                    $("#inputEmployeeNumber").val("");
+                    $("#inputEmployeeName").val("");
+                    $("#inputEmployeeEmail").val("");
+                    $("#inputEmployeePassword").val("");
+                    $("#inputEmployeeEntryDate").val("");
+                    $("#inputEmployeeLeaveDate").val("");
+                    $("#inputEmployeeDepartmentName").val("");
+                    $("#inputEmployeeDepartmentId").val(1);
+                    $("#inputEmployeeIfAdministration").val("NO");
+                    $("#inputEmployeeIfAdministrationValue").val(0);
+                    $("#inputEmployeeRemark").val("");
                 }
             }
         })
@@ -545,13 +592,15 @@ $(function () {
                 $(data.employeeList).each(function (index, employee) {
                     // alert(employee.name);
                     var entryDate = new Date(employee.entry_date);
-                    if(employee.leave_date ==null){
+                    if (employee.leave_date == null) {
                         var leaveDate = "";
-                    }else{
+                    } else {
                         var leaveDate = (new Date(employee.leave_date)).format("yyyy-MM-dd");
                     }//alert(leaveDate);
-                    if(employee.remark==null){
+                    if (employee.remark == null) {
                         var employeeRemark = "";
+                    } else {
+                        var employeeRemark = employee.remark;
                     }
                     trTd += "<tr>" +
                         "<td class='tdEmployeeNumber'>" + employee.employee_number + "</td>" +
@@ -562,11 +611,11 @@ $(function () {
                         "<td class='tdEmployeeIfAdministration'>" + employee.if_administration + "</td>" +
                         "<td class='tdEmployeeDo'><input class='updateEmployeeButton' type='button' value='修改'>" +
                         "<input class='deleteEmployeeButton' type='button' value='删除'>" +
-                        "<span class='spanId'>"+employee.id+"</span>" +
-                        "<span class='spanPassword'>"+employee.password+"</span>" +
-                        "<span class='spanLeaveDate'>"+leaveDate+"</span>" +
-                        "<span class='spanDepartmentId'>"+employee.department_id+"</span>" +
-                        "<span class='spanRemark'>"+employeeRemark+"</span></td>" +
+                        "<span class='spanId'>" + employee.id + "</span>" +
+                        "<span class='spanPassword'>" + employee.password + "</span>" +
+                        "<span class='spanLeaveDate'>" + leaveDate + "</span>" +
+                        "<span class='spanDepartmentId'>" + employee.department_id + "</span>" +
+                        "<span class='spanRemark'>" + employeeRemark + "</span></td>" +
                         "</tr>";
                 });
                 $("#employeeTable").html("");
@@ -603,7 +652,7 @@ $(function () {
                 $(".deleteEmployeeButton").button({
                     label: "删除"
                 });
-                $(".updateEmployeeButton").click(function(){
+                $(".updateEmployeeButton").click(function () {
                     $("#inputEmployeeNumber").val($(this).parent(".tdEmployeeDo").prevAll(".tdEmployeeNumber").text());
                     $("#inputEmployeeName").val($(this).parent(".tdEmployeeDo").prevAll(".tdEmployeeName").text());
                     $("#inputEmployeeEmail").val($(this).parent(".tdEmployeeDo").prevAll(".tdEmployeeEmail").text());
@@ -611,29 +660,31 @@ $(function () {
                     //alert($("#inputEmployeePassword").val());
                     $("#inputEmployeeEntryDate").val($(this).parent(".tdEmployeeDo").prevAll(".tdEmployeeEntryDate").text());
                     //alert($("#inputEmployeeEntryDate").val());
-                    if($(this).nextAll(".spanLeaveDate").text()==null){
+                    if ($(this).nextAll(".spanLeaveDate").text() == null) {
                         $("#inputEmployeeLeaveDate").val("");
-                    }else{
+                    } else {
                         $("#inputEmployeeLeaveDate").val($(this).nextAll(".spanLeaveDate").text());
                     }
                     $("#inputEmployeeDepartmentName").val($(this).parent(".tdEmployeeDo").prevAll(".tdEmployeeDepartment").text());
                     $("#inputEmployeeDepartmentId").val($(this).nextAll(".spanDepartmentId").text());
-                    if($(this).parent(".tdEmployeeDo").prevAll(".tdEmployeeIfAdministration").text()==true){
+                    if ($(this).parent(".tdEmployeeDo").prevAll(".tdEmployeeIfAdministration").text() == true) {
                         $("#inputEmployeeIfAdministration").val("YES");
                         $("#inputEmployeeIfAdministrationValue").val(1);
-                    }else{
+                    } else {
                         $("#inputEmployeeIfAdministration").val("NO");
                         $("#inputEmployeeIfAdministrationValue").val(0);
                     }
-                    if($(this).nextAll(".spanRemark").text()==null){
+                    if ($(this).nextAll(".spanRemark").text() == null) {
                         $("#inputEmployeeRemark").val("");
-                    }else if(typeof($(this).nextAll(".spanRemark").text()) == "undefined"){
+                    } else if (typeof($(this).nextAll(".spanRemark").text()) == "undefined") {
                         $("#inputEmployeeRemark").val("");
-                    }else{
+                    } else {
                         $("#inputEmployeeRemark").val($(this).nextAll(".spanRemark").text());
                     }
                     $("#inputEmployeeId").val($(this).nextAll(".spanId").text());
-                    //alert($("#inputEmployeeId").val());
+
+                    //alert($("#inputEmployeeRemark").val());
+
                     $("#inputEmployeeDialog").dialog({
                         autoOpen: true,
                         minWidth: 360,
@@ -657,16 +708,62 @@ $(function () {
                             },
                             "close": function () {
                                 $(this).dialog("close");
+                                $("#inputEmployeeId").val("");
+                                $("#inputEmployeeNumber").val("");
+                                $("#inputEmployeeName").val("");
+                                $("#inputEmployeeEmail").val("");
+                                $("#inputEmployeePassword").val("");
+                                $("#inputEmployeeEntryDate").val("");
+                                $("#inputEmployeeLeaveDate").val("");
+                                $("#inputEmployeeDepartmentName").val("");
+                                $("#inputEmployeeDepartmentId").val(1);
+                                $("#inputEmployeeIfAdministration").val("NO");
+                                $("#inputEmployeeIfAdministrationValue").val(0);
+                                $("#inputEmployeeRemark").val("");
                             }
                         }
                     })
 
                 });
+                $(".deleteEmployeeButton").click(function () {
+                    $("#inputEmployeeId").val($(this).nextAll(".spanId").text());
+                    var deleteEmployeeId = ($("#inputEmployeeId").val());
+                    $("#reminderDialog p").text("确定删除？？");
+                    $("#reminderDialog p").css({
+                        "font-family": "Helvetica, Arial, sans-serif",
+                        "font-size": "1.1em",
+                        "color": "#ff0084",
+                        "font-weight": "bold"
+                    });
+                    $("#reminderDialog").dialog({
+                        autoOpen: true,
+                        minWidth: 300,
+                        minHeight: 200,
+                        maxWidth: 300,
+                        maxHeight: 200,
+                        title: "确定删除？",
+                        show: {
+                            effect: "bounce",
+                            duration: 500
+                        },
+                        hide: {
+                            effect: "explode",
+                            duration: 1000
+                        },
+
+                        buttons: {
+                            "删除": function () {
+                                deleteEmployee(deleteEmployeeId);
+
+                            }
+                        }
+                    });
+                });
             }
         });
     }
 
-    function updateEmployee(){
+    function updateEmployee() {
         var inputEmployeeNumber = $("#inputEmployeeNumber").val();
         var inputEmployeeName = $("#inputEmployeeName").val();
         var inputEmployeeEmail = $("#inputEmployeeEmail").val();
@@ -678,25 +775,25 @@ $(function () {
         var inputEmployeeRemark = $("#inputEmployeeRemark").val();
         var inputEmployeeId = $("#inputEmployeeId").val();
         /*
-        alert(inputEmployeeNumber+","+inputEmployeeName+","+inputEmployeeEmail+","+
-            inputEmployeePassword+","+inputEmployeeEntryDate+","+inputEmployeeLeaveDate+","+
-            inputEmployeeDepartmentId+","+inputEmployeeIfAdministrationValue+","+inputEmployeeRemark+","+inputEmployeeId
-        );
+         alert(inputEmployeeNumber+","+inputEmployeeName+","+inputEmployeeEmail+","+
+         inputEmployeePassword+","+inputEmployeeEntryDate+","+inputEmployeeLeaveDate+","+
+         inputEmployeeDepartmentId+","+inputEmployeeIfAdministrationValue+","+inputEmployeeRemark+","+inputEmployeeId
+         );
          */
         $.ajax({
             type: "POST",
             url: "updateEmployee?time=" + new Date().getTime(),
             data: {
-                inputEmployeeId:inputEmployeeId,
-                inputEmployeeNumber:inputEmployeeNumber,
-                inputEmployeeName:inputEmployeeName,
-                inputEmployeeEmail:inputEmployeeEmail,
-                inputEmployeePassword:inputEmployeePassword,
-                inputEmployeeEntryDate:inputEmployeeEntryDate,
-                inputEmployeeLeaveDate:inputEmployeeLeaveDate,
-                inputEmployeeDepartmentId:inputEmployeeDepartmentId,
-                inputEmployeeIfAdministrationValue:inputEmployeeIfAdministrationValue,
-                inputEmployeeRemark:inputEmployeeRemark
+                inputEmployeeId: inputEmployeeId,
+                inputEmployeeNumber: inputEmployeeNumber,
+                inputEmployeeName: inputEmployeeName,
+                inputEmployeeEmail: inputEmployeeEmail,
+                inputEmployeePassword: inputEmployeePassword,
+                inputEmployeeEntryDate: inputEmployeeEntryDate,
+                inputEmployeeLeaveDate: inputEmployeeLeaveDate,
+                inputEmployeeDepartmentId: inputEmployeeDepartmentId,
+                inputEmployeeIfAdministrationValue: inputEmployeeIfAdministrationValue,
+                inputEmployeeRemark: inputEmployeeRemark
             },
             success: function (data) {
                 if (data.update == "success") {
@@ -747,9 +844,56 @@ $(function () {
 
     }
 
-    $(".updateEmployeeButton").click(function(){
-        alert(1);
-    });
+    function deleteEmployee(deleteEmployeeId) {
+        //alert(deleteEmployeeId);
+
+        $.ajax({
+            type: "POST",
+            url: "deleteEmployee",
+            data: {
+                deleteEmployeeId: deleteEmployeeId
+            },
+            success: function (data) {
+                if (data.delete == "success") {
+                    $("#reminderDialog p").text("删除成功！");
+                    $("#reminderDialog p").css({
+                        "font-family": "Helvetica, Arial, sans-serif",
+                        "font-size": "1.1em",
+                        "color": "#0073ea",
+                        "font-weight": "bold"
+                    });
+                    $("#reminderDialog").dialog({
+                        autoOpen: true,
+                        minWidth: 300,
+                        minHeight: 200,
+                        maxWidth: 300,
+                        maxHeight: 200,
+                        title: "提示：",
+                        show: {
+                            effect: "bounce",
+                            duration: 500
+                        },
+                        hide: {
+                            effect: "explode",
+                            duration: 1000
+                        },
+
+                        buttons: {
+                            "close": function () {
+                                //employeeKeyword = inputEmployeeName;
+                                pageNumber = 1;
+                                showEmployeeListByPage(employeeKeyword, pageNumber);
+                                $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页"});
+                                //$("#searchEmployeeListKeyword").val("");
+                                $("#inputEmployeeId").val("");
+                                $(this).dialog("close");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
 
     function inputEmployeeDialog() {
         $("#inputEmployeeIfAdministrationValue").val(0);
@@ -776,12 +920,24 @@ $(function () {
                 },
                 "close": function () {
                     $(this).dialog("close");
+                    $("#inputEmployeeId").val("");
+                    $("#inputEmployeeNumber").val("");
+                    $("#inputEmployeeName").val("");
+                    $("#inputEmployeeEmail").val("");
+                    $("#inputEmployeePassword").val("");
+                    $("#inputEmployeeEntryDate").val("");
+                    $("#inputEmployeeLeaveDate").val("");
+                    $("#inputEmployeeDepartmentName").val("");
+                    $("#inputEmployeeDepartmentId").val(1);
+                    $("#inputEmployeeIfAdministration").val("NO");
+                    $("#inputEmployeeIfAdministrationValue").val(0);
+                    $("#inputEmployeeRemark").val("");
                 }
             }
         })
     }
 
-    function insertEmployee(){
+    function insertEmployee() {
         var inputEmployeeNumber = $("#inputEmployeeNumber").val();
         var inputEmployeeName = $("#inputEmployeeName").val();
         var inputEmployeeEmail = $("#inputEmployeeEmail").val();
@@ -795,20 +951,20 @@ $(function () {
         //    inputEmployeePassword+","+inputEmployeeEntryDate+","+inputEmployeeLeaveDate+","+
         //    inputEmployeeDepartmentId+","+inputEmployeeIfAdministrationValue+","+inputEmployeeRemark
         //);
-        
+
         $.ajax({
             type: "POST",
             url: "insertEmployee",
             data: {
-                inputEmployeeNumber:inputEmployeeNumber,
-                inputEmployeeName:inputEmployeeName,
-                inputEmployeeEmail:inputEmployeeEmail,
-                inputEmployeePassword:inputEmployeePassword,
-                inputEmployeeEntryDate:inputEmployeeEntryDate,
-                inputEmployeeLeaveDate:inputEmployeeLeaveDate,
-                inputEmployeeDepartmentId:inputEmployeeDepartmentId,
-                inputEmployeeIfAdministrationValue:inputEmployeeIfAdministrationValue,
-                inputEmployeeRemark:inputEmployeeRemark
+                inputEmployeeNumber: inputEmployeeNumber,
+                inputEmployeeName: inputEmployeeName,
+                inputEmployeeEmail: inputEmployeeEmail,
+                inputEmployeePassword: inputEmployeePassword,
+                inputEmployeeEntryDate: inputEmployeeEntryDate,
+                inputEmployeeLeaveDate: inputEmployeeLeaveDate,
+                inputEmployeeDepartmentId: inputEmployeeDepartmentId,
+                inputEmployeeIfAdministrationValue: inputEmployeeIfAdministrationValue,
+                inputEmployeeRemark: inputEmployeeRemark
             },
             success: function (data) {
                 if (data.insert == "success") {
@@ -855,23 +1011,23 @@ $(function () {
                 }
             }
         });
-        
+
     }
 
-    $("#showEntryDateButton").click(function(){
+    $("#showEntryDateButton").click(function () {
         $("#inputEmployeeEntryDate").focus();
     });
-    $("#showLeaveDateButton").click(function(){
+    $("#showLeaveDateButton").click(function () {
         $("#inputEmployeeLeaveDate").focus();
     });
-    
+
     $("#inputEmployeeEntryDate").datepicker({
         changeMonth: true,
         changeYear: true,
         minDate: "2007-01-01",
         maxDate: "+0D",
         //showOn: "button",
-        showOn:"focus",
+        showOn: "focus",
         //showOn: "both",
         //buttonText: "日历",
         //buttonImage: "imgs/calendar.png",
@@ -883,7 +1039,7 @@ $(function () {
         minDate: "2007-01-01",
         maxDate: "+0D",
         //showOn: "button",
-        showOn:"focus",
+        showOn: "focus",
         //showOn: "both",
         //buttonText: "日历",
         //buttonImage: "imgs/calendar.png",
@@ -915,20 +1071,20 @@ $(function () {
             }
         })
     });
-    
+
     $("#inputEmployeeDepartmentId").val(1);
     $("#inputEmployeeIfAdministration").val("NO");
     $("#inputEmployeeIfAdministrationValue").val(0);
-    $("#changeIfAdministration").click(function(){
-        if($("#inputEmployeeIfAdministration").val()=="NO"){
+    $("#changeIfAdministration").click(function () {
+        if ($("#inputEmployeeIfAdministration").val() == "NO") {
             $("#inputEmployeeIfAdministration").val("YES");
             $("#inputEmployeeIfAdministrationValue").val(1);
-        }else{
+        } else {
             $("#inputEmployeeIfAdministration").val("NO");
             $("#inputEmployeeIfAdministrationValue").val(0);
         }
     });
-    
+
     function listDepartment() {
         var tree = "";
         $.ajax({
@@ -949,7 +1105,7 @@ $(function () {
                     $(this).siblings(".departmentLi").children().children().children(".departmentUl").hide();
                     $(this).parent().parent().parent().parent().siblings(".departmentLi").children(".departmentUl").hide();
                 });
-                $(".departmentNameLiA").click(function(){
+                $(".departmentNameLiA").click(function () {
                     $("#inputEmployeeDepartmentName").val($(this).text());
                     //$("#inputEmployeeDepartmentId").val($(this).sibling(".span1").text());
                     var inputEmployeeDepartmentId = $(this).next(".span1").text();

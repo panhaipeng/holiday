@@ -1,36 +1,47 @@
 @CHARSET "UTF-8";
 
-html,body {
-	margin: 0px;
-	width: 100%;
-	height: 100%;
+html, body {
+    margin: 0px;
+    width: 100%;
+    height: 100%;
 }
 
-#bodyDiv{
-	position:relative;
-	width: 100%;
-	height: 100%;
-	MARGIN: 0px auto;
-	background-image:url(../imgs/picture01.jpg);
-	background-repeat:no-repeat;
-	background-size:100% 100%;
+#bodyDiv {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    MARGIN: 0px auto;
+    background-image: url(../imgs/picture01.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
-#bodyDiv p{
-	font-family: Helvetica,Arial,sans-serif;
-	font-size: 1.1em;
-	/*color: #0073ea;*/
-	color: #ff0084;
-	font-weight: bold;
-}
-#loginForm {
-	display:none
-}
-#datepicker{
-    font-family: Helvetica,Arial,sans-serif;
+
+#bodyDiv p {
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
     /*color: #0073ea;*/
     color: #ff0084;
     font-weight: bold;
-    text-align:center;
-    width:180px;
+}
+
+#loginForm, #helpDialog {
+    display: none
+}
+
+#datepicker {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+    text-align: center;
+    width: 180px;
+}
+
+#helpText {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    color: #0073ea;
+    /*color: #ff0084;*/
+    font-weight: bold;
 }

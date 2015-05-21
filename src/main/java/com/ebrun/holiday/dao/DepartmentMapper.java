@@ -16,6 +16,8 @@ public interface DepartmentMapper {
     int updateByPrimaryKeySelective(Department record);
 
     int updateByPrimaryKey(Department record);
+    
+    /*以上是generator工具自动生成的*/
 
     List<Department> selectDepartmentsBySuperDepartmentNumber(String superDepartmentNumber);
 
@@ -30,4 +32,6 @@ public interface DepartmentMapper {
     List selectDepartmentsBySuperDepartmentNumber1(String superDepartmentNumber);
 
     List<String> selectDepartmentNumbersBySuperiorDepartmentNumber(String inputSuperiorDepartmentNumber);
+
+    int updateByDeleteEmployeeId(Integer deleteEmployeeId);
 }

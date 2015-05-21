@@ -69,9 +69,10 @@ public class EmployeeController {
                 inputEmployeeIfAdministrationValue,
                 inputEmployeeRemark);
         Map<String, Object> map = new HashMap();
-        map.put("insert","success");
+        map.put("insert", "success");
         return map;
     }
+
     @RequestMapping(value = "/updateEmployee", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> updateEmployee(@RequestParam("inputEmployeeId") Integer inputEmployeeId,
@@ -95,7 +96,15 @@ public class EmployeeController {
                 inputEmployeeIfAdministrationValue,
                 inputEmployeeRemark);
         Map<String, Object> map = new HashMap();
-        map.put("update","success");
+        map.put("update", "success");
+        return map;
+    }
+    @RequestMapping(value = "/deleteEmployee", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> deleteEmployee(@RequestParam("deleteEmployeeId") Integer deleteEmployeeId) {
+        employeeService.deleteEmployee(deleteEmployeeId);
+        Map<String, Object> map = new HashMap();
+        map.put("delete", "success");
         return map;
     }
 }

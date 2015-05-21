@@ -90,4 +90,16 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+  
+  <delete id="deleteByEmployeeIdAndDate">
+    delete from vacation
+    where employee_id = #{employeeId,jdbcType=INTEGER} 
+    and vacation_date not between #{entryDate,jdbcType=TIMESTAMP} and #{leaveDate,jdbcType=TIMESTAMP}
+  </delete>
+  <delete id="deleteByEmployeeId" parameterType="java.lang.Integer">
+    delete from vacation
+    where employee_id = #{employeeId,jdbcType=INTEGER}
+  </delete>
 </mapper>

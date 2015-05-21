@@ -16,5 +16,5 @@ public interface HolidayService {
     /**
      * map<财年号:年假天数>
      */
-    public Map<String,Integer> calculateHolidaysMap(Date entryDate);
+    public Map<String,Integer> calculateHolidaysMap(Date entryDate,Date leaveDate);
 }

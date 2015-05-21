@@ -3,7 +3,9 @@
  */
 /**/
 $(function () {
-
+    $("#help").button({
+        label: "关于"
+    });
     $("#refresh").button({
         label: "刷新"
     });
@@ -23,6 +25,39 @@ $(function () {
     $("#datepickerButton").button({
         label: "日历"
     });
+
+    $("#help").click(function () {
+        var helpText= "感谢使用亿邦动力年假管理系统！<br/><br/>" +
+            "您可以在这里查看您每年的年假天数和已休天数，也可以查看具体日期。<br/><br/>" +
+            "如果您是领导，您可以查看您所领导的部门的成员的相关信息和休假详情。<br/><br/>" +
+            "如果您是管理员，您可以对所有员工和部门以及休假信息进行增删改查工作。<br/><br/>" +
+            "BUG反馈请联系技术部李涛，litao@ebrun.com 。<br/><br/>" +
+            "祝您工作愉快！";
+        $("#helpText").html(helpText);
+        $("#helpDialog").dialog({
+            autoOpen: true,
+            minWidth: 600,
+            minHeight: 400,
+            maxWidth: 600,
+            maxHeight: 600,
+            title: "感谢使用！Thanks A Lot：",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 500
+            },
+
+            buttons: {
+                "close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    });
+
     $("#logout").click(function () {
         $.ajax({
             type: "GET",

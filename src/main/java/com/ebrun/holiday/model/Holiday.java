@@ -10,9 +10,7 @@ public class Holiday {
     private String fiscalYear;
 
     private Integer holidays;
-
-    private BigDecimal vacation;
-
+    
     private String remark;
 
     public Integer getId() {
@@ -46,15 +44,7 @@ public class Holiday {
     public void setHolidays(Integer holidays) {
         this.holidays = holidays;
     }
-
-    public BigDecimal getVacation() {
-        return vacation;
-    }
-
-    public void setVacation(BigDecimal vacation) {
-        this.vacation = vacation;
-    }
-
+    
     public String getRemark() {
         return remark;
     }

@@ -18,6 +18,7 @@ public interface EmployeeMapper {
 
     int updateByPrimaryKey(Employee record);
 
+    /*以上是generator工具自动生成的*/
     /**
      * 根据邮箱获取用户，用来登录验证
      * @param email

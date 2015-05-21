@@ -19,6 +19,7 @@
 </head>
 <body>
 <div id="bodyDiv">
+    <input id="help" type="button"/>
     <%@include file="head.jsp" %>
     <div id="loginForm">
         Email:<br/><input type="text" id="email" name="email"/><br/>
@@ -99,6 +100,9 @@
     <div id="chooseDepartmentDialog">
         <div id="listDepartmentTree">
         </div>
+    </div>
+    <div id="helpDialog">
+        <p id="helpText"></p>
     </div>
 </div>
 </body>

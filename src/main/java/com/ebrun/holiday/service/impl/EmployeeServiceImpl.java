@@ -1,12 +1,16 @@
 package com.ebrun.holiday.service.impl;
 
+import com.ebrun.holiday.dao.DepartmentMapper;
 import com.ebrun.holiday.dao.EmployeeMapper;
 import com.ebrun.holiday.dao.HolidayMapper;
+import com.ebrun.holiday.dao.VacationMapper;
 import com.ebrun.holiday.model.Employee;
 import com.ebrun.holiday.model.Holiday;
+import com.ebrun.holiday.model.Vacation;
 import com.ebrun.holiday.service.DepartmentService;
 import com.ebrun.holiday.service.EmployeeService;
 import com.ebrun.holiday.service.HolidayService;
+import com.ebrun.holiday.service.VacationService;
 import com.ebrun.holiday.util.Constant;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +76,39 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.holidayService = holidayService;
     }
 
+    private VacationService vacationService;
+
+    public VacationService getVacationService() {
+        return vacationService;
+    }
+
+    @Autowired
+    public void setVacationService(VacationService vacationService) {
+        this.vacationService = vacationService;
+    }
+
+    private DepartmentMapper departmentMapper;
+
+    public DepartmentMapper getDepartmentMapper() {
+        return departmentMapper;
+    }
+
+    @Autowired
+    public void setDepartmentMapper(DepartmentMapper departmentMapper) {
+        this.departmentMapper = departmentMapper;
+    }
+
+    private VacationMapper vacationMapper;
+
+    public VacationMapper getVacationMapper() {
+        return vacationMapper;
+    }
+
+    @Autowired
+    public void setVacationMapper(VacationMapper vacationMapper) {
+        this.vacationMapper = vacationMapper;
+    }
+
     @Override
     public Employee getEmployeeById(Integer id) {
         return employeeMapper.selectByPrimaryKey(id);
@@ -117,6 +154,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         Holiday holiday = new Holiday();
         Date entryDate = null;
+        Date leaveDate = null;
 
         if (inputEmployeeNumber != null && inputEmployeeNumber.length() > 0) {
             employee.setEmployeeNumber(inputEmployeeNumber);
@@ -143,7 +181,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         if (inputEmployeeLeaveDate != null && inputEmployeeLeaveDate.length() > 0) {
             SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_FORMAT_YMD);
-            Date leaveDate = null;
+            //Date leaveDate = null;
             try {
                 leaveDate = sdf.parse(inputEmployeeLeaveDate);
             } catch (ParseException e) {
@@ -176,9 +214,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         int employeeId = employee.getId();
         LOGGER.info("这个是添加员工返回的 int 值：" + employeeId);
-        
-        if(entryDate!=null) {
-            Map<String, Integer> map = holidayService.calculateHolidaysMap(entryDate);
+
+        if (entryDate != null) {
+            Map<String, Integer> map = holidayService.calculateHolidaysMap(entryDate, leaveDate);
             for (Map.Entry<String, Integer> entry : map.entrySet()) {
                 String fiscalYear = entry.getKey();
                 Integer holidays = entry.getValue();
@@ -193,11 +231,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void updateEmployee(Integer inputEmployeeId, String inputEmployeeNumber, String inputEmployeeName, String inputEmployeeEmail, String inputEmployeePassword, String inputEmployeeEntryDate, String inputEmployeeLeaveDate, Integer inputEmployeeDepartmentId, Integer inputEmployeeIfAdministrationValue, String inputEmployeeRemark) {
+    public void updateEmployee(Integer inputEmployeeId, String inputEmployeeNumber, String inputEmployeeName,
+                               String inputEmployeeEmail, String inputEmployeePassword, String inputEmployeeEntryDate,
+                               String inputEmployeeLeaveDate, Integer inputEmployeeDepartmentId,
+                               Integer inputEmployeeIfAdministrationValue, String inputEmployeeRemark) {
         Employee employee = new Employee();
         Holiday holiday = new Holiday();
         Date entryDate = null;
-
+        Date leaveDate = null;
         employee.setId(inputEmployeeId);
 
         if (inputEmployeeNumber != null && inputEmployeeNumber.length() > 0) {
@@ -225,7 +266,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         if (inputEmployeeLeaveDate != null && inputEmployeeLeaveDate.length() > 0) {
             SimpleDateFormat sdf = new SimpleDateFormat(Constant.DATE_FORMAT_YMD);
-            Date leaveDate = null;
+            //Date leaveDate = null;
             try {
                 leaveDate = sdf.parse(inputEmployeeLeaveDate);
             } catch (ParseException e) {
@@ -256,15 +297,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeMapper.updateByPrimaryKeySelective(employee);
 
-        int employeeId = employee.getId();
+        Integer employeeId = employee.getId();
         LOGGER.info("这个是修改员工返回的 int 值：" + employeeId);
 
-        if(entryDate!=null) {
-            Map<String, Integer> map = holidayService.calculateHolidaysMap(entryDate);
+        //接下来要做修改员工的过程中比较麻烦的一个操作：
+        //1，修改员工的时候会把入职日期，离职日期给改掉，那么相对应的holiday表中的信息和vacation表中的信息也需要跟着修改。
+        //2，首先删除这个员工在holiday表中的信息，更新员工信息的时候，再在holiday表中把新的数据一组一组insert into。
+        //3，将该员工在vacation表中的，非在职期间的信息，即修改入职离职日期之后，在这段区间之外的数据变为了无效数据，清除之。
+
+        holidayMapper.deleteByEmployeeId(employeeId);
+
+        if (entryDate != null) {
+            Map<String, Integer> map = holidayService.calculateHolidaysMap(entryDate, leaveDate);
             for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                String fiscalYear = entry.getKey();
-                Integer holidays = entry.getValue();
+                String fiscalYear = entry.getKey();//财年
+                Integer holidays = entry.getValue();//假期
                 LOGGER.info("key= " + fiscalYear + " and value= " + holidays);
+
                 holiday.setEmployeeId(employeeId);
                 holiday.setFiscalYear(fiscalYear);
                 holiday.setHolidays(holidays);
@@ -272,5 +321,26 @@ public class EmployeeServiceImpl implements EmployeeService {
                 LOGGER.info("插入holiday表：" + employeeId + "," + fiscalYear + "," + holidays);
             }
         }
+
+        //清除vacation表中多余的数据
+        if (entryDate != null) {
+            vacationService.cleanExcessByEmployeeIdAndDate(employeeId, entryDate, leaveDate);
+        }
+    }
+
+    @Override
+    public void deleteEmployee(Integer deleteEmployeeId) {
+
+        //执行删除员工操作要执行4张表。
+        //1，employee表。2，如果这个id是department表中的领导，则department中所有的这个id改为1，admin。
+        //3，删除holiday表中所有有关这个id的信息。4，删除vacation表中的信息。即完全清除这个id在数据库中的痕迹
+        
+        //此处由于有主外键约束关系，所以应该注意删除顺序，先删外键关联表
+
+        vacationMapper.deleteByEmployeeId(deleteEmployeeId);
+        holidayMapper.deleteByEmployeeId(deleteEmployeeId);
+        departmentMapper.updateByDeleteEmployeeId(deleteEmployeeId);
+        employeeMapper.deleteByPrimaryKey(deleteEmployeeId);
+        
     }
 }

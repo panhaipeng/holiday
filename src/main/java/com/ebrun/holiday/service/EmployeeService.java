@@ -89,4 +89,10 @@ public interface EmployeeService {
                                Integer inputEmployeeDepartmentId,
                                Integer inputEmployeeIfAdministrationValue,
                                String inputEmployeeRemark);
+
+    /**
+     * 根据员工ID删除一个员工
+     * @param deleteEmployeeId
+     */
+    public void deleteEmployee(Integer deleteEmployeeId);
 }

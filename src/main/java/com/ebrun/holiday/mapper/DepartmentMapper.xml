@@ -1,88 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ebrun.holiday.dao.DepartmentMapper" >
-  <resultMap id="BaseResultMap" type="com.ebrun.holiday.model.Department" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="department_number" property="departmentNumber" jdbcType="VARCHAR" />
-    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
-    <result column="department_leader" property="departmentLeader" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.ebrun.holiday.dao.DepartmentMapper">
+    <resultMap id="BaseResultMap" type="com.ebrun.holiday.model.Department">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="department_number" property="departmentNumber" jdbcType="VARCHAR"/>
+        <result column="department_name" property="departmentName" jdbcType="VARCHAR"/>
+        <result column="department_leader" property="departmentLeader" jdbcType="INTEGER"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, department_number, department_name, department_leader, remark
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from department
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from department
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from department
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.ebrun.holiday.model.Department" >
+    <insert id="insert" parameterType="com.ebrun.holiday.model.Department">
     insert into department (id, department_number, department_name, 
       department_leader, remark)
     values (#{id,jdbcType=INTEGER}, #{departmentNumber,jdbcType=VARCHAR}, #{departmentName,jdbcType=VARCHAR}, 
       #{departmentLeader,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.ebrun.holiday.model.Department" >
-    insert into department
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="departmentNumber != null" >
-        department_number,
-      </if>
-      <if test="departmentName != null" >
-        department_name,
-      </if>
-      <if test="departmentLeader != null" >
-        department_leader,
-      </if>
-      <if test="remark != null" >
-        remark,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="departmentNumber != null" >
-        #{departmentNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="departmentName != null" >
-        #{departmentName,jdbcType=VARCHAR},
-      </if>
-      <if test="departmentLeader != null" >
-        #{departmentLeader,jdbcType=INTEGER},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ebrun.holiday.model.Department" >
-    update department
-    <set >
-      <if test="departmentNumber != null" >
-        department_number = #{departmentNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="departmentName != null" >
-        department_name = #{departmentName,jdbcType=VARCHAR},
-      </if>
-      <if test="departmentLeader != null" >
-        department_leader = #{departmentLeader,jdbcType=INTEGER},
-      </if>
-      <if test="remark != null" >
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.ebrun.holiday.model.Department" >
+    <insert id="insertSelective" parameterType="com.ebrun.holiday.model.Department">
+        insert into department
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="departmentNumber != null">
+                department_number,
+            </if>
+            <if test="departmentName != null">
+                department_name,
+            </if>
+            <if test="departmentLeader != null">
+                department_leader,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="departmentNumber != null">
+                #{departmentNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentName != null">
+                #{departmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentLeader != null">
+                #{departmentLeader,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ebrun.holiday.model.Department">
+        update department
+        <set>
+            <if test="departmentNumber != null">
+                department_number = #{departmentNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentName != null">
+                department_name = #{departmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentLeader != null">
+                department_leader = #{departmentLeader,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ebrun.holiday.model.Department">
     update department
     set department_number = #{departmentNumber,jdbcType=VARCHAR},
       department_name = #{departmentName,jdbcType=VARCHAR},
@@ -90,16 +90,18 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-<select id="selectDepartmentsBySuperDepartmentNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+
+
+    <select id="selectDepartmentsBySuperDepartmentNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
-            <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>
         from department
         where department_number like CONCAT(#{superDepartmentNumber,jdbcType=VARCHAR},'__')
     </select>
     <select id="selectDepartmentByDepartmentLeader" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
-            <include refid="Base_Column_List"/>
-        FROM department 
+        <include refid="Base_Column_List"/>
+        FROM department
         WHERE department_leader = #{departmentLeader,jdbcType=INTEGER} order by id limit 0,1
     </select>
     <select id="selectDepartmentsBySuperDepartmentNumber1" resultType="hashmap" parameterType="java.lang.String">
@@ -111,4 +113,9 @@
     <select id="selectDepartmentNumbersBySuperiorDepartmentNumber" resultType="String" parameterType="java.lang.String">
         select department_number FROM department where department_number like CONCAT(#{inputSuperiorDepartmentNumber,jdbcType=VARCHAR},'__')
     </select>
+    <update id="updateByDeleteEmployeeId" parameterType="java.lang.Integer">
+    update department
+    set department_leader = 1 
+    where department_leader = #{deleteEmployeeId,jdbcType=INTEGER}
+  </update>
 </mapper>

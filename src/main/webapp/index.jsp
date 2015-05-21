@@ -18,6 +18,7 @@
 </head>
 <body>
 	<div id="bodyDiv">
+		<input id="help" type="button"/>
 		<input id="refresh" type="button"/>
 		<c:if test="${sessionScope.employee==null}">
 			<input id="login" type="button"/>
@@ -37,6 +38,9 @@
 		<div id="resultDialog">
 			<p id="resultText"></p>
 		</div>
+        <div id="helpDialog">
+            <p id="helpText"></p>
+        </div>
 	</div>
 </body>
 </html>

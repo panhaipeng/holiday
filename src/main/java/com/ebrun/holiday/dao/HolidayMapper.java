@@ -14,4 +14,8 @@ public interface HolidayMapper {
     int updateByPrimaryKeySelective(Holiday record);
 
     int updateByPrimaryKey(Holiday record);
+    
+    /*以上是generator工具自动生成的*/
+    
+    int deleteByEmployeeId(Integer employeeId);
 }
