@@ -99,4 +99,11 @@
     delete from holiday
     where employee_id = #{employeeId,jdbcType=INTEGER}
   </delete>
+    <select id="selectHolidayByFiscalYear" resultType="java.util.Map">
+        select
+            e.id as id, e.name as name, e.email as email, h.fiscal_year as fiscal_year, h.holidays as holidays
+        from employee e join holiday h 
+        on e.id = h.employee_id 
+        where e.id = #{selectEmployeeId,jdbcType=INTEGER} and h.fiscal_year = #{fiscalYear,jdbcType=VARCHAR}
+    </select>
 </mapper>

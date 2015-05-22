@@ -1,88 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ebrun.holiday.dao.VacationMapper" >
-  <resultMap id="BaseResultMap" type="com.ebrun.holiday.model.Vacation" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
-    <result column="vacation_date" property="vacationDate" jdbcType="TIMESTAMP" />
-    <result column="vacation_status" property="vacationStatus" jdbcType="BIT" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, employee_id, vacation_date, vacation_status, remark
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from vacation
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from vacation
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.ebrun.holiday.model.Vacation" >
-    insert into vacation (id, employee_id, vacation_date, 
-      vacation_status, remark)
-    values (#{id,jdbcType=INTEGER}, #{employeeId,jdbcType=INTEGER}, #{vacationDate,jdbcType=TIMESTAMP}, 
-      #{vacationStatus,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.ebrun.holiday.model.Vacation" >
-    insert into vacation
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="employeeId != null" >
-        employee_id,
-      </if>
-      <if test="vacationDate != null" >
-        vacation_date,
-      </if>
-      <if test="vacationStatus != null" >
-        vacation_status,
-      </if>
-      <if test="remark != null" >
-        remark,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="employeeId != null" >
-        #{employeeId,jdbcType=INTEGER},
-      </if>
-      <if test="vacationDate != null" >
-        #{vacationDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="vacationStatus != null" >
-        #{vacationStatus,jdbcType=BIT},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ebrun.holiday.model.Vacation" >
-    update vacation
-    <set >
-      <if test="employeeId != null" >
-        employee_id = #{employeeId,jdbcType=INTEGER},
-      </if>
-      <if test="vacationDate != null" >
-        vacation_date = #{vacationDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="vacationStatus != null" >
-        vacation_status = #{vacationStatus,jdbcType=BIT},
-      </if>
-      <if test="remark != null" >
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.ebrun.holiday.model.Vacation" >
+<mapper namespace="com.ebrun.holiday.dao.VacationMapper">
+    <resultMap id="BaseResultMap" type="com.ebrun.holiday.model.Vacation">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="employee_id" property="employeeId" jdbcType="INTEGER"/>
+        <result column="vacation_date" property="vacationDate" jdbcType="TIMESTAMP"/>
+        <result column="vacation_status" property="vacationStatus" jdbcType="BIT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, employee_id, vacation_date, vacation_status, remark
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from vacation
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from vacation
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.ebrun.holiday.model.Vacation">
+        insert into vacation (id, employee_id, vacation_date,
+        vacation_status, remark)
+        values (#{id,jdbcType=INTEGER}, #{employeeId,jdbcType=INTEGER}, #{vacationDate,jdbcType=TIMESTAMP},
+        #{vacationStatus,jdbcType=BIT}, #{remark,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.ebrun.holiday.model.Vacation">
+        insert into vacation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="employeeId != null">
+                employee_id,
+            </if>
+            <if test="vacationDate != null">
+                vacation_date,
+            </if>
+            <if test="vacationStatus != null">
+                vacation_status,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="employeeId != null">
+                #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="vacationDate != null">
+                #{vacationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vacationStatus != null">
+                #{vacationStatus,jdbcType=BIT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ebrun.holiday.model.Vacation">
+        update vacation
+        <set>
+            <if test="employeeId != null">
+                employee_id = #{employeeId,jdbcType=INTEGER},
+            </if>
+            <if test="vacationDate != null">
+                vacation_date = #{vacationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="vacationStatus != null">
+                vacation_status = #{vacationStatus,jdbcType=BIT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ebrun.holiday.model.Vacation">
     update vacation
     set employee_id = #{employeeId,jdbcType=INTEGER},
       vacation_date = #{vacationDate,jdbcType=TIMESTAMP},
@@ -90,16 +90,23 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  
-  
-  <delete id="deleteByEmployeeIdAndDate">
+
+
+    <delete id="deleteByEmployeeIdAndDate">
     delete from vacation
     where employee_id = #{employeeId,jdbcType=INTEGER} 
     and vacation_date not between #{entryDate,jdbcType=TIMESTAMP} and #{leaveDate,jdbcType=TIMESTAMP}
   </delete>
-  <delete id="deleteByEmployeeId" parameterType="java.lang.Integer">
+    <delete id="deleteByEmployeeId" parameterType="java.lang.Integer">
     delete from vacation
     where employee_id = #{employeeId,jdbcType=INTEGER}
   </delete>
+    <select id="selectVacationByFiscalYear" resultType="java.util.Map">
+    select
+        e.id as id, v.id as vacation_Id,v.vacation_date, v.vacation_status
+    from employee e join vacation v 
+    on e.id = v.employee_id
+    where e.id = #{selectEmployeeId,jdbcType=INTEGER} 
+    and v.vacation_date between #{fiscalYearStart,jdbcType=TIMESTAMP} and #{fiscalYearEnd,jdbcType=TIMESTAMP}
+  </select>
 </mapper>

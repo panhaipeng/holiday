@@ -203,4 +203,20 @@
             </if>
         </where>
     </select>
+    <select id="selectEmployeeByKeyword" resultType="java.util.Map" parameterType="java.lang.String">
+        select e.id as id, e.employee_number as employee_number, e.name as employee_name, e.email as email 
+        from employee e 
+        <where>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                e.employee_number like #{employeeKeyword}
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or e.name like concat('%',#{employeeKeyword},'%')
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or e.email like concat('%',#{employeeKeyword},'%')
+            </if>
+        </where>
+        order by e.id
+    </select>
 </mapper>

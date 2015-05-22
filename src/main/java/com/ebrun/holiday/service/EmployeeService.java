@@ -95,4 +95,11 @@ public interface EmployeeService {
      * @param deleteEmployeeId
      */
     public void deleteEmployee(Integer deleteEmployeeId);
+
+    /**
+     * 根据关键词查询出员工列表，用于给部门指定领导和查出休假管理的员工
+     * @param employeeKeyword
+     * @return
+     */
+    public List selectEmployeeByKeyword(String employeeKeyword);
 }

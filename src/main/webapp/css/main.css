@@ -31,7 +31,8 @@ html, body {
     /*color: #ff0084;*/
     font-weight: bold;
 }
-#loginForm,#helpDialog{
+
+#loginForm, #helpDialog {
     display: none
 }
 
@@ -239,7 +240,8 @@ html, body {
 #searchEmployeeListKeyword {
     margin: 10px 20px 10px 20px;
 }
-#inputEmployeeNumber,#inputEmployeeName,#inputEmployeeEmail,#inputEmployeePassword{
+
+#inputEmployeeNumber, #inputEmployeeName, #inputEmployeeEmail, #inputEmployeePassword {
     width: 250px;
 }
 
@@ -248,18 +250,20 @@ html, body {
     margin: 0px 16px 0px 0px;
 }
 
-#inputEmployeeDepartmentName,#inputEmployeeIfAdministration{
+#inputEmployeeDepartmentName, #inputEmployeeIfAdministration {
     width: 180px;
 }
 
 #inputEmployeeRemark {
     width: 250px;
 }
-#chooseDepartmentDialog{
+
+#chooseDepartmentDialog {
     display: none;
 }
-#inputEmployeeNumber,#inputEmployeeName,#inputEmployeeEmail,#inputEmployeePassword,#inputEmployeeEntryDate,#inputEmployeeLeaveDate,
-#inputEmployeeDepartmentName,#inputEmployeeIfAdministration,#inputEmployeeRemark{
+
+#inputEmployeeNumber, #inputEmployeeName, #inputEmployeeEmail, #inputEmployeePassword, #inputEmployeeEntryDate, #inputEmployeeLeaveDate,
+#inputEmployeeDepartmentName, #inputEmployeeIfAdministration, #inputEmployeeRemark {
     margin: 10px 0px 10px 0px;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1em;
@@ -269,7 +273,8 @@ html, body {
     text-decoration: none;
     text-align: center;
 }
-#chooseDepartmentDialog a{
+
+#chooseDepartmentDialog a {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
     /*color: #0073ea;*/
@@ -277,6 +282,129 @@ html, body {
     font-weight: bold;
     text-decoration: none;
 }
-#listDepartmentTree,#inputEmployeeId{
+
+#listDepartmentTree, #inputEmployeeId {
     display: none;
+}
+
+#holidayDialog {
+    /*float: left;*/
+}
+
+#employeeInfo {
+    height: 400px;
+    width: 400px;
+    margin: 20px 0px 10px 40px;
+    border: 1px solid green;
+    float: left;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+}
+
+#vacationInfo {
+    height: 400px;
+    width: 400px;
+    margin: 20px 0px 10px 60px;
+    border: 1px solid green;
+    float: left;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+}
+
+#employeeInfo span {
+    text-align: center;
+}
+
+#vacationInfoTable {
+    text-align: center;
+    margin: auto;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+}
+
+#employeeList {
+    display: none;
+    table-layout: fixed;
+}
+
+#employeeListTable {
+    table-layout: fixed;
+}
+
+#employeeListTable tr th {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+    text-align: center;
+}
+
+#employeeListTable tr td {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    color: #0073ea;
+    /*color: #ff0084;*/
+    font-weight: bold;
+    text-align: center;
+
+    white-space: nowrap;
+    /* */
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#employeeListTable tr:hover{
+    color: #ff0084;
+}
+
+#employeeListTable tr:hover {
+    color: #ff0084;
+}
+
+#employeeListTable tr .thEmployeeNumber {
+    width: 60px;
+    padding: 0px;
+}
+
+#employeeListTable tr .thEmployeeName {
+    width: 100px;
+}
+
+#employeeListTable tr .thEmployeeEmail {
+    width: 240px;
+}
+
+#employeeListTable tr .thSelectEmployeeButton {
+    width: auto;
+}
+
+#employeeListTable tr .tdEmployeeNumber {
+    width: 60px;
+    padding: 0px;
+}
+
+#employeeListTable tr .tdEmployeeName {
+    width: 100px;
+}
+
+#employeeListTable tr .tdEmployeeEmail {
+    width: 240px;
+}
+
+#employeeListTable tr .selectEmployeeButton {
+    width: auto;
 }

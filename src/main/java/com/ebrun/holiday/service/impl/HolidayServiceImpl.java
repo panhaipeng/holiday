@@ -1,7 +1,11 @@
 package com.ebrun.holiday.service.impl;
 
+import com.ebrun.holiday.dao.HolidayMapper;
+import com.ebrun.holiday.dao.VacationMapper;
 import com.ebrun.holiday.service.HolidayService;
+import com.ebrun.holiday.service.VacationService;
 import com.ebrun.holiday.util.Constant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.ws.ServiceMode;
@@ -9,6 +13,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,6 +21,40 @@ import java.util.Map;
  */
 @Service("holidayService")
 public class HolidayServiceImpl implements HolidayService {
+
+    private HolidayMapper holidayMapper;
+
+    public HolidayMapper getHolidayMapper() {
+        return holidayMapper;
+    }
+
+    @Autowired
+    public void setHolidayMapper(HolidayMapper holidayMapper) {
+        this.holidayMapper = holidayMapper;
+    }
+
+    private VacationMapper vacationMapper;
+
+    public VacationMapper getVacationMapper() {
+        return vacationMapper;
+    }
+
+    @Autowired
+    public void setVacationMapper(VacationMapper vacationMapper) {
+        this.vacationMapper = vacationMapper;
+    }
+
+    private VacationService vacationService;
+
+    public VacationService getVacationService() {
+        return vacationService;
+    }
+
+    @Autowired
+    public void setVacationService(VacationService vacationService) {
+        this.vacationService = vacationService;
+    }
+
     /**
      * 这个复杂的算法，我居然想了一夜，java实现和javaScript各实现一次
      * 根据亿邦动力2015财年度，年假算法
@@ -155,25 +194,37 @@ public class HolidayServiceImpl implements HolidayService {
             }
         }
 
-        int leaveCount= 0;
+        int leaveCount = 0;
         if (leaveDate != null) {//引入离职日期，也就是当一个员工离职了，就不再对他离职后的年假每年都统计。
             int leaveYear = Integer.parseInt(sdfYYYY.format(leaveDate));//离职职年份
             int leaveMonth = Integer.parseInt(sdfMM.format(leaveDate));//离职月份
             int leaveDay = Integer.parseInt(sdfDD.format(leaveDate));//离职day
             if (leaveMonth < 4) {
                 //fiscalCount = fiscalCount -(currentYear-leaveYear);
-                leaveCount = (currentYear-leaveYear)+1;
-                fiscalCount = fiscalCount -leaveCount;
-            }else{
-                leaveCount = (currentYear-leaveYear);
-                fiscalCount = fiscalCount -leaveCount;
+                leaveCount = (currentYear - leaveYear) + 1;
+                fiscalCount = fiscalCount - leaveCount;
+            } else {
+                leaveCount = (currentYear - leaveYear);
+                fiscalCount = fiscalCount - leaveCount;
             }
         }
         for (int i = 0; i < fiscalCount; i++) {
-            String fiscalYearString = String.valueOf(fiscalYear-leaveCount - i);
-            Integer holiday = holidays-leaveCount - i;
+            String fiscalYearString = String.valueOf(fiscalYear - leaveCount - i);
+            Integer holiday = holidays - leaveCount - i;
             map.put(fiscalYearString, holiday);
         }
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> showHoliday(Integer selectEmployeeId, String fiscalYear) {
+        List holidayInfo = holidayMapper.selectHolidayByFiscalYear(selectEmployeeId, fiscalYear);
+        Map<String, Object> map = new HashMap<>();
+        map.put("holidayInfo", holidayInfo.get(0));
+        List vacationList = vacationService.selectVacationByFiscalYear(selectEmployeeId, fiscalYear);
+        map.put("vacationList",vacationList);
+        Double vacationCount = vacationService.selectVacationCountByFiscalYear(selectEmployeeId, fiscalYear);
+        map.put("vacationCount",vacationCount);
         return map;
     }
 }

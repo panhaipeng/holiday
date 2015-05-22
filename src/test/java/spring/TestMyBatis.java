@@ -1,6 +1,7 @@
 package spring;
 
 import com.alibaba.fastjson.JSON;
+import com.ebrun.holiday.dao.EmployeeMapper;
 import com.ebrun.holiday.model.Department;
 import com.ebrun.holiday.model.Employee;
 import com.ebrun.holiday.service.DepartmentService;
@@ -183,5 +184,20 @@ public class TestMyBatis {
     @Test
     public void test19(){
         employeeService.deleteEmployee(26);
+    }
+    @Test
+    public void test20(){
+        List list = employeeService.selectEmployeeByKeyword("员工");
+        LOGGER.info(JSON.toJSONString(list));
+    }
+    @Test
+    public void test21(){
+        Map<String,Object>map = holidayService.showHoliday(20,"2015");
+        LOGGER.info(JSON.toJSONString(map));
+    }
+    @Test
+    public void test22(){
+        List list = vacationService.selectVacationByFiscalYear(20,"2015");
+        LOGGER.info(JSON.toJSONStringWithDateFormat(list,Constant.DATE_FORMAT_YMDHMS));
     }
 }

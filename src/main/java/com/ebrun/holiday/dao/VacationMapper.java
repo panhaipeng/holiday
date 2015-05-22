@@ -4,6 +4,7 @@ import com.ebrun.holiday.model.Vacation;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
+import java.util.List;
 
 public interface VacationMapper {
     int deleteByPrimaryKey(Integer id);
@@ -29,5 +30,19 @@ public interface VacationMapper {
      */
     int deleteByEmployeeIdAndDate(@Param("employeeId") Integer employeeId,@Param("entryDate") Date entryDate, @Param("leaveDate")Date leaveDate);
 
+    /**
+     * 删除员工时，把vacation表中相关的信息清除
+     * @param deleteEmployeeId
+     * @return
+     */
     int deleteByEmployeeId(Integer deleteEmployeeId);
+
+    /**
+     * 根据财年号和员工id查询出当前员工那些天休假了
+     * @param selectEmployeeId
+     * @return
+     */
+    List selectVacationByFiscalYear(@Param("selectEmployeeId")Integer selectEmployeeId, 
+                                    @Param("fiscalYearStart")Date fiscalYearStart,
+                                    @Param("fiscalYearEnd")Date fiscalYearEnd);
 }

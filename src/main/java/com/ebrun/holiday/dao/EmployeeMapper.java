@@ -40,4 +40,11 @@ public interface EmployeeMapper {
      * @return
      */
     Integer selectEmployeeCount(@Param("employeeKeyword")String employeeKeyword);
+
+    /**
+     * 根据关键词查询出符合条件的员工列表，只要查出来姓名邮箱ID
+     * @param employeeKeyword
+     * @return
+     */
+    List selectEmployeeByKeyword(@Param("employeeKeyword")String employeeKeyword);
 }

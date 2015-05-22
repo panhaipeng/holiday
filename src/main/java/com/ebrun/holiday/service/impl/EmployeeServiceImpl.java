@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -342,5 +343,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         departmentMapper.updateByDeleteEmployeeId(deleteEmployeeId);
         employeeMapper.deleteByPrimaryKey(deleteEmployeeId);
         
+    }
+
+    @Override
+    public List selectEmployeeByKeyword(String employeeKeyword) {
+        List list=null;
+        if (employeeKeyword!=null){
+            list = employeeMapper.selectEmployeeByKeyword(employeeKeyword);
+        }
+        return list;
     }
 }

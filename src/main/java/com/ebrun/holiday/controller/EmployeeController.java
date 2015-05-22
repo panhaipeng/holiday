@@ -107,4 +107,13 @@ public class EmployeeController {
         map.put("delete", "success");
         return map;
     }
+    @RequestMapping(value="/selectEmployee",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> selectEmployee(@RequestParam("employeeKeyword") String employeeKeyword){
+        List employeeList = employeeService.selectEmployeeByKeyword(employeeKeyword);
+        Map<String, Object> map = new HashMap();
+        map.put("employeeList",employeeList);
+        map.put("select", "success");
+        return map;
+    }
 }

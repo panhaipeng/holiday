@@ -14,5 +14,7 @@ public class Constant {
     public static final String DATE_FORMAT_YYYY = "yyyy";
     public static final String DATE_FORMAT_MM = "MM";
     public static final String DATE_FORMAT_DD = "dd";
-    public static final Integer FISCAL_MONTH=4;
+    public static final Integer FISCAL_MONTH = 4;
+    public static final String FISCAL_START = "-04-01 00.00.00";
+    public static final String FISCAL_END = "-03-31 23.59.59";
 }

@@ -538,7 +538,7 @@ $(function () {
             minHeight: 200,
             maxWidth: 300,
             maxHeight: 200,
-            title: "关键词：号码|姓名|邮箱|日期|部门",
+            title: "号码|姓名|邮箱|日期|部门",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -1144,7 +1144,7 @@ $(function () {
         }
     }
 
-
+    /*-------------------------休假管理------------------------------*/
     $("#holidayDiv").click(function () {
         $("#holidayDialog").dialog({
             autoOpen: true,
@@ -1163,12 +1163,155 @@ $(function () {
             },
 
             buttons: {
+                "查询": function () {
+                    searchEmployeeForHoliday();
+                },
                 "close": function () {
                     $(this).dialog("close");
                 }
             }
         })
     });
+
+    function searchEmployeeForHoliday() {
+        $("#searchEmployeeListDialog").dialog({
+            autoOpen: true,
+            modal: true,
+            minWidth: 300,
+            minHeight: 200,
+            maxWidth: 300,
+            maxHeight: 200,
+            title: "关键词：号码|姓名|邮箱",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
+
+            buttons: {
+                "搜索": function () {
+                    //employeeKeyword = $("#searchEmployeeListKeyword").val();
+                    //pageNumber = 1;
+                    //showEmployeeByKeyword(employeeKeyword, pageNumber);
+                    //$("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
+                    //$("#searchEmployeeListKeyword").val("");
+                    employeeKeyword = $("#searchEmployeeListKeyword").val();
+                    selectEmployeeByKeyword(employeeKeyword);
+                    $("#searchEmployeeListKeyword").val("");
+                    $(this).dialog("close");
+                },
+                "close": function () {
+                    $("#searchEmployeeListKeyword").val("");
+                    $(this).dialog("close");
+                }
+            }
+        })
+    }
+
+    function selectEmployeeByKeyword(employeeKeyword) {
+        $.ajax({
+            type: "POST",
+            url: "selectEmployee",
+            data: {employeeKeyword: employeeKeyword},
+            success: function (data) {
+                if (data.select == "success") {
+                    var employeeList = data.employeeList
+                    showEmployeeListDialog(employeeList);
+                }
+            }
+        });
+    }
+
+    function showEmployeeListDialog(employeeList) {
+//        alert(employeeList);
+        var employeeListHtml = "<tr><th class='.tdEmployeeNumber'>号码</th>" +
+            "<th class='.tdEmployeeName'>姓名</th>" +
+            "<th class='.tdEmployeeEmail'>邮箱</th>" +
+            "<th class='.tdSelectEmployeeButton'>选择</th></tr>";
+        $.each(employeeList, function (key, value) {
+            //alert(key+":"+value.id+":"+value.employee_number+":"+value.name+":"+value.email);
+            //alert(value.name);
+            employeeListHtml += "<tr>" +
+                "<td class='tdEmployeeNumber'>" + value.employee_number + "</td>" +
+                "<td class='tdEmployeeName'>" + value.employee_name + "AA</td>" +
+                "<td class='tdEmployeeEmail'>" + value.email + "</td>" +
+                "<td><input type='button' class='selectEmployeeButton'>" +
+                "<span class='selectEmployeeId'>" + value.id + "</span></td>" +
+                "</tr>"
+        });
+        $("#employeeListTable").append(employeeListHtml);
+
+        $(".selectEmployeeId").hide();
+        $("#employeeListTable tr .tdEmployeeNumber").css({
+            width: "60px"
+        });
+        $("#employeeListTable tr .tdEmployeeName").css({
+            width: "100px"
+        });
+        $("#employeeListTable tr .tdEmployeeEmail").css({
+            width: "240px"
+        });
+        $("#employeeListTable tr .tdSelectEmployeeButton").css({
+            width: "auto"
+        });
+        $("#employeeListTable tr .selectEmployeeButton").css({
+            width: "auto"
+        });
+        $("#employeeListTable tr .selectEmployeeButton").button({
+            label: "选择"
+        });
+        $("#employeeListTable tr").hover(function () {
+            $(this).css({color: "#ff0084"});
+        });
+        $("#employeeList").dialog({
+            autoOpen: true,
+            modal: true,
+            minWidth: 500,
+            minHeight: 600,
+            maxWidth: 500,
+            maxHeight: 600,
+            title: "搜索到的员工列表：",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
+
+            buttons: {
+                "close": function () {
+                    $("#employeeListTable").html("");
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".selectEmployeeButton").click(function () {
+            $("#employeeList").dialog("close");
+            var selectEmployeeId = $(this).nextAll(".selectEmployeeId").text();
+            alert(fiscalYear);
+/*            $.ajax({
+                type: "POST",
+                url: "showHoliday",
+                data: {
+                    selectEmployeeId: selectEmployeeId,
+                    fiscalYear: fiscalYear
+                },
+                success: function (data) {
+                    if (data.show == "success") {
+
+                    }
+                }
+            });*/
+        });
+
+    }
+
+
     $("#mineDiv").click(function () {
         $("#mineDialog").dialog({
             autoOpen: true,
@@ -1195,6 +1338,19 @@ $(function () {
     });
 
 });
+
+
+var currentDate = new Date();//当前日期
+var currentYear = currentDate.getFullYear();//当前年份
+var currentMonth = currentDate.getMonth() + 1;//当前月份
+var fiscalYear;//当前财年
+var fiscalMonth = 4;
+if (currentMonth < fiscalMonth) {//如果现在还没到4月
+    fiscalYear = currentYear - 1;//财年为当前年份-1
+} else {
+    fiscalYear = currentYear;
+}
+
 /**
  * 时间对象的格式化
  */

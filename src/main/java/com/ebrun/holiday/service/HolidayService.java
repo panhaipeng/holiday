@@ -17,4 +17,9 @@ public interface HolidayService {
      * map<财年号:年假天数>
      */
     public Map<String,Integer> calculateHolidaysMap(Date entryDate,Date leaveDate);
+
+    /**
+     * 根据员工ID和财年号获取当前财年当前员工的所有holiday信息
+     */
+    public Map<String,Object> showHoliday(Integer selectEmployeeId,String fiscalYear);
 }
