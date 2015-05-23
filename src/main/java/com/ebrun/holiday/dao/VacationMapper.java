@@ -45,4 +45,18 @@ public interface VacationMapper {
     List selectVacationByFiscalYear(@Param("selectEmployeeId")Integer selectEmployeeId, 
                                     @Param("fiscalYearStart")Date fiscalYearStart,
                                     @Param("fiscalYearEnd")Date fiscalYearEnd);
+
+    /**
+     * 根据财年号和员工id分别查询查询在此财年休了几个半天，几个一天
+     * @param selectEmployeeId
+     * @param fiscalYearStart
+     * @param fiscalYearEnd
+     * @return
+     */
+    Integer selectVacationByFullDay(@Param("selectEmployeeId")Integer selectEmployeeId,
+                                    @Param("fiscalYearStart")Date fiscalYearStart,
+                                    @Param("fiscalYearEnd")Date fiscalYearEnd);
+    Integer selectVacationByHalfDay(@Param("selectEmployeeId")Integer selectEmployeeId,
+                                    @Param("fiscalYearStart")Date fiscalYearStart,
+                                    @Param("fiscalYearEnd")Date fiscalYearEnd);
 }

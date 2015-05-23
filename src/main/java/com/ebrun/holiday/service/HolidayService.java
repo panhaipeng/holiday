@@ -1,6 +1,7 @@
 package com.ebrun.holiday.service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,4 +23,11 @@ public interface HolidayService {
      * 根据员工ID和财年号获取当前财年当前员工的所有holiday信息
      */
     public Map<String,Object> showHoliday(Integer selectEmployeeId,String fiscalYear);
+
+    /**
+     * 根据员工ID获取当前员工所有的财年号
+     * @param employeeId
+     * @return
+     */
+    public List getFiscalYearListByEmployeeId(Integer employeeId);
 }

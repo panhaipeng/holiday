@@ -26,6 +26,26 @@ public interface HolidayMapper {
      * @return
      */
     int deleteByEmployeeId(Integer employeeId);
-    
+
+    /**
+     * 根据财年号获取员工财年信息
+     * @param selectEmployeeId
+     * @param fiscalYear
+     * @return
+     */
     List selectHolidayByFiscalYear(@Param("selectEmployeeId")Integer selectEmployeeId, @Param("fiscalYear")String fiscalYear);
+
+    /**
+     * 根据员工id获取第1个财年的财年号
+     * @param selectEmployeeId
+     * @return
+     */
+    public Integer selectFirstFiscalYear(@Param("selectEmployeeId")Integer selectEmployeeId);
+
+    /**
+     * 获取员工财年号list
+     * @param employeeId
+     * @return
+     */
+    List selectFiscalYearListByEmployee(@Param("employeeId")Integer employeeId);
 }

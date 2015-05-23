@@ -857,7 +857,7 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: "deleteEmployee",
+            url: "deleteEmployee?time=" + new Date().getTime(),
             data: {
                 deleteEmployeeId: deleteEmployeeId
             },
@@ -964,7 +964,7 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: "insertEmployee",
+            url: "insertEmployee?time=" + new Date().getTime(),
             data: {
                 inputEmployeeNumber: inputEmployeeNumber,
                 inputEmployeeName: inputEmployeeName,
@@ -1167,6 +1167,8 @@ $(function () {
                     searchEmployeeForHoliday();
                 },
                 "close": function () {
+                    $("#employeeInfo").html("");
+                    $("#vacationInfo").html("");
                     $(this).dialog("close");
                 }
             }
@@ -1214,7 +1216,7 @@ $(function () {
     function selectEmployeeByKeyword(employeeKeyword) {
         $.ajax({
             type: "POST",
-            url: "selectEmployee",
+            url: "selectEmployee?time=" + new Date().getTime(),
             data: {employeeKeyword: employeeKeyword},
             success: function (data) {
                 if (data.select == "success") {
@@ -1236,13 +1238,13 @@ $(function () {
             //alert(value.name);
             employeeListHtml += "<tr>" +
                 "<td class='tdEmployeeNumber'>" + value.employee_number + "</td>" +
-                "<td class='tdEmployeeName'>" + value.employee_name + "AA</td>" +
+                "<td class='tdEmployeeName'>" + value.employee_name + "</td>" +
                 "<td class='tdEmployeeEmail'>" + value.email + "</td>" +
                 "<td><input type='button' class='selectEmployeeButton'>" +
                 "<span class='selectEmployeeId'>" + value.id + "</span></td>" +
                 "</tr>"
         });
-        $("#employeeListTable").append(employeeListHtml);
+        $("#employeeListTable").html(employeeListHtml);
 
         $(".selectEmployeeId").hide();
         $("#employeeListTable tr .tdEmployeeNumber").css({
@@ -1291,24 +1293,356 @@ $(function () {
             }
         });
         $(".selectEmployeeButton").click(function () {
-            $("#employeeList").dialog("close");
+            //$("#employeeList").dialog("close");
             var selectEmployeeId = $(this).nextAll(".selectEmployeeId").text();
-            alert(fiscalYear);
-/*            $.ajax({
+            //alert(fiscalYear);
+            $.ajax({
                 type: "POST",
-                url: "showHoliday",
+                url: "showHoliday?time=" + new Date().getTime(),
                 data: {
                     selectEmployeeId: selectEmployeeId,
                     fiscalYear: fiscalYear
                 },
                 success: function (data) {
                     if (data.show == "success") {
-
+                        //alert(JSON.stringify(data));
+                        //holidayInfo = (JSON.stringify(data));
+                        toShowHolidayInfo = data;
+                        showHolidayInfo(toShowHolidayInfo);
+                        //alert(0);
+                        $("#employeeList").dialog("close");
                     }
                 }
-            });*/
+            });
         });
 
+    }
+
+    var toShowHolidayInfo = "";
+    var holidayInfo = "";
+
+    function showHolidayInfo(toShowHolidayInfo) {
+        var employeeId;
+        var employeeName;
+        var employeeEmail;
+        var fiscalYear;
+        var fiscalYearIndex;
+        var holidays;
+        var vacationCount;
+        var vacationList;
+
+        employeeId = toShowHolidayInfo.holidayInfo.id;
+        employeeName = toShowHolidayInfo.holidayInfo.name;
+        employeeEmail = toShowHolidayInfo.holidayInfo.email;
+        fiscalYear = toShowHolidayInfo.holidayInfo.fiscal_year;
+        fiscalYearIndex = toShowHolidayInfo.fiscalYearIndex;
+        holidays = toShowHolidayInfo.holidayInfo.holidays;
+        vacationCount = toShowHolidayInfo.vacationCount;
+
+        var vacationTree = "";
+        vacationList = toShowHolidayInfo.vacationList;
+        $.each(vacationList, function (index, value) {
+            var employeeId = value.id;
+            var vacation_Id = value.vacation_Id;
+            var vacation_date = (new Date(value.vacation_date)).format("yyyy-MM-dd");
+            if (value.vacation_status == true) {
+                var vacation_status = "一天";
+            } else {
+                var vacation_status = "半天";
+            }
+            //alert(vacation_Id);
+            vacationTree += "<tr><td class='vacationDate'>" + vacation_date + "</td>" +
+                "<td class='vacationStatus'>" + vacation_status + "</td>" +
+                "<td><input type='button' value='删除'class='deleteVacationButton'>" +
+                "<span class='vacationEmployeeId'>" + employeeId + "</span>" +
+                "<span class='vacationId'>" + vacation_Id + "</span></td></tr>";
+
+        });
+        holidayInfo = "<span id='employeeInfoId'>" + employeeId + "</span>" +
+            "<span id='employeeInfoName'>" + employeeName + "</span><br/><br/>" +
+            "<span id='employeeInfoEmail'>" + employeeEmail + "</span><br/><br/>" +
+            "<span>" + fiscalYear + "&nbsp;&nbsp;财年</span><br/><br/>" +
+            "<span>（" + fiscalYear + "-04-01 &nbsp;&nbsp;-&nbsp;&nbsp; " + fiscalYear + 1 + "-03-31）</span><br/><br/>" +
+            "<span>这是&nbsp;&nbsp;" + employeeName + "&nbsp;&nbsp;的第&nbsp;&nbsp;" + fiscalYearIndex + "&nbsp;&nbsp;个财年</span><br/><br/>" +
+            "<span>总共有&nbsp;&nbsp;" + holidays + "&nbsp;&nbsp;天年假</span><br/><br/>" +
+            "<span>已经休假&nbsp;&nbsp;" + vacationCount + "&nbsp;&nbsp;天</span><br/><br/>" +
+            "<span>休假日期列表&nbsp;&nbsp;→</span><br/><br/>" +
+            "<span><input type='button' value='查看往年' id='showMoreFiscalYear'><input type='button' value='添加年假' id='addVacationButton'></span>";
+
+        $("#employeeInfo").html(holidayInfo);
+        $("#employeeInfoId").hide();
+        $("#vacationInfoTable").html(vacationTree);
+        $(".vacationEmployeeId").hide();
+        $(".vacationId").hide();
+
+        $("#showMoreFiscalYear").button({
+            label: "查看往年"
+        });
+        $("#addVacationButton").button({
+            label: "添加年假"
+        });
+        $(".deleteVacationButton").button({
+            label: "删除"
+        });
+        $("#showMoreFiscalYear").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "showMoreFiscalYear?time=" + new Date().getTime(),
+                data: {
+                    employeeId: employeeId
+                },
+                success: function (data) {
+                    if (data.showMoreFiscalYear == "success") {
+                        showMoreFiscalYear(data.employeeId, data.fiscalYearList);
+                    }
+                }
+            });
+
+        });
+        $("#addVacationButton").click(function () {
+            addVacation(employeeId,fiscalYear);
+        });
+        $(".deleteVacationButton").click(function () {
+            var vacationId = $(this).nextAll(".vacationId").text();
+            $("#reminderDialog p").text("确定删除？");
+            $("#reminderDialog").dialog({
+                autoOpen: true,
+                minWidth: 300,
+                minHeight: 200,
+                maxWidth: 300,
+                maxHeight: 200,
+                title: "提示：",
+                show: {
+                    effect: "bounce",
+                    duration: 500
+                },
+                hide: {
+                    effect: "explode",
+                    duration: 1000
+                },
+
+                buttons: {
+                    "删除":function(){
+                        deleteVacation(vacationId,employeeId,fiscalYear);
+                        $(this).dialog("close");
+                    }
+                }
+            });
+
+        });
+
+    }
+
+    function showMoreFiscalYear(employeeId, fiscalYearList) {
+        //alert(employeeId);
+        //alert(fiscalYearList);
+        var tree = "";
+        $.each(fiscalYearList, function (index, value) {
+            // value.fiscal_year
+            tree += "<li class='fiscalYearList'><span class='fiscalYearEmployeeId'>" + employeeId + "</span>" +
+                "<span class='fiscalYear'>" + value.fiscal_year + "</span></li>"
+        });
+        $("#fiscalYearList").html(tree);
+        $(".fiscalYearEmployeeId").hide();
+
+        $("#showMoreFiscalYearDiv").dialog({
+            autoOpen: true,
+            modal: true,
+            minWidth: 120,
+            minHeight: 300,
+            maxWidth: 120,
+            maxHeight: 300,
+            title: "点选财年：",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
+
+            buttons: {
+                "close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".fiscalYearList").click(function () {
+            var fiscalYear = $(this).find(".fiscalYear").text();
+            $.ajax({
+                type: "POST",
+                url: "showHoliday?time=" + new Date().getTime(),
+                data: {
+                    selectEmployeeId: employeeId,
+                    fiscalYear: fiscalYear
+                },
+                success: function (data) {
+                    if (data.show == "success") {
+                        //alert(JSON.stringify(data));
+                        //holidayInfo = (JSON.stringify(data));
+                        toShowHolidayInfo = data;
+                        showHolidayInfo(toShowHolidayInfo);
+                        //alert(0);
+                        $("#showMoreFiscalYearDiv").dialog("close");
+                    }
+                }
+            });
+        });
+    }
+
+    $("#showVacationDateButton").button({
+        label: "点选"
+    });
+
+    $("#showVacationDateButton").click(function () {
+        $("#inputVacationDate").focus();
+    });
+
+    $("#changeIfFullDayButton").button({
+        label: "变更"
+    });
+    $("#inputIfFullDay").val("半天");
+    $("#inputIfFullDayValue").val(0);
+    $("#changeIfFullDayButton").click(function () {
+        if ($("#inputIfFullDay").val() == "半天") {
+            $("#inputIfFullDay").val("一天");
+            $("#inputIfFullDayValue").val(1);
+        } else {
+            $("#inputIfFullDay").val("半天");
+            $("#inputIfFullDayValue").val(0);
+        }
+    });
+
+    $("#inputVacationDate").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        minDate: "2007-01-01",
+        maxDate: "+0D",
+        //showOn: "button",
+        showOn: "focus",
+        //showOn: "both",
+        //buttonText: "日历",
+        //buttonImage: "imgs/calendar.png",
+        //buttonImageOnly: true
+    });
+    function addVacation(employeeId,fiscalYear) {
+
+        $("#addVacationDiv").dialog({
+            autoOpen: true,
+            modal: true,
+            minWidth: 360,
+            minHeight: 300,
+            maxWidth: 360,
+            maxHeight: 300,
+            title: "添加休假：",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
+
+            buttons: {
+                "添加": function () {
+                    var vacationDate = $("#inputVacationDate").val();
+                    var vacationStatus = $("#inputIfFullDayValue").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "addVacation?time=" + new Date().getTime(),
+                        data: {
+                            employeeId: employeeId,
+                            vacationDate: vacationDate,
+                            vacationStatus: vacationStatus
+                        },
+                        success: function (data) {
+                            if (data.add == "success") {
+                                $("#reminderDialog p").text("添加成功！");
+                                $("#reminderDialog").dialog({
+                                    autoOpen: true,
+                                    minWidth: 300,
+                                    minHeight: 200,
+                                    maxWidth: 300,
+                                    maxHeight: 200,
+                                    title: "提示：",
+                                    show: {
+                                        effect: "bounce",
+                                        duration: 500
+                                    },
+                                    hide: {
+                                        effect: "explode",
+                                        duration: 1000
+                                    },
+
+                                    buttons: {
+                                        "close": function () {
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "showHoliday?time=" + new Date().getTime(),
+                                                data: {
+                                                    selectEmployeeId: employeeId,
+                                                    fiscalYear: fiscalYear
+                                                },
+                                                success: function (data) {
+                                                    if (data.show == "success") {
+                                                        //alert(JSON.stringify(data));
+                                                        //holidayInfo = (JSON.stringify(data));
+                                                        toShowHolidayInfo = data;
+                                                        showHolidayInfo(toShowHolidayInfo);
+                                                        //alert(0);
+                                                        //$("#showMoreFiscalYearDiv").dialog("close");
+                                                    }
+                                                }
+                                            });
+                                            $(this).dialog("close");
+                                            $("#addVacationDiv").dialog("close");
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                },
+                "close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+    }
+
+    function deleteVacation(vacationId,employeeId,fiscalYear){
+        //alert(vacationId);
+        $.ajax({
+            type: "POST",
+            url: "deleteVacation?time=" + new Date().getTime(),
+            data: {
+                vacationId: vacationId,
+            },
+            success: function (data) {
+                if (data.delete == "success") {
+                    $.ajax({
+                        type: "POST",
+                        url: "showHoliday?time=" + new Date().getTime(),
+                        data: {
+                            selectEmployeeId: employeeId,
+                            fiscalYear: fiscalYear
+                        },
+                        success: function (data) {
+                            if (data.show == "success") {
+                                //alert(JSON.stringify(data));
+                                //holidayInfo = (JSON.stringify(data));
+                                toShowHolidayInfo = data;
+                                showHolidayInfo(toShowHolidayInfo);
+                                //alert(0);
+                                //$("#showMoreFiscalYearDiv").dialog("close");
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
 

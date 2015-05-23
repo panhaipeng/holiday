@@ -54,6 +54,7 @@
                 <span>上级部门：</span><input type="text" id="inputSuperiorDepartment" readonly="readonly"><br/><br/>
                 <span>部门名称：</span><input type="text" id="inputDepartmentName"><br/><br/>
                 <span>部门领导：</span><input type="text" id="inputDepartmentLeaderName"><br/><br/>
+                <span>选择领导：</span><input type="button" id="chooseDepartmentLeaderButton"><br/><br/>
                 <span>备注信息：</span><textarea id="remark"></textarea><br/>
                 <input type="text" id="inputDepartmentId">
                 <input type="text" id="inputDepartmentLeader">
@@ -77,49 +78,28 @@
     </div>
     <div id="holidayDialog">
         <div id="employeeInfo">
+            <!--
             <span id="employeeInfoId"></span>
-            <span id="employeeInfoName">XXX</span><br/><br/>
-            <span id="employeeInfoEmail">XXXXXXXXXX@ebrun.com</span><br/><br/>
-            <span>2015&nbsp;&nbsp;财年</span><br/><br/>
-            <span>（2015-04-01 &nbsp;&nbsp;-&nbsp;&nbsp; 2016-03-31）</span><br/><br/>
-            <span>这是&nbsp;&nbsp;XXX&nbsp;&nbsp;的第&nbsp;&nbsp;N&nbsp;&nbsp;个财年</span><br/><br/>
-            <span>总共有&nbsp;&nbsp;N&nbsp;&nbsp;天年假</span><br/><br/>
-            <span>已经休假&nbsp;&nbsp;N&nbsp;&nbsp;天</span><br/><br/>
-            <span>休假日期列表&nbsp;&nbsp;→</span><br/><br/>
-            <span><input type="button" value="查看往年"><input type="button" value="添加年假"></span>
+                        <span id="employeeInfoName">XXX</span><br/><br/>
+                        <span id="employeeInfoEmail">XXXXXXXXXX@ebrun.com</span><br/><br/>
+                        <span>2015&nbsp;&nbsp;财年</span><br/><br/>
+                        <span>（2015-04-01 &nbsp;&nbsp;-&nbsp;&nbsp; 2016-03-31）</span><br/><br/>
+                        <span>这是&nbsp;&nbsp;XXX&nbsp;&nbsp;的第&nbsp;&nbsp;N&nbsp;&nbsp;个财年</span><br/><br/>
+                        <span>总共有&nbsp;&nbsp;N&nbsp;&nbsp;天年假</span><br/><br/>
+                        <span>已经休假&nbsp;&nbsp;N&nbsp;&nbsp;天</span><br/><br/>
+                        <span>休假日期列表&nbsp;&nbsp;→</span><br/><br/>
+                        <span><input type="button" value="查看往年"><input type="button" value="添加年假"></span>
+            -->
         </div>
         <div id="vacationInfo">
             <table id="vacationInfoTable">
+                <!--
                 <tr>
                     <td>2015-06-07</td>
                     <td>半天</td>
                     <td><input type="button" value="删除"></td>
                 </tr>
-                <tr>
-                    <td>2015-06-07</td>
-                    <td>半天</td>
-                    <td><input type="button" value="删除"></td>
-                </tr>
-                <tr>
-                    <td>2015-06-07</td>
-                    <td>半天</td>
-                    <td><input type="button" value="删除"></td>
-                </tr>
-                <tr>
-                    <td>2015-06-07</td>
-                    <td>半天</td>
-                    <td><input type="button" value="删除"></td>
-                </tr>
-                <tr>
-                    <td>2015-06-07</td>
-                    <td>半天</td>
-                    <td><input type="button" value="删除"></td>
-                </tr>
-                <tr>
-                    <td>2015-06-07</td>
-                    <td>半天</td>
-                    <td><input type="button" value="删除"></td>
-                </tr>
+                -->
             </table>
         </div>
     </div>
@@ -157,8 +137,20 @@
     </div>
     <div id="employeeList">
         <table id="employeeListTable">
-            
+
         </table>
+    </div>
+    <div id="showMoreFiscalYearDiv">
+        <div id="fiscalYearList"></div>
+    </div>
+    <div id="addVacationDiv">
+        <div id="addVacation">
+            <span>日期：</span><input id="inputVacationDate" type="text" readonly="readonly"/><input type="button"
+                                                                                                       id="showVacationDateButton"><br/>
+            <span id="inputIfFullDayValue"></span>
+            <span>管理：</span><input id="inputIfFullDay" type="text" readonly="readonly" value="半天"/><input
+                type="button" id="changeIfFullDayButton"><br/>
+        </div>
     </div>
 </div>
 </body>

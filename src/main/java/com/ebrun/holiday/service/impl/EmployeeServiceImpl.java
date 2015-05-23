@@ -31,10 +31,10 @@ import java.util.Map;
 @Service("employeeService")
 public class EmployeeServiceImpl implements EmployeeService {
     private static final Logger LOGGER = Logger.getLogger(EmployeeServiceImpl.class);
-    @Autowired
+    //@Autowired
     private EmployeeMapper employeeMapper;
 
-    @Autowired
+    //@Autowired
     public EmployeeMapper getEmployeeMapper() {
         return employeeMapper;
     }

@@ -295,7 +295,7 @@ html, body {
     height: 400px;
     width: 400px;
     margin: 20px 0px 10px 40px;
-    border: 1px solid green;
+    /*border: 1px solid green;*/
     float: left;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
@@ -310,7 +310,7 @@ html, body {
     height: 400px;
     width: 400px;
     margin: 20px 0px 10px 60px;
-    border: 1px solid green;
+    /*border: 1px solid green;*/
     float: left;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
@@ -333,6 +333,14 @@ html, body {
     /*color: #0073ea;*/
     color: #ff0084;
     font-weight: bold;
+}
+
+#vacationInfoTable tr .vacationDate {
+    width: 120px;
+}
+
+#vacationInfoTable tr .vacationStatus {
+    width: 60px;
 }
 
 #employeeList {
@@ -367,7 +375,7 @@ html, body {
     overflow: hidden;
 }
 
-#employeeListTable tr:hover{
+#employeeListTable tr:hover {
     color: #ff0084;
 }
 
@@ -407,4 +415,54 @@ html, body {
 
 #employeeListTable tr .selectEmployeeButton {
     width: auto;
+}
+
+#showMoreFiscalYearDiv {
+    display: none;
+}
+
+#fiscalYearList {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    color: #0073ea;
+    /*color: #ff0084;*/
+    font-weight: bold;
+    text-align: center;
+}
+
+#fiscalYearList li {
+    list-style: none;
+    cursor: pointer;
+}
+
+#fiscalYearList li:hover {
+    color: #ff0084;
+}
+#addVacationDiv {
+    display: none;
+}
+#addVacationDiv span {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+}
+
+#inputVacationDate, #inputIfFullDay {
+    margin: 10px 0px 10px 0px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    color: #0073ea;
+    /*color: #ff0084;*/
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+}
+#inputVacationDate{
+    width: 180px;
+    margin: 0px 16px 0px 0px;
+}
+#inputIfFullDay {
+    width: 180px;
 }

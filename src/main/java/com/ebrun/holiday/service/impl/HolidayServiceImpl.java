@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @Service("holidayService")
 public class HolidayServiceImpl implements HolidayService {
-
+    //@Autowired
     private HolidayMapper holidayMapper;
 
     public HolidayMapper getHolidayMapper() {
@@ -221,10 +221,31 @@ public class HolidayServiceImpl implements HolidayService {
         List holidayInfo = holidayMapper.selectHolidayByFiscalYear(selectEmployeeId, fiscalYear);
         Map<String, Object> map = new HashMap<>();
         map.put("holidayInfo", holidayInfo.get(0));
+        Integer fiscalYearIndex = calculateFiscalYearIndex(selectEmployeeId, fiscalYear);
+        map.put("fiscalYearIndex",fiscalYearIndex);
         List vacationList = vacationService.selectVacationByFiscalYear(selectEmployeeId, fiscalYear);
         map.put("vacationList",vacationList);
         Double vacationCount = vacationService.selectVacationCountByFiscalYear(selectEmployeeId, fiscalYear);
         map.put("vacationCount",vacationCount);
         return map;
+    }
+
+    /**
+     * 计算给定的财年号是员工的第几个财年
+     * @param selectEmployeeId
+     * @param fiscalYear
+     * @return
+     */
+    public Integer calculateFiscalYearIndex(Integer selectEmployeeId, String fiscalYear){
+        Integer fiscalYearIndex=0;
+        Integer firstFiscalYear = holidayMapper.selectFirstFiscalYear(selectEmployeeId);
+        fiscalYearIndex = Integer.parseInt(fiscalYear) - firstFiscalYear + 1;
+        return fiscalYearIndex;
+    };
+
+    @Override
+    public List getFiscalYearListByEmployeeId(Integer employeeId) {
+        List fiscalYearList = holidayMapper.selectFiscalYearListByEmployee(employeeId);
+        return fiscalYearList;
     }
 }

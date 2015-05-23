@@ -200,4 +200,23 @@ public class TestMyBatis {
         List list = vacationService.selectVacationByFiscalYear(20,"2015");
         LOGGER.info(JSON.toJSONStringWithDateFormat(list,Constant.DATE_FORMAT_YMDHMS));
     }
+    @Test
+    public void test23(){
+        double d = vacationService.selectVacationCountByFiscalYear(6,"2015");
+        LOGGER.info(d);
+    }
+    @Test
+    public void test24(){
+        Map<String,Object> map = holidayService.showHoliday(6,"2015");
+        LOGGER.info(JSON.toJSONStringWithDateFormat(map,Constant.DATE_FORMAT_YMDHMS));
+    }
+    @Test
+    public void test25(){
+        List fiscalYearList = holidayService.getFiscalYearListByEmployeeId(6);
+        LOGGER.info(JSON.toJSONString(fiscalYearList));
+    }
+    @Test
+    public void test26(){
+        vacationService.insertVacation(6,"2014-02-13",1);
+    }
 }

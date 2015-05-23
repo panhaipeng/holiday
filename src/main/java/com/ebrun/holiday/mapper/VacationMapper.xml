@@ -109,4 +109,20 @@
     where e.id = #{selectEmployeeId,jdbcType=INTEGER} 
     and v.vacation_date between #{fiscalYearStart,jdbcType=TIMESTAMP} and #{fiscalYearEnd,jdbcType=TIMESTAMP}
   </select>
+    <select id="selectVacationByFullDay" resultType="java.lang.Integer">
+        select
+            count(*)
+        from vacation
+        where employee_id = #{selectEmployeeId,jdbcType=INTEGER}
+        and vacation_status = 1
+        and vacation_date between #{fiscalYearStart,jdbcType=TIMESTAMP} and #{fiscalYearEnd,jdbcType=TIMESTAMP}
+    </select>
+    <select id="selectVacationByHalfDay" resultType="java.lang.Integer">
+        select
+        count(*)
+        from vacation
+        where employee_id = #{selectEmployeeId,jdbcType=INTEGER}
+        and vacation_status = 0
+        and vacation_date between #{fiscalYearStart,jdbcType=TIMESTAMP} and #{fiscalYearEnd,jdbcType=TIMESTAMP}
+    </select>
 </mapper>

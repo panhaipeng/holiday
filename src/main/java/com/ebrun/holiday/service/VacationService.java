@@ -9,6 +9,7 @@ import java.util.List;
 public interface VacationService {
     /**
      * 清除在修改了员工入职离职日期之后，无效的数据，即日期不再在职期间的记录
+     *
      * @param employeeId
      * @param entryDate
      * @param leaveDate
@@ -17,6 +18,7 @@ public interface VacationService {
 
     /**
      * 根据财年号和员工ID获取休假列表
+     *
      * @param selectEmployeeId
      * @param fiscalYear
      * @return
@@ -25,9 +27,21 @@ public interface VacationService {
 
     /**
      * 根据财年号和员工ID计算当前财年已经休假的天数
+     *
      * @param selectEmployeeId
      * @param fiscalYear
      * @return
      */
-    public Double selectVacationCountByFiscalYear(Integer selectEmployeeId, String fiscalYear);
+    public double selectVacationCountByFiscalYear(Integer selectEmployeeId, String fiscalYear);
+
+    /**
+     * 插入一条vacation数据
+     * @param employeeId
+     * @param vacationDate
+     * @param vacationStatus
+     */
+    public void insertVacation(Integer employeeId, String vacationDate, Integer vacationStatus);
+
+    public void deleteVacationById(Integer vacationId);
+
 }

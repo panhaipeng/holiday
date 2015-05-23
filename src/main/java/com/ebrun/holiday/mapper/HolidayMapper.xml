@@ -106,4 +106,18 @@
         on e.id = h.employee_id 
         where e.id = #{selectEmployeeId,jdbcType=INTEGER} and h.fiscal_year = #{fiscalYear,jdbcType=VARCHAR}
     </select>
+    <select id="selectFirstFiscalYear" resultType="java.lang.Integer">
+        select
+            fiscal_year
+        from holiday
+        where employee_id =  #{selectEmployeeId,jdbcType=INTEGER}
+        order by fiscal_year limit 0,1;
+    </select>
+    <select id="selectFiscalYearListByEmployee" resultType="java.util.Map">
+        select
+            fiscal_year
+        from holiday
+        where employee_id =  #{employeeId,jdbcType=INTEGER}
+        order by fiscal_year
+    </select>
 </mapper>
