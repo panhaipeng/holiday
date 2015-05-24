@@ -102,4 +102,6 @@ public interface EmployeeService {
      * @return
      */
     public List selectEmployeeByKeyword(String employeeKeyword);
+
+    public List selectEmployeeByKeywordAndDepartment(String employeeKeyword, String departmentNumber);
 }

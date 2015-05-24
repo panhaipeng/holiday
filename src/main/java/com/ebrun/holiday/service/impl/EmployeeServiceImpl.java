@@ -353,4 +353,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return list;
     }
+
+    @Override
+    public List selectEmployeeByKeywordAndDepartment(String employeeKeyword, String departmentNumber) {
+        List list=null;
+        if (employeeKeyword!=null){
+            list = employeeMapper.selectEmployeeByKeywordAndDepartment(employeeKeyword, departmentNumber);
+        }
+        return list;
+    }
 }

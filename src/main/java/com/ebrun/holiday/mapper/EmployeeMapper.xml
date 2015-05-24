@@ -219,4 +219,29 @@
         </where>
         order by e.id
     </select>
+    <select id="selectEmployeeByKeywordAndDepartment" resultType="java.util.Map">
+        select e.id as id, e.employee_number as employee_number, e.name as employee_name, e.email as email
+        from employee e join department d on e.department_id = d.id
+        <where>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                ( e.employee_number like #{employeeKeyword}
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or e.name like concat('%',#{employeeKeyword},'%')
+            </if>
+            <if test="employeeKeyword != null and employeeKeyword !=''">
+                or e.email like concat('%',#{employeeKeyword},'%'))
+            </if>
+            <if test="departmentNumber != null and departmentNumber !=''">
+                and d.department_number like concat(#{departmentNumber},'%')
+            </if>
+        </where>
+        order by e.id
+    </select>
+
+    <update id="updateToDefaultDepartmentId">
+        update employee
+        set department_id = #{defaultDepartmentId,jdbcType=INTEGER}
+        where department_id = #{deleteDepartmentId,jdbcType=INTEGER}
+    </update>
 </mapper>

@@ -23,7 +23,9 @@ html, body {
     color: #ff0084;
     font-weight: bold;
 }
-
+#userDepartmentInfo,#userIsDepartmentLeader,#userId,#userIfAdministration{
+    display: none;
+}
 #helpText {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.1em;
@@ -50,8 +52,8 @@ html, body {
 #departmentDiv, #employeeDiv, #holidayDiv, #mineDiv {
     height: 100px;
     width: 200px;
-    margin: 150px 20px;
-    border: 4px solid green;
+    margin: 150px 16px;
+    border: 8px solid green;
     float: left;
 }
 
@@ -141,7 +143,7 @@ html, body {
     font-weight: bold;
 }
 
-#inputDepartment input, #inputDepartment textarea {
+#inputDepartment textarea {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1em;
     color: #0073ea;
@@ -150,7 +152,27 @@ html, body {
     text-align: center;
     width: 208px;
 }
+#inputSuperiorDepartment,#inputDepartmentName{
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    color: #0073ea;
+    /*color: #ff0084;*/
+    font-weight: bold;
+    text-align: center;
+    width: 208px;
+}
+#inputDepartmentLeaderName{
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    color: #0073ea;
+    /*color: #ff0084;*/
+    font-weight: bold;
+    text-align: center;
+    width: 208px;
+}
+#chooseDepartmentLeaderButton{
 
+}
 /**/
 #inputDepartmentId, #inputDepartmentLeader, #inputSuperiorDepartmentNumber {
     display: none;
@@ -465,4 +487,56 @@ html, body {
 }
 #inputIfFullDay {
     width: 180px;
+}
+
+#mineInfo {
+    height: 400px;
+    width: 400px;
+    margin: 20px 0px 10px 40px;
+    /*border: 1px solid green;*/
+    float: left;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+}
+
+#mineVacationInfo {
+    height: 400px;
+    width: 400px;
+    margin: 20px 0px 10px 60px;
+    /*border: 1px solid green;*/
+    float: left;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+}
+
+#mineInfo span {
+    text-align: center;
+}
+
+#mineVacationInfoTable {
+    text-align: center;
+    margin: auto;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    /*color: #0073ea;*/
+    color: #ff0084;
+    font-weight: bold;
+}
+
+#mineVacationInfoTable tr .vacationDate {
+    width: 120px;
+}
+
+#mineVacationInfoTable tr .vacationStatus {
+    width: 60px;
 }

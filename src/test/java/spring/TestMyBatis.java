@@ -219,4 +219,14 @@ public class TestMyBatis {
     public void test26(){
         vacationService.insertVacation(6,"2014-02-13",1);
     }
+    @Test
+    public void test27(){
+        Department department = departmentService.getDepartmentByDepartmentLeaderId(50);
+        LOGGER.info(JSON.toJSONString(department));
+    }
+    @Test
+    public void test28(){
+        List list = employeeService.selectEmployeeByKeywordAndDepartment("eb","eb00010101");
+        LOGGER.info(JSON.toJSONString(list));
+    }
 }

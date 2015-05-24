@@ -30,7 +30,7 @@ public class TestLogin {
     }
     @Test
     public void test1(){
-        Employee employee = loginService.login("admin@ebrun.com","1234");
+        Employee employee = loginService.login("admin@ebrun.com","123");
         if(employee==null){
             LOGGER.info("找不到这个employee");
         }

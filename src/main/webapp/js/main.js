@@ -2,6 +2,28 @@
  * Created by Administrator on 2015/5/16.
  */
 $(function () {
+    var userId = $("#userId").text();
+    var userIfAdministration = $("#userIfAdministration").text();
+    var userIsDepartmentLeader = $("#userIsDepartmentLeader").text();
+    var userIfDepartmentLeader = $("#userIfDepartmentLeader").text();
+    //alert(userIfAdministration);
+    if(userId==null||userId==""){
+        $("#departmentDiv").hide();
+        $("#employeeDiv").hide();
+        $("#holidayDiv").hide();
+        $("#mineDiv").hide();
+    }else if(userIfAdministration=="false"){
+        $("#departmentDiv").hide();
+        $("#employeeDiv").hide();
+        if(userIsDepartmentLeader=="false"){
+            $("#holidayDiv").hide();
+        }
+    }else{
+        $("#departmentDiv").show();
+        $("#employeeDiv").show();
+        $("#holidayDiv").show();
+        $("#mineDiv").show();
+    }
     $("#help").button({
         label: "关于"
     });
@@ -42,13 +64,16 @@ $(function () {
         label: "变更"
     });
 
+    $("#chooseDepartmentLeaderButton").button({
+        label:"选择领导"
+    });
     $("#help").click(function () {
-        var helpText = "感谢使用亿邦动力年假管理系统！<br/><br/>" +
+        var helpText = "(♥◠‿◠)ﾉ  感谢使用亿邦动力年假管理系统！<br/><br/>" +
             "您可以在这里查看您每年的年假天数和已休天数，也可以查看具体日期。<br/><br/>" +
             "如果您是领导，您可以查看您所领导的部门的成员的相关信息和休假详情。<br/><br/>" +
             "如果您是管理员，您可以对所有员工和部门以及休假信息进行增删改查工作。<br/><br/>" +
             "BUG反馈请联系技术部李涛，litao@ebrun.com 。<br/><br/>" +
-            "祝您工作愉快！";
+            "(☆ﾟ∀ﾟ)  祝您工作愉快！";
         $("#helpText").html(helpText);
         $("#helpDialog").dialog({
             autoOpen: true,
@@ -57,7 +82,7 @@ $(function () {
             minHeight: 400,
             maxWidth: 600,
             maxHeight: 600,
-            title: "感谢使用！Thanks A Lot：",
+            title: "感谢使用！Thanks A Lot：  ╰(*°▽°*)╯",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -78,7 +103,7 @@ $(function () {
     $("#logout").click(function () {
         $.ajax({
             type: "GET",
-            url: "logout",
+            url: "logout?time=" + new Date().getTime(),
             success: function () {
                 window.location.href = "index.jsp";
             }
@@ -107,7 +132,7 @@ $(function () {
                 "login": function () {
                     $.ajax({
                         type: "POST",
-                        url: "login",
+                        url: "login?time=" + new Date().getTime(),
                         data: {email: $("#email").val(), password: $("#password").val()},
                         success: function (data) {
                             if (data.login == "success") {
@@ -137,7 +162,7 @@ $(function () {
             minHeight: 600,
             maxWidth: 1280,
             maxHeight: 600,
-            title: "部门管理：删除请点击 - 号，添加请点击 + 号，修改请点击部门名称",
+            title: "部门管理：删除请点击 - 号，添加请点击 + 号，修改请点击部门名称……o～(＿△＿o～) ~。。。",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -319,6 +344,133 @@ $(function () {
     function hideDeleteDepartmentButton() {
         $("#deleteDepartmentButton").hide();
     };
+    $("#chooseDepartmentLeaderButton").click(function(){
+        searchEmployeeForDepartment();
+    });
+    function searchEmployeeForDepartment(){
+        $("#searchEmployeeListDialog").dialog({
+            autoOpen: true,
+            modal: true,
+            minWidth: 300,
+            minHeight: 200,
+            maxWidth: 300,
+            maxHeight: 200,
+            title: "关键词：号码|姓名|邮箱",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
+
+            buttons: {
+                "搜索": function () {
+                    employeeKeyword = $("#searchEmployeeListKeyword").val();
+                    selectDepartmentLeaderByKeyword(employeeKeyword);
+                    $("#searchEmployeeListKeyword").val("");
+                    $(this).dialog("close");
+                },
+                "close": function () {
+                    $("#searchEmployeeListKeyword").val("");
+                    $(this).dialog("close");
+                }
+            }
+        })
+    }
+
+    function selectDepartmentLeaderByKeyword(employeeKeyword) {
+        $.ajax({
+            type: "POST",
+            url: "selectEmployee?time=" + new Date().getTime(),
+            data: {employeeKeyword: employeeKeyword},
+            success: function (data) {
+                if (data.select == "success") {
+                    var employeeList = data.employeeList
+                    showDepartmentLeaderDialog(employeeList);
+                }
+            }
+        });
+    }
+
+    function showDepartmentLeaderDialog(employeeList) {
+//        alert(employeeList);
+        var employeeListHtml = "<tr><th class='.tdEmployeeNumber'>号码</th>" +
+            "<th class='.tdEmployeeName'>姓名</th>" +
+            "<th class='.tdEmployeeEmail'>邮箱</th>" +
+            "<th class='.tdSelectEmployeeButton'>选择</th></tr>";
+        $.each(employeeList, function (key, value) {
+            //alert(key+":"+value.id+":"+value.employee_number+":"+value.name+":"+value.email);
+            //alert(value.name);
+            employeeListHtml += "<tr>" +
+                "<td class='tdEmployeeNumber'>" + value.employee_number + "</td>" +
+                "<td class='tdEmployeeName'>" + value.employee_name + "</td>" +
+                "<td class='tdEmployeeEmail'>" + value.email + "</td>" +
+                "<td><input type='button' class='selectEmployeeButton'>" +
+                "<span class='selectEmployeeId'>" + value.id + "</span></td>" +
+                "</tr>"
+        });
+        $("#employeeListTable").html(employeeListHtml);
+
+        $(".selectEmployeeId").hide();
+        $("#employeeListTable tr .tdEmployeeNumber").css({
+            width: "60px"
+        });
+        $("#employeeListTable tr .tdEmployeeName").css({
+            width: "100px"
+        });
+        $("#employeeListTable tr .tdEmployeeEmail").css({
+            width: "240px"
+        });
+        $("#employeeListTable tr .tdSelectEmployeeButton").css({
+            width: "auto"
+        });
+        $("#employeeListTable tr .selectEmployeeButton").css({
+            width: "auto"
+        });
+        $("#employeeListTable tr .selectEmployeeButton").button({
+            label: "选择"
+        });
+        $("#employeeListTable tr").hover(function () {
+            $(this).css({color: "#ff0084"});
+        });
+        $("#employeeList").dialog({
+            autoOpen: true,
+            modal: true,
+            minWidth: 500,
+            minHeight: 600,
+            maxWidth: 500,
+            maxHeight: 600,
+            title: "搜索到的员工列表：o(≧ω≦)o",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
+
+            buttons: {
+                "close": function () {
+                    $("#employeeListTable").html("");
+                    $(this).dialog("close");
+                }
+            }
+        });
+        $(".selectEmployeeButton").click(function () {
+            //$("#employeeList").dialog("close");
+            var selectEmployeeId = $(this).nextAll(".selectEmployeeId").text();
+            var selectEmployeeName = $(this).parent().prevAll(".tdEmployeeName").text();
+            //alert(selectEmployeeId);
+            //alert(selectEmployeeName);
+            $("#inputDepartmentLeaderName").val(selectEmployeeName);
+            $("#inputDepartmentLeader").val(selectEmployeeId);
+            $("#employeeList").dialog("close");
+        });
+
+    }
 
     $("#insertDepartmentButton").click(function () {
         var inputDepartmentName = $("#inputDepartmentName").val();
@@ -327,7 +479,7 @@ $(function () {
         var inputSuperiorDepartmentNumber = $("#inputSuperiorDepartmentNumber").val();
         $.ajax({
             type: "POST",
-            url: "insertDepartment",
+            url: "insertDepartment?time=" + new Date().getTime(),
             data: {
                 inputSuperiorDepartmentNumber: inputSuperiorDepartmentNumber,
                 inputDepartmentName: inputDepartmentName,
@@ -336,14 +488,14 @@ $(function () {
             },
             success: function (data) {
                 if (data.insert == "success") {
-                    $("#reminderDialog p").text("添加成功！");
+                    $("#reminderDialog p").text("添加成功！  ￣▽￣");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
                         minWidth: 300,
                         minHeight: 200,
                         maxWidth: 300,
                         maxHeight: 200,
-                        title: "提示：",
+                        title: "提示：  ⊙▽⊙",
                         show: {
                             effect: "bounce",
                             duration: 500
@@ -370,11 +522,11 @@ $(function () {
         var deleteDepartmentId = $("#inputDepartmentId").val();
         $.ajax({
             type: "GET",
-            url: "deleteDepartment",
+            url: "deleteDepartment?time=" + new Date().getTime(),
             data: {deleteDepartmentId: deleteDepartmentId},
             success: function (data) {
                 if (data.delete == "success") {
-                    $("#reminderDialog p").text("删除成功！");
+                    $("#reminderDialog p").text("删除成功！  ￣▽￣");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
                         modal: true,
@@ -382,7 +534,7 @@ $(function () {
                         minHeight: 200,
                         maxWidth: 300,
                         maxHeight: 200,
-                        title: "提示：",
+                        title: "提示：  ⊙▽⊙",
                         show: {
                             effect: "bounce",
                             duration: 500
@@ -412,7 +564,7 @@ $(function () {
         var inputDepartmentRemark = $("#remark").val();
         $.ajax({
             type: "POST",
-            url: "updateDepartment",
+            url: "updateDepartment?time=" + new Date().getTime(),
             data: {
                 inputDepartmentId: inputDepartmentId,
                 inputDepartmentName: inputDepartmentName,
@@ -421,7 +573,7 @@ $(function () {
             },
             success: function (data) {
                 if (data.update == "success") {
-                    $("#reminderDialog p").text("修改成功！");
+                    $("#reminderDialog p").text("修改成功！  ￣▽￣");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
                         modal: true,
@@ -429,7 +581,7 @@ $(function () {
                         minHeight: 200,
                         maxWidth: 300,
                         maxHeight: 200,
-                        title: "提示：",
+                        title: "提示：  ⊙▽⊙",
                         show: {
                             effect: "bounce",
                             duration: 500
@@ -463,7 +615,7 @@ $(function () {
             minHeight: 600,
             maxWidth: 1280,
             maxHeight: 600,
-            title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",
+            title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页  ＞▽＜",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -477,7 +629,7 @@ $(function () {
                 "首页": function () {
                     pageNumber = 1;
                     showEmployeeListByPage(employeeKeyword, pageNumber);
-                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页  ∪▽∪"});
                 },
                 "前页": function () {
                     pageNumber = pageNumber - 1;
@@ -485,7 +637,7 @@ $(function () {
                         pageNumber = 1;
                     }
                     showEmployeeListByPage(employeeKeyword, pageNumber);
-                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页  (・(ｪ)・)"});
                 },
                 "后页": function () {
                     pageNumber = pageNumber + 1;
@@ -493,12 +645,12 @@ $(function () {
                         pageNumber = pageCount;
                     }
                     showEmployeeListByPage(employeeKeyword, pageNumber);
-                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页  (oﾟωﾟo)"});
                 },
                 "末页": function () {
                     pageNumber = pageCount;
                     showEmployeeListByPage(employeeKeyword, pageNumber);
-                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页  (｡・`ω´･)"});
                 },
                 "查找": function () {
                     searchEmployeeListDialog();
@@ -507,7 +659,7 @@ $(function () {
                     employeeKeyword = $("#searchEmployeeListKeyword").val();
                     pageNumber = 1;
                     showEmployeeListByPage(employeeKeyword, pageNumber);
-                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页  (・∀・)"});
                 },
                 "添加": function () {
                     inputEmployeeDialog();
@@ -553,7 +705,7 @@ $(function () {
                     employeeKeyword = $("#searchEmployeeListKeyword").val();
                     pageNumber = 1;
                     showEmployeeListByPage(employeeKeyword, pageNumber);
-                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页",});
+                    $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页  (*￣∇￣*)"});
                     $("#searchEmployeeListKeyword").val("");
                     $(this).dialog("close");
                 },
@@ -697,7 +849,7 @@ $(function () {
                         minHeight: 600,
                         maxWidth: 360,
                         maxHeight: 600,
-                        title: "修改员工信息：",
+                        title: "修改员工信息：(￣(●●)￣)",
                         show: {
                             effect: "bounce",
                             duration: 500
@@ -734,7 +886,7 @@ $(function () {
                 $(".deleteEmployeeButton").click(function () {
                     $("#inputEmployeeId").val($(this).nextAll(".spanId").text());
                     var deleteEmployeeId = ($("#inputEmployeeId").val());
-                    $("#reminderDialog p").text("确定删除？？");
+                    $("#reminderDialog p").text("确定删除？？  (●′ω`●)");
                     $("#reminderDialog p").css({
                         "font-family": "Helvetica, Arial, sans-serif",
                         "font-size": "1.1em",
@@ -748,7 +900,7 @@ $(function () {
                         minHeight: 200,
                         maxWidth: 300,
                         maxHeight: 200,
-                        title: "确定删除？",
+                        title: "确定删除？  (>_<)",
                         show: {
                             effect: "bounce",
                             duration: 500
@@ -804,7 +956,7 @@ $(function () {
             },
             success: function (data) {
                 if (data.update == "success") {
-                    $("#reminderDialog p").text("修改成功！");
+                    $("#reminderDialog p").text("修改成功！  (′・ω・`)");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
                         modal: true,
@@ -812,7 +964,7 @@ $(function () {
                         minHeight: 200,
                         maxWidth: 300,
                         maxHeight: 200,
-                        title: "提示：",
+                        title: "提示：  (=・ω・=)",
                         show: {
                             effect: "bounce",
                             duration: 500
@@ -827,7 +979,7 @@ $(function () {
                                 employeeKeyword = inputEmployeeName;
                                 pageNumber = 1;
                                 showEmployeeListByPage(employeeKeyword, pageNumber);
-                                $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页"});
+                                $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页  (┬＿┬）"});
                                 //$("#searchEmployeeListKeyword").val("");
                                 $("#inputEmployeeId").val("");
                                 $("#inputEmployeeNumber").val("");
@@ -863,7 +1015,7 @@ $(function () {
             },
             success: function (data) {
                 if (data.delete == "success") {
-                    $("#reminderDialog p").text("删除成功！");
+                    $("#reminderDialog p").text("删除成功！  〒▽〒");
                     $("#reminderDialog p").css({
                         "font-family": "Helvetica, Arial, sans-serif",
                         "font-size": "1.1em",
@@ -877,7 +1029,7 @@ $(function () {
                         minHeight: 200,
                         maxWidth: 300,
                         maxHeight: 200,
-                        title: "提示：",
+                        title: "提示：  (＞﹏＜）",
                         show: {
                             effect: "bounce",
                             duration: 500
@@ -892,7 +1044,7 @@ $(function () {
                                 //employeeKeyword = inputEmployeeName;
                                 pageNumber = 1;
                                 showEmployeeListByPage(employeeKeyword, pageNumber);
-                                $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页"});
+                                $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页  （︶︿︶）"});
                                 //$("#searchEmployeeListKeyword").val("");
                                 $("#inputEmployeeId").val("");
                                 $(this).dialog("close");
@@ -913,7 +1065,7 @@ $(function () {
             minHeight: 600,
             maxWidth: 360,
             maxHeight: 600,
-            title: "填写员工信息：",
+            title: "填写员工信息：Ｃε（┬＿┬）３",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -978,7 +1130,7 @@ $(function () {
             },
             success: function (data) {
                 if (data.insert == "success") {
-                    $("#reminderDialog p").text("添加成功！");
+                    $("#reminderDialog p").text("添加成功！╮（￣▽￣）╭");
                     $("#reminderDialog").dialog({
                         autoOpen: true,
                         modal: true,
@@ -986,7 +1138,7 @@ $(function () {
                         minHeight: 200,
                         maxWidth: 300,
                         maxHeight: 200,
-                        title: "提示：",
+                        title: "提示：┐（─__─）┌",
                         show: {
                             effect: "bounce",
                             duration: 500
@@ -1001,7 +1153,7 @@ $(function () {
                                 employeeKeyword = inputEmployeeName;
                                 pageNumber = 1;
                                 showEmployeeListByPage(employeeKeyword, pageNumber);
-                                $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页"});
+                                $("#employeeDialog").dialog({title: "员工管理：    关键词： \" " + employeeKeyword + " \"  。    第  " + (pageNumber) + "  /  " + pageCount + "  页   ≡￣﹏￣≡"});
                                 //$("#searchEmployeeListKeyword").val("");
                                 $("#inputEmployeeNumber").val("");
                                 $("#inputEmployeeName").val("");
@@ -1066,7 +1218,7 @@ $(function () {
             minHeight: 600,
             maxWidth: 420,
             maxHeight: 600,
-            title: "请选择部门：",
+            title: "请选择部门：（～￣▽￣～）",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -1152,7 +1304,7 @@ $(function () {
             minHeight: 600,
             maxWidth: 1280,
             maxHeight: 600,
-            title: "休假管理：",
+            title: "休假管理：  \\(\"▔□▔)/\\(\"▔□▔)/\\(\"▔□▔)/",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -1176,6 +1328,7 @@ $(function () {
     });
 
     function searchEmployeeForHoliday() {
+
         $("#searchEmployeeListDialog").dialog({
             autoOpen: true,
             modal: true,
@@ -1214,10 +1367,20 @@ $(function () {
     }
 
     function selectEmployeeByKeyword(employeeKeyword) {
+        var departmentNumber="";
+        if(userIfAdministration=="false"){
+            if(userIfDepartmentLeader=="true"){
+                departmentNumber = $("#userDepartmentNumber").text();
+            }
+        }else{
+            departmentNumber="eb";
+        }
         $.ajax({
             type: "POST",
-            url: "selectEmployee?time=" + new Date().getTime(),
-            data: {employeeKeyword: employeeKeyword},
+            url: "selectEmployeeByAdministration?time=" + new Date().getTime(),
+            data: {employeeKeyword: employeeKeyword,
+                departmentNumber:departmentNumber
+            },
             success: function (data) {
                 if (data.select == "success") {
                     var employeeList = data.employeeList
@@ -1275,7 +1438,7 @@ $(function () {
             minHeight: 600,
             maxWidth: 500,
             maxHeight: 600,
-            title: "搜索到的员工列表：",
+            title: "搜索到的员工列表：o(≧ω≦)o",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -1367,7 +1530,7 @@ $(function () {
             "<span>总共有&nbsp;&nbsp;" + holidays + "&nbsp;&nbsp;天年假</span><br/><br/>" +
             "<span>已经休假&nbsp;&nbsp;" + vacationCount + "&nbsp;&nbsp;天</span><br/><br/>" +
             "<span>休假日期列表&nbsp;&nbsp;→</span><br/><br/>" +
-            "<span><input type='button' value='查看往年' id='showMoreFiscalYear'><input type='button' value='添加年假' id='addVacationButton'></span>";
+            "<span><input type='button' value='查看往年' class='showMoreFiscalYear'><input type='button' value='添加年假' class='addVacationButton'></span>";
 
         $("#employeeInfo").html(holidayInfo);
         $("#employeeInfoId").hide();
@@ -1375,16 +1538,21 @@ $(function () {
         $(".vacationEmployeeId").hide();
         $(".vacationId").hide();
 
-        $("#showMoreFiscalYear").button({
+        if(userIfAdministration=="false"){
+            $(".addVacationButton").hide();
+            $(".deleteVacationButton").hide();
+        }
+
+        $(".showMoreFiscalYear").button({
             label: "查看往年"
         });
-        $("#addVacationButton").button({
+        $(".addVacationButton").button({
             label: "添加年假"
         });
         $(".deleteVacationButton").button({
             label: "删除"
         });
-        $("#showMoreFiscalYear").click(function () {
+        $(".showMoreFiscalYear").click(function () {
             $.ajax({
                 type: "POST",
                 url: "showMoreFiscalYear?time=" + new Date().getTime(),
@@ -1399,19 +1567,19 @@ $(function () {
             });
 
         });
-        $("#addVacationButton").click(function () {
+        $(".addVacationButton").click(function () {
             addVacation(employeeId,fiscalYear);
         });
         $(".deleteVacationButton").click(function () {
             var vacationId = $(this).nextAll(".vacationId").text();
-            $("#reminderDialog p").text("确定删除？");
+            $("#reminderDialog p").text("确定删除？〒▽〒");
             $("#reminderDialog").dialog({
                 autoOpen: true,
                 minWidth: 300,
                 minHeight: 200,
                 maxWidth: 300,
                 maxHeight: 200,
-                title: "提示：",
+                title: "提示：(O ^ ~ ^ O)",
                 show: {
                     effect: "bounce",
                     duration: 500
@@ -1452,7 +1620,7 @@ $(function () {
             minHeight: 300,
             maxWidth: 120,
             maxHeight: 300,
-            title: "点选财年：",
+            title: "点选财年：(*^︹^*)",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -1535,7 +1703,7 @@ $(function () {
             minHeight: 300,
             maxWidth: 360,
             maxHeight: 300,
-            title: "添加休假：",
+            title: "添加休假：..(｡˘•ε•˘｡)",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -1559,14 +1727,14 @@ $(function () {
                         },
                         success: function (data) {
                             if (data.add == "success") {
-                                $("#reminderDialog p").text("添加成功！");
+                                $("#reminderDialog p").text("添加成功！...(๑°ㅁ°๑)‼ ");
                                 $("#reminderDialog").dialog({
                                     autoOpen: true,
                                     minWidth: 300,
                                     minHeight: 200,
                                     maxWidth: 300,
                                     maxHeight: 200,
-                                    title: "提示：",
+                                    title: "提示：Σ(( つ•̀ω•́)つ",
                                     show: {
                                         effect: "bounce",
                                         duration: 500
@@ -1647,13 +1815,157 @@ $(function () {
 
 
     $("#mineDiv").click(function () {
+        var selectEmployeeId = $("#userId").text();
+        //alert(fiscalYear);
+        $.ajax({
+            type: "POST",
+            url: "showHoliday?time=" + new Date().getTime(),
+            data: {
+                selectEmployeeId: selectEmployeeId,
+                fiscalYear: fiscalYear
+            },
+            success: function (data) {
+                if (data.show == "success") {
+                    //alert(JSON.stringify(data));
+                    //holidayInfo = (JSON.stringify(data));
+                    toShowHolidayInfo = data;
+                    showMineHolidayInfo(toShowHolidayInfo);
+                    //alert(0);
+                    //$("#employeeList").dialog("close");
+                }
+            }
+        });
         $("#mineDialog").dialog({
             autoOpen: true,
             minWidth: 1000,
             minHeight: 600,
             maxWidth: 1280,
             maxHeight: 600,
-            title: "我的休假：",
+            title: "我的休假： (๑¯ω¯๑)",
+            show: {
+                effect: "bounce",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
+            buttons: {
+                "close": function () {
+                    $(this).dialog("close");
+                }
+            }
+        })
+    });
+
+    function showMineHolidayInfo(toShowHolidayInfo) {
+        var employeeId;
+        var employeeName;
+        var employeeEmail;
+        var fiscalYear;
+        var fiscalYearIndex;
+        var holidays;
+        var vacationCount;
+        var vacationList;
+
+        employeeId = toShowHolidayInfo.holidayInfo.id;
+        employeeName = toShowHolidayInfo.holidayInfo.name;
+        employeeEmail = toShowHolidayInfo.holidayInfo.email;
+        fiscalYear = toShowHolidayInfo.holidayInfo.fiscal_year;
+        fiscalYearIndex = toShowHolidayInfo.fiscalYearIndex;
+        holidays = toShowHolidayInfo.holidayInfo.holidays;
+        vacationCount = toShowHolidayInfo.vacationCount;
+
+        var vacationTree = "";
+        vacationList = toShowHolidayInfo.vacationList;
+        $.each(vacationList, function (index, value) {
+            var employeeId = value.id;
+            var vacation_Id = value.vacation_Id;
+            var vacation_date = (new Date(value.vacation_date)).format("yyyy-MM-dd");
+            if (value.vacation_status == true) {
+                var vacation_status = "一天";
+            } else {
+                var vacation_status = "半天";
+            }
+            //alert(vacation_Id);
+            vacationTree += "<tr><td class='vacationDate'>" + vacation_date + "</td>" +
+                "<td class='vacationStatus'>" + vacation_status + "</td>" +
+                "<td><input type='button' value='删除'class='deleteVacationButton'>" +
+                "<span class='vacationEmployeeId'>" + employeeId + "</span>" +
+                "<span class='vacationId'>" + vacation_Id + "</span></td></tr>";
+
+        });
+        holidayInfo = "<span id='employeeInfoId'>" + employeeId + "</span>" +
+            "<span id='employeeInfoName'>" + employeeName + "</span><br/><br/>" +
+            "<span id='employeeInfoEmail'>" + employeeEmail + "</span><br/><br/>" +
+            "<span>" + fiscalYear + "&nbsp;&nbsp;财年</span><br/><br/>" +
+            "<span>（" + fiscalYear + "-04-01 &nbsp;&nbsp;-&nbsp;&nbsp; " + fiscalYear + 1 + "-03-31）</span><br/><br/>" +
+            "<span>这是&nbsp;&nbsp;" + employeeName + "&nbsp;&nbsp;的第&nbsp;&nbsp;" + fiscalYearIndex + "&nbsp;&nbsp;个财年</span><br/><br/>" +
+            "<span>总共有&nbsp;&nbsp;" + holidays + "&nbsp;&nbsp;天年假</span><br/><br/>" +
+            "<span>已经休假&nbsp;&nbsp;" + vacationCount + "&nbsp;&nbsp;天</span><br/><br/>" +
+            "<span>休假日期列表&nbsp;&nbsp;→</span><br/><br/>" +
+            "<span><input type='button' value='查看往年' class='showMoreFiscalYear'><input type='button' value='添加年假' class='addVacationButton'></span>";
+
+        $("#mineInfo").html(holidayInfo);
+        $("#employeeInfoId").hide();
+        $("#mineVacationInfoTable").html(vacationTree);
+        $(".vacationEmployeeId").hide();
+        $(".vacationId").hide();
+
+        if (userIfAdministration == "false") {
+            $(".addVacationButton").hide();
+            $(".deleteVacationButton").hide();
+        }
+
+        $(".addVacationButton").hide();
+        $(".deleteVacationButton").hide();
+
+        $(".showMoreFiscalYear").button({
+            label: "查看往年"
+        });
+        $(".addVacationButton").button({
+            label: "添加年假"
+        });
+        $(".deleteVacationButton").button({
+            label: "删除"
+        });
+        $(".showMoreFiscalYear").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "showMoreFiscalYear?time=" + new Date().getTime(),
+                data: {
+                    employeeId: employeeId
+                },
+                success: function (data) {
+                    if (data.showMoreFiscalYear == "success") {
+                        showMineMoreFiscalYear(data.employeeId, data.fiscalYearList);
+                    }
+                }
+            });
+
+        });
+    }
+
+    function showMineMoreFiscalYear(employeeId, fiscalYearList) {
+        //alert(employeeId);
+        //alert(fiscalYearList);
+        var tree = "";
+        $.each(fiscalYearList, function (index, value) {
+            // value.fiscal_year
+            tree += "<li class='fiscalYearList'><span class='fiscalYearEmployeeId'>" + employeeId + "</span>" +
+                "<span class='fiscalYear'>" + value.fiscal_year + "</span></li>"
+        });
+        $("#fiscalYearList").html(tree);
+        $(".fiscalYearEmployeeId").hide();
+
+        $("#showMoreFiscalYearDiv").dialog({
+            autoOpen: true,
+            modal: true,
+            minWidth: 120,
+            minHeight: 300,
+            maxWidth: 120,
+            maxHeight: 300,
+            title: "点选财年：(*^︹^*)",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -1668,8 +1980,29 @@ $(function () {
                     $(this).dialog("close");
                 }
             }
-        })
-    });
+        });
+        $(".fiscalYearList").click(function () {
+            var fiscalYear = $(this).find(".fiscalYear").text();
+            $.ajax({
+                type: "POST",
+                url: "showHoliday?time=" + new Date().getTime(),
+                data: {
+                    selectEmployeeId: employeeId,
+                    fiscalYear: fiscalYear
+                },
+                success: function (data) {
+                    if (data.show == "success") {
+                        //alert(JSON.stringify(data));
+                        //holidayInfo = (JSON.stringify(data));
+                        toShowHolidayInfo = data;
+                        showMineHolidayInfo(toShowHolidayInfo);
+                        //alert(0);
+                        $("#showMoreFiscalYearDiv").dialog("close");
+                    }
+                }
+            });
+        });
+    }
 
 });
 

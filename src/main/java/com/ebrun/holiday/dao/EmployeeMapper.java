@@ -47,4 +47,20 @@ public interface EmployeeMapper {
      * @return
      */
     List selectEmployeeByKeyword(@Param("employeeKeyword")String employeeKeyword);
+
+    /**
+     * 根据关键词和部门查询员工
+     * @param employeeKeyword
+     * @param departmentNumber
+     * @return
+     */
+    List selectEmployeeByKeywordAndDepartment(@Param("employeeKeyword")String employeeKeyword,@Param("departmentNumber")String departmentNumber);
+
+    /**
+     * 删除部门时，将该部门下的员工自动移到default下
+     * @param deleteDepartmentId
+     * @param defaultDepartmentId
+     * @return
+     */
+    int updateToDefaultDepartmentId(@Param("deleteDepartmentId")Integer deleteDepartmentId,@Param("defaultDepartmentId")Integer defaultDepartmentId);
 }

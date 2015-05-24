@@ -43,5 +43,6 @@ public class LoginServiceImpl implements LoginService {
     public void logout(HttpSession httpSession) {
         //httpSession.removeAttribute("employee");
         httpSession.setAttribute(Constant.EMPLOYEE_HTTP_SESSION_NAME,null);
+        httpSession.setAttribute(Constant.DEPARTMENT_LEADER_HTTP_SESSION_NAME, null);
     }
 }

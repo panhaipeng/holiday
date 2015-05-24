@@ -46,6 +46,20 @@ public interface DepartmentService {
      * @param deleteDepartmentId
      */
     public void deleteDepartment(Integer deleteDepartmentId);
-    
+
+    /**
+     * 更新一条department
+     * @param inputDepartmentId
+     * @param inputDepartmentName
+     * @param inputDepartmentLeader
+     * @param inputDepartmentRemark
+     */
     public void updateDepartment(Integer inputDepartmentId,String inputDepartmentName,Integer inputDepartmentLeader,String inputDepartmentRemark);
+
+    /**
+     * 通过领导id获取领导的部门
+     * @param departmentLeaderId
+     * @return
+     */
+    public Department getDepartmentByDepartmentLeaderId(Integer departmentLeaderId);
 }

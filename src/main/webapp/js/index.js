@@ -27,12 +27,12 @@ $(function () {
     });
 
     $("#help").click(function () {
-        var helpText= "感谢使用亿邦动力年假管理系统！<br/><br/>" +
+        var helpText= "(♥◠‿◠)ﾉ  感谢使用亿邦动力年假管理系统！<br/><br/>" +
             "您可以在这里查看您每年的年假天数和已休天数，也可以查看具体日期。<br/><br/>" +
             "如果您是领导，您可以查看您所领导的部门的成员的相关信息和休假详情。<br/><br/>" +
             "如果您是管理员，您可以对所有员工和部门以及休假信息进行增删改查工作。<br/><br/>" +
             "BUG反馈请联系技术部李涛，litao@ebrun.com 。<br/><br/>" +
-            "祝您工作愉快！";
+            "(☆ﾟ∀ﾟ)  祝您工作愉快！";
         $("#helpText").html(helpText);
         $("#helpDialog").dialog({
             autoOpen: true,
@@ -41,7 +41,7 @@ $(function () {
             minHeight: 400,
             maxWidth: 600,
             maxHeight: 600,
-            title: "感谢使用！Thanks A Lot：",
+            title: "感谢使用！Thanks A Lot：╰(*°▽°*)╯",
             show: {
                 effect: "bounce",
                 duration: 500
@@ -62,7 +62,7 @@ $(function () {
     $("#logout").click(function () {
         $.ajax({
             type: "GET",
-            url: "logout",
+            url: "logout?time=" + new Date().getTime(),
             success: function () {
                 $("#dateDialog").dialog("close");
                 location.reload();
@@ -93,7 +93,7 @@ $(function () {
                 "login": function () {
                     $.ajax({
                         type: "POST",
-                        url: "login",
+                        url: "login?time=" + new Date().getTime(),
                         data: {email: $("#email").val(), password: $("#password").val()},
                         success: function (data) {
                             if (data.login == "success") {
@@ -137,7 +137,7 @@ $(function () {
         minHeight: 200,
         maxWidth: 600,
         maxHeight: 400,
-        title: "输入日期：Input Date",
+        title: "输入日期：Input Date  ✪ω✪",
         show: {
             effect: "bounce",
             duration: 500
@@ -175,7 +175,7 @@ function showResultDialog() {
         minHeight: 320,
         maxWidth: 480,
         maxHeight: 320,
-        title: "计算结果：Result View",
+        title: "计算结果：Result View   []~(￣▽￣)~*",
         show: {
             effect: "bounce",
             duration: 500
@@ -262,7 +262,7 @@ function calculate() {
         + fiscalYear + "-04-01 ~ " + (fiscalYear + 1) + "-03-31 。<br>您的入职日期是 "
             //+myYear+"-"+myMonth+"-"+myDay
         + myDate + " <br>这是您入职后的第 "
-        + fiscalCount + " 个财年。<br>在此期间，您有 " + holidays + " 天 年假！<br><br>谢谢！&nbsp;&nbsp;&nbsp;&nbsp;<img src='imgs/ebrunlogo03.png'>";
+        + fiscalCount + " 个财年。<br>在此期间，您有 " + holidays + " 天 年假！<br><br>谢谢！…~(～o￣▽￣)～o 。<img src='imgs/ebrunlogo03.png'>";
     //alert(result);
     return result;
 }

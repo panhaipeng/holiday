@@ -34,4 +34,5 @@ public interface DepartmentMapper {
     List<String> selectDepartmentNumbersBySuperiorDepartmentNumber(String inputSuperiorDepartmentNumber);
 
     int updateByDeleteEmployeeId(Integer deleteEmployeeId);
+
 }

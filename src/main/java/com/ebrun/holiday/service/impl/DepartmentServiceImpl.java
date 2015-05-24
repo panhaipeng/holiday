@@ -1,6 +1,7 @@
 package com.ebrun.holiday.service.impl;
 
 import com.ebrun.holiday.dao.DepartmentMapper;
+import com.ebrun.holiday.dao.EmployeeMapper;
 import com.ebrun.holiday.model.Department;
 import com.ebrun.holiday.service.DepartmentService;
 import com.ebrun.holiday.util.Constant;
@@ -28,6 +29,16 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     public void setDepartmentMapper(DepartmentMapper departmentMapper) {
         this.departmentMapper = departmentMapper;
+    }
+
+    private EmployeeMapper employeeMapper;
+
+    public EmployeeMapper getEmployeeMapper() {
+        return employeeMapper;
+    }
+@Autowired
+    public void setEmployeeMapper(EmployeeMapper employeeMapper) {
+        this.employeeMapper = employeeMapper;
     }
 
     @Override
@@ -129,6 +140,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void deleteDepartment(Integer deleteDepartmentId) {
+        employeeMapper.updateToDefaultDepartmentId(deleteDepartmentId,Constant.DEFAULT_DEPARTMENT_ID);
         departmentMapper.deleteByPrimaryKey(deleteDepartmentId);
     }
 
@@ -143,5 +155,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setDepartmentLeader(inputDepartmentLeader);
         department.setRemark(inputDepartmentRemark);
         departmentMapper.updateByPrimaryKeySelective(department);
+    }
+
+    @Override
+    public Department getDepartmentByDepartmentLeaderId(Integer departmentLeaderId) {
+        Department department;
+        department = departmentMapper.selectDepartmentByDepartmentLeader(departmentLeaderId);
+        return department;
     }
 }
