@@ -59,7 +59,7 @@ html, body {
 
 #departmentDialog {
     display: none;
-    background-image: url(../imgs/picture02.jpg);
+    background-image: url(../imgs/picture03.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -77,14 +77,14 @@ html, body {
 
 #holidayDialog {
     display: none;
-    background-image: url(../imgs/picture06.jpg);
+    background-image: url(../imgs/picture02.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
 
 #mineDialog {
     display: none;
-    background-image: url(../imgs/picture03.jpg);
+    background-image: url(../imgs/picture06.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -483,7 +483,7 @@ html, body {
 }
 #inputVacationDate{
     width: 180px;
-    margin: 0px 16px 0px 0px;
+   /* margin: 0px 16px 0px 0px;*/
 }
 #inputIfFullDay {
     width: 180px;
